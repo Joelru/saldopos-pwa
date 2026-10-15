@@ -9,13 +9,16 @@ import { Cuenta, Movimiento } from './types/database';
 import { PinAuthProvider, usePinAuth } from './features/auth-pin/PinAuthContext';
 import { PinLockScreen } from './features/auth-pin/PinLockScreen';
 import { CashierDashboard } from './features/cashier/CashierDashboard';
+import { ReceiptModal } from './features/receipt/ReceiptModal';
 
 function PosMainContent() {
   const { negocio, currentRole, lockNow } = usePinAuth();
   const [activeReceipt, setActiveReceipt] = useState<{ movimiento: Movimiento; cuenta: Cuenta } | null>(null);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
 
   const handleSelectReceipt = (movimiento: Movimiento, cuenta: Cuenta) => {
     setActiveReceipt({ movimiento, cuenta });
+    setIsReceiptModalOpen(true);
   };
 
   return (
@@ -57,35 +60,44 @@ function PosMainContent() {
         </div>
       </header>
 
-      {/* Main Container: Dashboard Operativo de Mostrador */}
+      {/* Main Container */}
       <main className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar">
-        {/* Banner de Comprobante Reciente (si se acaba de generar uno) */}
+        {/* Banner de Comprobante Reciente */}
         {activeReceipt && (
-          <div className="bg-brand/10 border border-brand/30 rounded-2xl p-3 flex items-center justify-between animate-fadeIn">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between animate-fadeIn">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-brand text-white shadow-sm">
+              <div className="p-2 rounded-xl bg-emerald-600 text-white shadow-sm">
                 <Receipt className="w-4 h-4" />
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-heading">
                   Último Abono: #{activeReceipt.cuenta.consecutivo} ({activeReceipt.cuenta.nombre_cliente})
                 </p>
-                <p className="text-[10px] text-slate-500">
-                  Listo para compartir por WhatsApp
+                <p className="text-[10px] text-emerald-700 font-medium">
+                  Comprobante digital listo
                 </p>
               </div>
             </div>
             <button
-              onClick={() => setActiveReceipt(null)}
-              className="text-xs font-bold text-brand hover:underline px-2 py-1"
+              onClick={() => setIsReceiptModalOpen(true)}
+              className="text-xs font-bold bg-white border border-emerald-300 text-emerald-800 px-2.5 py-1.5 rounded-lg hover:bg-emerald-50 shadow-sm active:scale-95 transition-all"
             >
-              Cerrar
+              Ver Tirilla
             </button>
           </div>
         )}
 
         <CashierDashboard onSelectReceipt={handleSelectReceipt} />
       </main>
+
+      {/* Modal de Tirilla Térmica WhatsApp */}
+      <ReceiptModal
+        isOpen={isReceiptModalOpen}
+        negocio={negocio}
+        cuenta={activeReceipt?.cuenta || null}
+        movimiento={activeReceipt?.movimiento || null}
+        onClose={() => setIsReceiptModalOpen(false)}
+      />
 
       {/* Dock Inferior */}
       <footer className="bg-white border-t border-cloud-border p-3 text-center text-xs text-slate-muted">
