@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Estilo para simular borde dentado de papel térmico de datáfono */
+.receipt-sawtooth {
+  background: 
+    radial-gradient(circle, transparent, transparent 50%, #ffffff 50%, #ffffff 100% ) 0px 100%/14px 14px repeat-x,
+    radial-gradient(circle, #ffffff, #ffffff 50%, transparent 50%, transparent 100% ) 7px 100%/14px 14px repeat-x;
+}
+
+/* Ocultar barra de desplazamiento sin perder funcionalidad */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
