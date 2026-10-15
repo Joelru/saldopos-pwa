@@ -214,10 +214,10 @@
         </div>
 
         <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4 text-xs text-slate-700 leading-relaxed">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 1: Landing Comercial</span>
-              <p class="text-slate-500">Muestra los beneficios frente al cuaderno de papel y permite Registrarse o Iniciar Sesión.</p>
+              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrarse o Probar la Demo.</p>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 2: Registro Validado</span>
@@ -227,21 +227,34 @@
               <span class="font-bold text-slate-900 block">Paso 3: PIN Maestro</span>
               <p class="text-slate-500">Creación guiada del PIN de 4 dígitos para proteger la cartera y el dinero del dueño.</p>
             </div>
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
+              <span class="font-bold text-emerald-900 block">⚡ Modo Demo Inmediato</span>
+              <p class="text-emerald-700">Acceso en 1 clic para desarrolladores y testers sin crear cuentas (Tienda Stylo Urbano).</p>
+            </div>
           </div>
 
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-            <h4 class="font-bold text-sm text-slate-900">¿Por qué un PIN de 4 Dígitos?</h4>
+            <h4 class="font-bold text-sm text-slate-900">¿Cómo probar el sistema inmediatamente?</h4>
             <p>
-              El comerciante ingresa su correo y contraseña <strong>una única vez</strong> al vincular el dispositivo. Para operar en el día a día en el mostrador (y tras 3 minutos de inactividad), solo digita su PIN numérico de 4 dígitos. Se separan dos niveles:
+              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Tienda Demo"</strong>. Al presionarlo se carga inmediatamente la tienda de prueba vinculada a los datos del seed:
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
-              <div class="p-2 bg-white rounded border border-slate-200">
-                <strong class="text-brand">PIN de Dueño (Maestro):</strong> Desbloquea la visualización del total por cobrar y autoriza anulaciones.
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                <strong class="text-brand block mb-0.5">PIN Dueño: 1234</strong>
+                <span class="text-slate-500">Permite ver la cartera total ($425.000) y administrar todas las funciones.</span>
               </div>
-              <div class="p-2 bg-white rounded border border-slate-200">
-                <strong class="text-emerald-700">PIN de Cajero (4321 defecto):</strong> Permite buscar clientes, anotar abonos y enviar tirillas sin ver las cifras privadas del negocio.
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                <strong class="text-emerald-700 block mb-0.5">PIN Cajero: 4321</strong>
+                <span class="text-slate-500">Permite abonar a Separes/Fiados y enviar tirillas manteniendo oculta la cartera general.</span>
               </div>
             </div>
+          </div>
+
+          <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-1 text-xs">
+            <span class="font-bold text-sky-950 block">Nota sobre Privacidad de Documentación:</span>
+            <p class="text-sky-800">
+              Este manual (<code class="font-mono font-bold">docs.html</code>) está reservado exclusivamente para los desarrolladores e ingenieros de software. Todos los enlaces públicos hacia este archivo fueron removidos de la interfaz de usuario para no saturar al comerciante de mostrador.
+            </p>
           </div>
         </div>
       </section>

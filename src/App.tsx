@@ -47,12 +47,12 @@ function PosMainContent() {
   };
 
   return (
-    <div className="min-h-screen bg-cloud-bg text-slate-heading flex flex-col font-sans">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-100/40 via-slate-50 to-slate-100 text-slate-heading flex flex-col font-sans">
       {/* Topbar Adaptable a Portátiles y Celulares */}
-      <header className="bg-white border-b border-cloud-border sticky top-0 z-30 shadow-xs">
+      <header className="bg-white/90 backdrop-blur-md border-b border-sky-100 sticky top-0 z-30 shadow-xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-brand flex items-center justify-center text-white shadow-md">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center text-white shadow-md shadow-brand/20">
               <CreditCard className="w-5 h-5" />
             </div>
             <div>
@@ -60,6 +60,11 @@ function PosMainContent() {
                 <h1 className="font-extrabold text-base sm:text-lg tracking-tight text-slate-heading leading-tight truncate max-w-[200px] sm:max-w-sm">
                   {negocio.nombre_local}
                 </h1>
+                {negocio.id === '00000000-0000-0000-0000-000000000001' && (
+                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300">
+                    Modo Prueba
+                  </span>
+                )}
               </div>
               <p className="text-xs text-slate-400 font-medium">Libreta de Abonos y Fiados</p>
             </div>
@@ -109,20 +114,12 @@ function PosMainContent() {
                     <span>Bloquear Pantalla</span>
                   </button>
 
-                  <a
-                    href="/docs.html"
-                    target="_blank"
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
-                  >
-                    <span>Manual de Ayuda</span>
-                  </a>
-
                   <div className="border-t border-slate-100 my-1" />
 
                   <button
                     onClick={() => {
                       setShowSettingsMenu(false);
-                      if (confirm('¿Deseas desvincular esta tienda de este computador o celular?')) {
+                      if (confirm('¿Deseas desvincular o salir de esta tienda en este dispositivo?')) {
                         logoutShop();
                       }
                     }}

@@ -60,7 +60,7 @@ export const SetupPinModal: React.FC<SetupPinModalProps> = ({ onSuccess }) => {
             <span className="font-extrabold block text-sm mb-0.5 text-brand-navy">
               ¿Para qué sirve este PIN?
             </span>
-            Es tu llave de seguridad como <strong>Dueño</strong>. La usarás cada día para desbloquear el datáfono, revisar la cartera por cobrar y autorizar anulaciones.
+            Es tu llave de seguridad como <strong>Dueño</strong>. La usarás cada día para entrar al mostrador, revisar la cartera por cobrar y autorizar anulaciones.
           </div>
         </div>
 
@@ -141,7 +141,7 @@ export const SetupPinModal: React.FC<SetupPinModalProps> = ({ onSuccess }) => {
             ) : (
               <>
                 <Check className="w-5 h-5" />
-                <span>Activar Datáfono de {negocio.nombre_local}</span>
+                <span>Entrar al Mostrador de {negocio.nombre_local}</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </>
             )}
