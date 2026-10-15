@@ -139,7 +139,7 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
               REF: {movimiento.id.slice(0, 18).toUpperCase()}
             </div>
             <p className="text-[9px] text-slate-400 mt-0.5">
-              Generado digitalmente por SaldoPOS
+              Comprobante digital verificado
             </p>
           </div>
         </div>

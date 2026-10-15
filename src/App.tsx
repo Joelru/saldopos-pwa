@@ -47,96 +47,119 @@ function PosMainContent() {
   };
 
   return (
-    <div className="min-h-screen bg-cloud-bg text-slate-heading flex flex-col max-w-md mx-auto shadow-2xl border-x border-cloud-border">
-      {/* Topbar estilo Datáfono / Nequi */}
-      <header className="bg-white border-b border-cloud-border px-4 py-3 sticky top-0 z-30 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-brand flex items-center justify-center text-white shadow-md">
-            <CreditCard className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h1 className="font-bold text-sm tracking-tight text-slate-heading leading-tight truncate max-w-[150px]">
-                {negocio.nombre_local}
-              </h1>
+    <div className="min-h-screen bg-cloud-bg text-slate-heading flex flex-col font-sans">
+      {/* Topbar Adaptable a Portátiles y Celulares */}
+      <header className="bg-white border-b border-cloud-border sticky top-0 z-30 shadow-xs">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-brand flex items-center justify-center text-white shadow-md">
+              <CreditCard className="w-5 h-5" />
             </div>
-            <p className="text-[11px] text-slate-muted">Datáfono de Abonos</p>
-          </div>
-        </div>
-
-        {/* Rol Activo & Botones de Acción */}
-        <div className="flex items-center gap-1.5 relative">
-          <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${
-            currentRole === 'DUENO'
-              ? 'bg-blue-50 text-brand-dark border-brand-pastel'
-              : 'bg-emerald-50 text-emerald-700 border-emerald-200'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${currentRole === 'DUENO' ? 'bg-brand' : 'bg-emerald-500'} animate-pulse`} />
-            <span>{currentRole === 'DUENO' ? 'Dueño' : 'Cajero'}</span>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-extrabold text-base sm:text-lg tracking-tight text-slate-heading leading-tight truncate max-w-[200px] sm:max-w-sm">
+                  {negocio.nombre_local}
+                </h1>
+              </div>
+              <p className="text-xs text-slate-400 font-medium">Libreta de Abonos y Fiados</p>
+            </div>
           </div>
 
-          {/* Menú Rápido de Opciones */}
-          <div className="relative">
+          {/* Rol Activo & Menú */}
+          <div className="flex items-center gap-2 relative">
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ${
+              currentRole === 'DUENO'
+                ? 'bg-blue-50 text-brand-dark border-brand-pastel'
+                : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+            }`}>
+              <span className={`w-2 h-2 rounded-full ${currentRole === 'DUENO' ? 'bg-brand' : 'bg-emerald-500'} animate-pulse`} />
+              <span>{currentRole === 'DUENO' ? 'Dueño' : 'Cajero'}</span>
+            </div>
+
+            {/* Botón de Bloqueo Inmediato */}
             <button
-              onClick={() => setShowSettingsMenu(prev => !prev)}
-              className="p-1.5 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
-              title="Opciones del Datáfono"
+              onClick={lockNow}
+              title="Bloquear pantalla"
+              className="p-2 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all flex items-center gap-1 text-xs font-semibold"
             >
-              <Settings className="w-4 h-4 text-slate-600" />
+              <LogOut className="w-4 h-4 text-slate-500" />
+              <span className="hidden sm:inline">Bloquear</span>
             </button>
 
-            {showSettingsMenu && (
-              <div className="absolute right-0 top-10 w-48 bg-white border border-cloud-border shadow-pos-lg rounded-2xl p-2 z-50 text-xs space-y-1 animate-fadeIn">
-                <button
-                  onClick={() => {
-                    setShowSettingsMenu(false);
-                    lockNow();
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
-                >
-                  <LogOut className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Bloquear Datáfono</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowSettingsMenu(false);
-                    if (confirm('¿Deseas desvincular esta tienda de este dispositivo?')) {
-                      logoutShop();
-                    }
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 font-semibold text-semantic-anulacion flex items-center gap-2"
-                >
-                  <span>Cerrar Sesión Tienda</span>
-                </button>
-              </div>
-            )}
+            {/* Menú de Opciones */}
+            <div className="relative">
+              <button
+                onClick={() => setShowSettingsMenu(prev => !prev)}
+                className="p-2 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
+                title="Ajustes de tienda"
+              >
+                <Settings className="w-4 h-4 text-slate-600" />
+              </button>
+
+              {showSettingsMenu && (
+                <div className="absolute right-0 top-12 w-52 bg-white border border-cloud-border shadow-pos-lg rounded-2xl p-2 z-50 text-xs space-y-1 animate-fadeIn">
+                  <button
+                    onClick={() => {
+                      setShowSettingsMenu(false);
+                      lockNow();
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
+                  >
+                    <LogOut className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Bloquear Pantalla</span>
+                  </button>
+
+                  <a
+                    href="/docs.html"
+                    target="_blank"
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
+                  >
+                    <span>Manual de Ayuda</span>
+                  </a>
+
+                  <div className="border-t border-slate-100 my-1" />
+
+                  <button
+                    onClick={() => {
+                      setShowSettingsMenu(false);
+                      if (confirm('¿Deseas desvincular esta tienda de este computador o celular?')) {
+                        logoutShop();
+                      }
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 font-semibold text-semantic-anulacion flex items-center gap-2"
+                  >
+                    <span>Cerrar Sesión Tienda</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar">
-        {/* Banner de Comprobante Reciente */}
+      {/* Main Container Amplio para Portátil y Celular */}
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        {/* Banner de Comprobante Reciente (si se generó uno) */}
         {activeReceipt && (
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between animate-fadeIn">
-            <div className="flex items-center gap-2.5">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between animate-fadeIn shadow-xs">
+            <div className="flex items-center gap-3">
               <div className="p-2 rounded-xl bg-emerald-600 text-white shadow-sm">
-                <Receipt className="w-4 h-4" />
+                <Receipt className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-slate-heading">
-                  Último Abono: #{activeReceipt.cuenta.consecutivo} ({activeReceipt.cuenta.nombre_cliente})
+                <p className="text-sm font-bold text-slate-heading">
+                  Abono registrado a #{activeReceipt.cuenta.consecutivo} ({activeReceipt.cuenta.nombre_cliente})
                 </p>
-                <p className="text-[10px] text-emerald-700 font-medium">
-                  Comprobante digital listo
+                <p className="text-xs text-emerald-700">
+                  Comprobante para enviar al cliente por WhatsApp
                 </p>
               </div>
             </div>
             <button
               onClick={() => setIsReceiptModalOpen(true)}
-              className="text-xs font-bold bg-white border border-emerald-300 text-emerald-800 px-2.5 py-1.5 rounded-lg hover:bg-emerald-50 shadow-sm active:scale-95 transition-all"
+              className="text-xs font-bold bg-white border border-emerald-300 text-emerald-800 px-3.5 py-2 rounded-xl hover:bg-emerald-50 shadow-sm active:scale-95 transition-all"
             >
-              Ver Tirilla
+              Ver Comprobante
             </button>
           </div>
         )}
@@ -144,7 +167,7 @@ function PosMainContent() {
         <CashierDashboard onSelectReceipt={handleSelectReceipt} />
       </main>
 
-      {/* Modal de Tirilla Térmica WhatsApp */}
+      {/* Modal de Comprobante WhatsApp */}
       <ReceiptModal
         isOpen={isReceiptModalOpen}
         negocio={negocio}
@@ -153,20 +176,25 @@ function PosMainContent() {
         onClose={() => setIsReceiptModalOpen(false)}
       />
 
-      {/* Dock Inferior con botón de instalación PWA */}
-      <footer className="bg-white border-t border-cloud-border p-3 text-center text-xs text-slate-muted space-y-2">
-        {deferredPrompt && (
-          <button
-            onClick={handleInstallClick}
-            className="w-full py-2 px-3 rounded-xl bg-brand text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all"
-          >
-            <Smartphone className="w-4 h-4" />
-            <span>Instalar Datáfono en Pantalla de Inicio</span>
-          </button>
-        )}
-        <div className="flex items-center justify-center gap-1 text-[11px] font-medium text-slate-500">
-          <Smartphone className="w-3.5 h-3.5" />
-          <span>Diseñado para pantalla táctil en mostrador</span>
+      {/* Footer Limpio */}
+      <footer className="bg-white border-t border-cloud-border py-4 mt-auto">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+          <div className="flex items-center gap-1.5 font-medium text-slate-500">
+            <CreditCard className="w-4 h-4 text-brand" />
+            <span>Control de Abonos, Plan Separe y Fiados</span>
+          </div>
+
+          {deferredPrompt && (
+            <button
+              onClick={handleInstallClick}
+              className="py-1.5 px-3 rounded-xl bg-brand text-white font-bold text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>Instalar Aplicación en Pantalla de Inicio</span>
+            </button>
+          )}
+
+          <p className="text-[11px]">Diseñado para operar rápido y sin complicaciones</p>
         </div>
       </footer>
     </div>
