@@ -5,16 +5,31 @@ import {
   Receipt, 
   Users, 
   ArrowDownLeft, 
-  ArrowUpRight, 
   ShieldCheck, 
   Smartphone,
-  Sparkles,
-  CheckCircle2
+  LogOut,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { formatCurrency } from './lib/formatters';
+import { PinAuthProvider, usePinAuth } from './features/auth-pin/PinAuthContext';
+import { PinLockScreen } from './features/auth-pin/PinLockScreen';
+import { MasterPinModal } from './features/auth-pin/MasterPinModal';
 
-export default function App() {
+function PosMainContent() {
+  const { negocio, currentRole, lockNow } = usePinAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'flow'>('overview');
+  const [showSensitiveData, setShowSensitiveData] = useState<boolean>(currentRole === 'DUENO');
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+
+  const handleToggleSensitiveData = () => {
+    if (currentRole === 'DUENO') {
+      setShowSensitiveData(prev => !prev);
+    } else {
+      // Si es cajero, solicitar PIN Maestro de Dueño
+      setIsAuthModalOpen(true);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cloud-bg text-slate-heading flex flex-col max-w-md mx-auto shadow-2xl border-x border-cloud-border">
@@ -26,44 +41,58 @@ export default function App() {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="font-bold text-base tracking-tight text-slate-heading leading-tight">
-                SaldoPOS
+              <h1 className="font-bold text-sm tracking-tight text-slate-heading leading-tight truncate max-w-[160px]">
+                {negocio.nombre_local}
               </h1>
-              <span className="text-[10px] font-semibold bg-brand-pastel text-brand-dark px-1.5 py-0.5 rounded-full">
-                BETA
-              </span>
             </div>
-            <p className="text-xs text-slate-muted">Datáfono Digital de Abonos</p>
+            <p className="text-[11px] text-slate-muted">Datáfono de Abonos</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full text-xs font-medium text-slate-600">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>PIN Cajero</span>
-          <Lock className="w-3.5 h-3.5 text-slate-400 ml-0.5" />
+        {/* Rol Activo & Botón Bloquear Terminal */}
+        <div className="flex items-center gap-2">
+          <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${
+            currentRole === 'DUENO'
+              ? 'bg-blue-50 text-brand-dark border-brand-pastel'
+              : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${currentRole === 'DUENO' ? 'bg-brand' : 'bg-emerald-500'} animate-pulse`} />
+            <span>{currentRole === 'DUENO' ? 'Dueño' : 'Cajero'}</span>
+          </div>
+
+          <button
+            onClick={lockNow}
+            title="Bloquear Datáfono"
+            className="p-1.5 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
+          >
+            <LogOut className="w-4 h-4 text-slate-600" />
+          </button>
         </div>
       </header>
 
       {/* Main Container */}
       <main className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar">
-        {/* Banner de Bienvenida y Estado Arquitectónico */}
-        <div className="bg-gradient-to-br from-brand/10 via-brand-pastel/20 to-transparent border border-brand/20 rounded-2xl p-4 relative overflow-hidden">
-          <div className="flex items-start gap-3">
-            <div className="p-2 rounded-xl bg-brand text-white shadow-sm shrink-0">
-              <Sparkles className="w-5 h-5" />
+        {/* Banner de Estado de Sesión y Seguridad */}
+        <div className="bg-white border border-cloud-border rounded-2xl p-3.5 shadow-pos flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+              <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-semibold text-sm text-slate-heading">
-                Arquitectura Inicial Inicializada
-              </h2>
-              <p className="text-xs text-slate-muted mt-0.5 leading-relaxed">
-                Micro-SaaS B2B para cobro en mostrador. Velocidad de datáfono (<span className="font-semibold text-brand">5 seg</span>) y tirilla térmica para WhatsApp sin costo de API.
-              </p>
+              <p className="text-xs font-bold text-slate-heading">Sesión Táctil Activa</p>
+              <p className="text-[11px] text-slate-muted">Bloqueo por inactividad: 3 minutos</p>
             </div>
           </div>
+          <button
+            onClick={lockNow}
+            className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 active:scale-95 transition-all flex items-center gap-1"
+          >
+            <Lock className="w-3 h-3" />
+            <span>Bloquear</span>
+          </button>
         </div>
 
-        {/* Métrica Rápida de Caja (Preview de Dashboard) */}
+        {/* Métrica Rápida de Caja */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white border border-cloud-border rounded-2xl p-3.5 shadow-pos">
             <div className="flex items-center justify-between text-slate-muted mb-1.5">
@@ -84,20 +113,27 @@ export default function App() {
           <div className="bg-white border border-cloud-border rounded-2xl p-3.5 shadow-pos">
             <div className="flex items-center justify-between text-slate-muted mb-1.5">
               <span className="text-[11px] font-semibold uppercase tracking-wider">Por Cobrar</span>
-              <div className="p-1 rounded-lg bg-amber-50 text-semantic-cargo">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </div>
+              <button
+                onClick={handleToggleSensitiveData}
+                className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+                title="Ver/Ocultar con PIN Maestro"
+              >
+                {showSensitiveData ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              </button>
             </div>
             <div className="text-xl font-extrabold text-slate-heading font-mono tracking-tight">
-              {formatCurrency(1280000)}
+              {showSensitiveData ? formatCurrency(1280000) : '••••••••'}
             </div>
-            <div className="text-[10px] text-slate-muted mt-1">
-              <span>18 clientes activos</span>
+            <div className="text-[10px] text-slate-muted mt-1 flex items-center justify-between">
+              <span>{showSensitiveData ? '18 clientes activos' : 'Restringido a Dueño'}</span>
+              {!showSensitiveData && (
+                <span className="text-[9px] bg-amber-50 text-amber-700 font-semibold px-1 rounded">PIN</span>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Selector de Pestaña para Demostración de Flujo */}
+        {/* Selector de Pestaña */}
         <div className="flex bg-slate-200/60 p-1 rounded-xl text-xs font-semibold">
           <button
             onClick={() => setActiveTab('overview')}
@@ -125,7 +161,7 @@ export default function App() {
           <div className="space-y-3">
             <div className="bg-white border border-cloud-border rounded-2xl p-4 shadow-pos space-y-3">
               <h3 className="text-xs font-bold text-slate-muted uppercase tracking-wider">
-                Las 4 Vistas Nucleares
+                Vistas y Flujos
               </h3>
 
               <div className="space-y-2.5">
@@ -134,9 +170,12 @@ export default function App() {
                     <Lock className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-slate-heading">1. Teclado de Bloqueo PIN</p>
-                    <p className="text-[11px] text-slate-muted truncate">PIN 4 dígitos (Cajero vs. Maestro) y WebAuthn</p>
+                    <p className="text-xs font-bold text-slate-heading">1. Teclado PIN Datáfono</p>
+                    <p className="text-[11px] text-slate-muted truncate">PIN 4 dígitos (Cajero vs. Dueño) y auto-bloqueo</p>
                   </div>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                    Activo
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
@@ -147,6 +186,9 @@ export default function App() {
                     <p className="text-xs font-bold text-slate-heading">2. Buscador de Caja en Mostrador</p>
                     <p className="text-[11px] text-slate-muted truncate">Búsqueda reactiva instantánea por cliente o cédula</p>
                   </div>
+                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                    Paso 5
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
@@ -157,6 +199,9 @@ export default function App() {
                     <p className="text-xs font-bold text-slate-heading">3. Ficha con Píldoras de Abono</p>
                     <p className="text-[11px] text-slate-muted truncate">Abono en 1 toque ($10k, $20k, Todo el saldo)</p>
                   </div>
+                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                    Paso 5
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
@@ -167,6 +212,9 @@ export default function App() {
                     <p className="text-xs font-bold text-slate-heading">4. Tirilla Térmica WhatsApp</p>
                     <p className="text-[11px] text-slate-muted truncate">Renderizado Canvas PNG + Share directo ($0 API)</p>
                   </div>
+                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                    Paso 6
+                  </span>
                 </div>
               </div>
             </div>
@@ -175,28 +223,27 @@ export default function App() {
           <div className="space-y-3">
             <div className="bg-white border border-cloud-border rounded-2xl p-4 shadow-pos space-y-3">
               <h3 className="text-xs font-bold text-slate-muted uppercase tracking-wider">
-                Reglas de Negocio en Base de Datos
+                Control de Privilegios por PIN
               </h3>
 
-              <div className="space-y-2">
-                <div className="p-3 rounded-xl border border-blue-100 bg-blue-50/50">
-                  <span className="text-xs font-bold text-blue-900 block">Plan Separe (Decreciente)</span>
-                  <p className="text-[11px] text-blue-700 mt-0.5">
-                    Total $120.000 ➔ Abono $40.000 ➔ Nuevo Saldo $80.000 hasta liquidar en $0.
-                  </p>
-                </div>
-
-                <div className="p-3 rounded-xl border border-amber-100 bg-amber-50/50">
-                  <span className="text-xs font-bold text-amber-900 block">Fiado / Cuenta Abierta</span>
-                  <p className="text-[11px] text-amber-700 mt-0.5">
-                    Saldo $0 ➔ (+ Cargo) mercadería a crédito ➔ (- Abono) pagos parciales.
-                  </p>
-                </div>
-
+              <div className="space-y-2 text-xs">
                 <div className="p-3 rounded-xl border border-emerald-100 bg-emerald-50/50">
-                  <span className="text-xs font-bold text-emerald-900 block">Inmutabilidad Auditada</span>
-                  <p className="text-[11px] text-emerald-700 mt-0.5">
-                    Cero borrado físico. Las correcciones generan un movimiento de anulación autorizado por el Dueño.
+                  <div className="flex items-center justify-between font-bold text-emerald-900">
+                    <span>PIN Cajero (4321)</span>
+                    <span className="text-[10px] bg-emerald-200 text-emerald-800 px-1.5 py-0.5 rounded">Operativo</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-700 mt-1">
+                    Solo permite buscar clientes, registrar abonos/cargos y compartir tirillas. No ve la cartera total ni puede anular.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl border border-blue-100 bg-blue-50/50">
+                  <div className="flex items-center justify-between font-bold text-blue-900">
+                    <span>PIN Dueño / Maestro (1234)</span>
+                    <span className="text-[10px] bg-blue-200 text-blue-800 px-1.5 py-0.5 rounded">Total</span>
+                  </div>
+                  <p className="text-[11px] text-blue-700 mt-1">
+                    Visualización de cartera total, configuración del comercio, arqueos consolidados y autorización de anulaciones auditadas.
                   </p>
                 </div>
               </div>
@@ -204,31 +251,17 @@ export default function App() {
           </div>
         )}
 
-        {/* Resumen de Certificación de Arquitectura */}
-        <div className="bg-white border border-cloud-border rounded-2xl p-4 shadow-pos">
-          <div className="flex items-center gap-2 mb-2 text-emerald-700">
-            <ShieldCheck className="w-5 h-5 text-semantic-abono" />
-            <h4 className="text-xs font-bold uppercase tracking-wider">Verificación de Setup</h4>
-          </div>
-          <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-600">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-semantic-abono" />
-              <span>React 18 + TS</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-semantic-abono" />
-              <span>Tailwind Tokens</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-semantic-abono" />
-              <span>Supabase Client</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-semantic-abono" />
-              <span>PWA Ready</span>
-            </div>
-          </div>
-        </div>
+        {/* Modal de PIN Maestro */}
+        <MasterPinModal
+          isOpen={isAuthModalOpen}
+          title="Autorización de Cartera"
+          description="Ingrese el PIN Maestro de Dueño para desbloquear la visualización del total de la cartera."
+          onSuccess={() => {
+            setIsAuthModalOpen(false);
+            setShowSensitiveData(true);
+          }}
+          onCancel={() => setIsAuthModalOpen(false)}
+        />
       </main>
 
       {/* Dock Inferior */}
@@ -240,4 +273,22 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+export default function App() {
+  return (
+    <PinAuthProvider>
+      <AppRoot />
+    </PinAuthProvider>
+  );
+}
+
+function AppRoot() {
+  const { isLocked } = usePinAuth();
+
+  if (isLocked) {
+    return <PinLockScreen />;
+  }
+
+  return <PosMainContent />;
 }
