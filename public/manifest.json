@@ -1,0 +1,18 @@
+{
+  "name": "SaldoPOS - Datáfono Digital de Abonos y Fiados",
+  "short_name": "SaldoPOS",
+  "description": "Registro ultrarrápido de abonos y fiados para comercios locales con tirilla digital para WhatsApp",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#0284C7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

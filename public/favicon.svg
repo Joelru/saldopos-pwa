@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- POS Device Body -->
+  <rect x="10" y="4" width="44" height="56" rx="10" fill="#0284C7" />
+  <!-- Screen Area -->
+  <rect x="16" y="10" width="32" height="20" rx="4" fill="#F8FAFC" />
+  <!-- Screen Content Lines -->
+  <rect x="20" y="15" width="16" height="3" rx="1.5" fill="#0F172A" />
+  <rect x="20" y="21" width="24" height="4" rx="2" fill="#16A34A" />
+  <!-- Keypad Buttons -->
+  <rect x="18" y="34" width="7" height="6" rx="2" fill="#BAE6FD" />
+  <rect x="28" y="34" width="8" height="6" rx="2" fill="#BAE6FD" />
+  <rect x="39" y="34" width="7" height="6" rx="2" fill="#BAE6FD" />
+  <rect x="18" y="43" width="7" height="6" rx="2" fill="#BAE6FD" />
+  <rect x="28" y="43" width="8" height="6" rx="2" fill="#BAE6FD" />
+  <rect x="39" y="43" width="7" height="6" rx="2" fill="#BAE6FD" />
+  <!-- Bottom Action Key -->
+  <rect x="18" y="52" width="28" height="4" rx="2" fill="#16A34A" />
+</svg>
