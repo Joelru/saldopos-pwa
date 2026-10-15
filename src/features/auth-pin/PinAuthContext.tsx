@@ -35,6 +35,7 @@ interface PinAuthContextType {
   loginShop: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   completePinSetup: (pinDueno: string, pinCajero: string) => Promise<{ success: boolean; error?: string }>;
   logoutShop: () => Promise<void>;
+  enterDemoMode: (role?: RolUsuario) => void;
 }
 
 const PinAuthContext = createContext<PinAuthContextType | undefined>(undefined);
@@ -273,6 +274,18 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsLocked(true);
   };
 
+  // Cargar tienda de demostración para pruebas inmediatas
+  const enterDemoMode = (role: RolUsuario = 'DUENO') => {
+    setNegocio(DEFAULT_DEMO_NEGOCIO);
+    localStorage.setItem('saldopos_negocio', JSON.stringify(DEFAULT_DEMO_NEGOCIO));
+    localStorage.setItem('saldopos_authenticated', 'true');
+    localStorage.setItem('saldopos_role', role);
+    setIsAuthenticated(true);
+    setNeedsPinSetup(false);
+    setIsLocked(false);
+    setCurrentRole(role);
+  };
+
   // Desbloqueo mediante comparación hash de PIN
   const unlockWithPin = async (pin: string): Promise<{ success: boolean; role?: RolUsuario; error?: string }> => {
     if (pin.length !== 4) {
@@ -323,6 +336,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
         loginShop,
         completePinSetup,
         logoutShop,
+        enterDemoMode,
       }}
     >
       {children}

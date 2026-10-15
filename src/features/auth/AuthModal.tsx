@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Store, Mail, Phone, Lock, Eye, EyeOff, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Store, Mail, Phone, Lock, Eye, EyeOff, AlertCircle, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { usePinAuth } from '../auth-pin/PinAuthContext';
 
 interface AuthModalProps {
@@ -15,7 +15,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   onSuccess,
 }) => {
-  const { registerShop, loginShop } = usePinAuth();
+  const { registerShop, loginShop, enterDemoMode } = usePinAuth();
   const [mode, setMode] = useState<'register' | 'login'>(initialMode);
   const [nombreLocal, setNombreLocal] = useState('');
   const [email, setEmail] = useState('');
@@ -24,6 +24,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Sincronizar siempre el modo cuando se abre el modal desde un botón específico
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode);
+      setError(null);
+    }
+  }, [isOpen, initialMode]);
 
   if (!isOpen) return null;
 
@@ -131,12 +139,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Mensaje de Bienvenida */}
         <div>
           <h3 className="text-lg font-extrabold text-slate-heading">
-            {mode === 'register' ? 'Vincula tu Tienda a SaldoPOS' : 'Acceder al Datáfono de tu Tienda'}
+            {mode === 'register' ? 'Registra tu Tienda en Saldo' : 'Iniciar Sesión en tu Tienda'}
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
             {mode === 'register'
-              ? 'Solo configuras tus datos una vez. Luego operarás el día a día únicamente con tu PIN numérico.'
-              : 'Ingresa con el correo y contraseña de tu comercio.'}
+              ? 'Solo configuras tus datos una vez. Luego operarás el día a día únicamente con tu PIN de 4 números.'
+              : 'Ingresa con el correo y la contraseña registrados de tu comercio.'}
           </p>
         </div>
 
@@ -262,11 +270,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </button>
         </form>
 
+        {/* Acceso Rápido a Tienda Demo para Probar */}
+        <div className="pt-3 border-t border-slate-100 space-y-2">
+          <div className="text-center">
+            <span className="text-[11px] text-slate-500 font-medium">¿Deseas probar el sistema de inmediato?</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              enterDemoMode('DUENO');
+              onSuccess();
+            }}
+            className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-sky-50 to-emerald-50 hover:from-sky-100 hover:to-emerald-100 border border-sky-200 text-brand-dark text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-xs"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-brand" />
+            <span>⚡ Probar con Tienda Demo (Boutique Stylo Urbano)</span>
+          </button>
+        </div>
+
         {/* Footer Informativo */}
-        <div className="pt-2 text-center border-t border-cloud-border">
-          <p className="text-[11px] text-slate-500 flex items-center justify-center gap-1">
+        <div className="pt-1 text-center">
+          <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Tus datos y cuentas están respaldados en la nube con RLS</span>
+            <span>Tus datos y cuentas quedan respaldados en la nube</span>
           </p>
         </div>
       </div>

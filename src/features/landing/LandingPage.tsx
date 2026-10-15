@@ -7,22 +7,27 @@ import {
   CheckCircle2, 
   Receipt, 
   Zap, 
-  BookX, 
-  ChevronRight
+  BookX
 } from 'lucide-react';
+import { usePinAuth } from '../auth-pin/PinAuthContext';
 
 interface LandingPageProps {
   onOpenAuth: (mode: 'register' | 'login') => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
+  const { enterDemoMode } = usePinAuth();
+
   return (
-    <div className="min-h-screen bg-cloud-bg text-slate-800 flex flex-col font-sans selection:bg-brand-pastel selection:text-brand-dark">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-100/70 via-slate-50 to-emerald-50/40 text-slate-800 flex flex-col font-sans selection:bg-brand-pastel selection:text-brand-dark relative overflow-x-hidden">
+      {/* Luz ambiental decorativa de fondo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[380px] bg-gradient-to-tr from-sky-400/15 via-brand/10 to-emerald-400/15 rounded-full blur-3xl pointer-events-none -z-10" />
+
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-cloud-border">
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-sky-100/80 shadow-xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-brand flex items-center justify-center text-white shadow-md">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center text-white shadow-md shadow-brand/20">
               <CreditCard className="w-5 h-5" />
             </div>
             <div>
@@ -31,7 +36,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
+            {/* Botón Acceso Rápido Demo */}
+            <button
+              onClick={() => enterDemoMode('DUENO')}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-800 bg-emerald-100/80 hover:bg-emerald-200/90 rounded-xl transition-all border border-emerald-300/60 shadow-xs active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Probar Demo</span>
+            </button>
+
             <button
               onClick={() => onOpenAuth('login')}
               className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-brand-dark hover:bg-slate-100 rounded-xl transition-all"
@@ -50,14 +64,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-light text-brand-dark border border-brand-pastel shadow-xs">
+      <section className="relative pt-12 pb-14 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-6">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/90 text-brand-dark border border-brand/30 shadow-xs backdrop-blur-xs">
           <Sparkles className="w-4 h-4 text-brand" />
           <span>Fácil, rápido y sin enredos tecnológicos</span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-black text-slate-heading tracking-tight leading-tight max-w-4xl mx-auto">
-          La Libreta Digital de <span className="text-brand">Abonos y Fiados</span> para tu Tienda
+          La Libreta Digital de <span className="bg-gradient-to-r from-brand via-sky-600 to-emerald-600 bg-clip-text text-transparent">Abonos y Fiados</span> para tu Tienda
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -74,27 +88,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             <ArrowRight className="w-4 h-4" />
           </button>
 
-          <a
-            href="/docs.html"
-            target="_blank"
-            className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-1.5 shadow-sm"
+          <button
+            onClick={() => enterDemoMode('DUENO')}
+            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <span>Ver Manual de Uso</span>
-            <ChevronRight className="w-4 h-4 text-slate-400" />
-          </a>
+            <Sparkles className="w-4 h-4 text-emerald-200" />
+            <span>⚡ Probar Tienda Demo (Sin Registro)</span>
+          </button>
         </div>
 
         {/* Píldoras de Valor Humano */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-500 pt-3">
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600 pt-3">
+          <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-slate-200/80 shadow-xs">
             <CheckCircle2 className="w-4 h-4 text-semantic-abono" />
             <span>Funciona en celular y en computador portátil</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-slate-200/80 shadow-xs">
             <CheckCircle2 className="w-4 h-4 text-semantic-abono" />
             <span>Sin programas pesados de facturación</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-slate-200/80 shadow-xs">
             <CheckCircle2 className="w-4 h-4 text-semantic-abono" />
             <span>Cuentas claras y sin discusiones</span>
           </div>
@@ -181,9 +194,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* El Cuaderno */}
-          <div className="bg-white p-6 rounded-3xl border border-rose-200 shadow-sm space-y-4">
+          <div className="bg-gradient-to-br from-rose-50/70 via-white to-rose-50/30 p-6 rounded-3xl border border-rose-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 text-rose-700">
-              <div className="p-2 rounded-xl bg-rose-50">
+              <div className="p-2 rounded-xl bg-rose-100/80">
                 <BookX className="w-5 h-5" />
               </div>
               <h3 className="font-extrabold text-base">Los problemas del cuaderno de papel</h3>
@@ -205,24 +218,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
           </div>
 
           {/* Saldo */}
-          <div className="bg-white p-6 rounded-3xl border-2 border-brand shadow-pos space-y-4">
-            <div className="flex items-center gap-2.5 text-brand-dark">
-              <div className="p-2 rounded-xl bg-brand-light">
-                <Zap className="w-5 h-5 text-brand" />
+          <div className="bg-gradient-to-br from-emerald-50/50 via-white to-sky-50/40 p-6 rounded-3xl border-2 border-emerald-500 shadow-pos-lg space-y-4">
+            <div className="flex items-center gap-2.5 text-emerald-950">
+              <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
+                <Zap className="w-5 h-5" />
               </div>
               <h3 className="font-extrabold text-base">La tranquilidad con Saldo</h3>
             </div>
-            <ul className="text-xs text-slate-600 space-y-2.5 list-none">
+            <ul className="text-xs text-slate-700 space-y-2.5 list-none">
               <li className="flex items-start gap-2">
-                <span className="text-emerald-500 font-bold">✓</span>
+                <span className="text-emerald-600 font-bold">✓</span>
                 <span><strong>Suma y resta automático:</strong> Nunca más una cuenta descuadrada.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-emerald-500 font-bold">✓</span>
+                <span className="text-emerald-600 font-bold">✓</span>
                 <span><strong>Comprobante claro:</strong> El cliente guarda su foto en WhatsApp y no hay dudas.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-emerald-500 font-bold">✓</span>
+                <span className="text-emerald-600 font-bold">✓</span>
                 <span><strong>Seguro en la nube:</strong> Si cambias de celular o portátil, tu información sigue ahí.</span>
               </li>
             </ul>
@@ -231,16 +244,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 px-4 text-center text-xs text-slate-400 space-y-2 border-t border-cloud-border">
+      <footer className="mt-auto py-8 px-4 text-center text-xs text-slate-400 space-y-2 border-t border-sky-100 bg-white/40 backdrop-blur-xs">
         <div className="flex items-center justify-center gap-2 font-bold text-slate-700">
           <CreditCard className="w-4 h-4 text-brand" />
           <span>Saldo — Abonos y Fiados</span>
         </div>
-        <p>© 2026 Saldo. Diseñado para comerciantes de mostrador.</p>
-        <div>
-          <a href="/docs.html" className="text-brand hover:underline font-semibold">
-            Manual de Ayuda y Preguntas Frecuentes
-          </a>
+        <p>© 2026 Saldo. Diseñado para comerciantes de mostrador en Colombia.</p>
+        <div className="flex items-center justify-center gap-3 text-[11px] text-slate-400">
+          <span>Seguro & Confiable</span>
+          <span>•</span>
+          <span>Sin costos ocultos</span>
+          <span>•</span>
+          <span>Celular y Portátil</span>
         </div>
       </footer>
     </div>

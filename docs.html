@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaldoPOS - Documentación Técnica y Manual de Arquitectura</title>
+  <title>Saldo - Abonos y Fiados | Manual de Arquitectura & Documentación Técnica</title>
   <!-- Tailwind CSS CDN con configuración personalizada -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & JetBrains Mono -->
@@ -59,20 +59,20 @@
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-cloud-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-white font-black text-lg shadow-md">
-          SP
+        <div class="w-10 h-10 rounded-2xl bg-brand flex items-center justify-center text-white font-black text-lg shadow-md">
+          S
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-base font-extrabold text-brand-navy tracking-tight">SaldoPOS</h1>
-            <span class="px-2 py-0.5 text-[10px] font-bold bg-brand-pastel text-brand-dark rounded-full">v1.0.0 DOCS</span>
+            <h1 class="text-base font-extrabold text-brand-navy tracking-tight">Saldo</h1>
+            <span class="px-2 py-0.5 text-[10px] font-bold bg-brand-pastel text-brand-dark rounded-full">v1.1.0 DOCS</span>
           </div>
-          <p class="text-xs text-slate-500">Datáfono Digital de Abonos y Fiados (PWA Multi-tenant)</p>
+          <p class="text-xs text-slate-500">Libreta Digital de Abonos y Fiados (PWA Responsiva Móvil & Portátil)</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <a href="https://github.com/Joelru/saldopos-pwa" target="_blank" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-1.5">
+        <a href="https://github.com/Joelru/saldopos-pwa" target="_blank" class="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-1.5 shadow-xs">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>Repositorio GitHub</span>
         </a>
@@ -88,21 +88,22 @@
         <div>
           <h3 class="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Tabla de Contenido</h3>
           <nav class="space-y-1">
-            <a href="#vision" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">1. Visión & Filosofía</a>
-            <a href="#stack" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">2. Stack & Tecnologías</a>
-            <a href="#logica-dual" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">3. Lógica Contable Dual</a>
-            <a href="#seguridad" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">4. Arquitectura de Seguridad</a>
-            <a href="#basedatos" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">5. Base de Datos (PostgreSQL)</a>
-            <a href="#estructura" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">6. Estructura del Código</a>
-            <a href="#tirilla" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">7. Motor Gráfico & WhatsApp</a>
-            <a href="#gitflow" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">8. GitFlow & Commits</a>
-            <a href="#setup" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">9. Setup & Despliegue</a>
+            <a href="#vision" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">1. Visión & Cero "POS"</a>
+            <a href="#ux-mostrador" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">2. UX para Portátil & Celular</a>
+            <a href="#onboarding" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">3. Onboarding & PIN Inicial</a>
+            <a href="#logica-dual" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">4. Lógica Contable Dual</a>
+            <a href="#seguridad" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">5. Arquitectura de Seguridad</a>
+            <a href="#basedatos" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">6. Base de Datos (PostgreSQL)</a>
+            <a href="#estructura" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">7. Estructura del Código</a>
+            <a href="#tirilla" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">8. Comprobante & WhatsApp</a>
+            <a href="#gitflow" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">9. GitFlow & Commits</a>
+            <a href="#setup" class="block px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-200/60 font-medium">10. Setup & Despliegue</a>
           </nav>
         </div>
 
         <div class="p-3 bg-brand-light rounded-xl border border-brand-pastel">
-          <p class="text-xs font-bold text-brand-dark">Desarrollado para:</p>
-          <p class="text-[11px] text-slate-600 mt-0.5">Comercios locales, tiendas de calzado, ropa, ópticas, joyerías y mueblerías.</p>
+          <p class="text-xs font-bold text-brand-dark">Público Objetivo:</p>
+          <p class="text-[11px] text-slate-600 mt-0.5">Dueños de comercios locales (30 a 50+ años) que buscan reemplazar el cuaderno de papel sin aprender programas pesados.</p>
         </div>
       </div>
     </aside>
@@ -115,131 +116,159 @@
         <div class="max-w-3xl space-y-3">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Arquitectura de Grado Producción v1.0.0
+            Arquitectura v1.1.0 • Producción Live
           </span>
           <h2 class="text-2xl sm:text-3xl font-black text-brand-navy tracking-tight">
             Manual de Arquitectura y Referencia Técnica
           </h2>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Este documento describe exhaustivamente la arquitectura técnica, modelo de datos inmutable, flujos operativos, políticas de seguridad y motor gráfico de <strong>SaldoPOS</strong>, pensado para que cualquier desarrollador pueda incorporarse, mantener y escalar la plataforma.
+            Documentación técnica oficial de <strong>Saldo</strong>. Detalla la arquitectura de software, el modelo inmutable en Supabase, el flujo de incorporación comercial con validación telefónica en Colombia, y la adaptación responsiva para pantallas de portátil y celular.
           </p>
         </div>
       </section>
 
-      <!-- 1. Visión y Filosofía -->
+      <!-- 1. Visión & Cero POS -->
       <section id="vision" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">1</span>
-            Visión del Producto & Filosofía de Mostrador
+            Visión del Producto: Cero Complejidad "POS"
           </h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2">
-            <div class="text-2xl">⚡</div>
-            <h4 class="font-bold text-sm text-brand-navy">Velocidad &lt; 5 Segundos</h4>
+            <div class="text-2xl">📓</div>
+            <h4 class="font-bold text-sm text-brand-navy">Libreta Digital, No un "POS"</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              El cajero de mostrador atiende filas rápidas. No requiere módulos pesados de inventario ni facturación DIAN; solo buscar al cliente, digitar el abono con 1 toque y compartir el recibo.
+              Los dueños de tiendas locales (30-50+ años) huyen de los sistemas POS por complejos. Saldo se enfoca únicamente en el crédito informal: anotar quién debe, recibir abonos y enviar comprobantes.
             </p>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2">
-            <div class="text-2xl">📲</div>
+            <div class="text-2xl">💬</div>
             <h4 class="font-bold text-sm text-brand-navy">Costo Operativo $0 en WhatsApp</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Cero costos de API oficial de WhatsApp Business (que cobra por conversación). El sistema genera la imagen PNG en el cliente y abre el WhatsApp nativo del comerciante con <code class="bg-slate-100 px-1 py-0.5 rounded text-brand">navigator.share()</code>.
+              Sin APIs oficiales de pago. La imagen del comprobante se genera en el navegador del comerciante y se comparte directamente mediante la Web Share API a su WhatsApp nativo.
             </p>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2">
             <div class="text-2xl">🛡️</div>
-            <h4 class="font-bold text-sm text-brand-navy">Inmutabilidad Bancaria</h4>
+            <h4 class="font-bold text-sm text-brand-navy">Inmutabilidad Auditada</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              No existe el botón "Borrar deuda". Si un cajero se equivoca, la corrección requiere autorización del Dueño con PIN Maestro y crea un movimiento inverso de anulación auditable.
+              No existe el botón "Borrar deuda". Los errores de digitación se corrigen mediante una anulación autorizada con el PIN Maestro de Dueño, generando un movimiento inverso con fecha y hora.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- 2. Stack Tecnológico -->
-      <section id="stack" class="space-y-4">
+      <!-- 2. UX para Portátil y Celular -->
+      <section id="ux-mostrador" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">2</span>
-            Stack Tecnológico & Herramientas
+            Diseño Responsivo: Portátil de Mostrador & Móvil
           </h3>
         </div>
 
-        <div class="bg-white rounded-2xl border border-cloud-border overflow-hidden shadow-sm">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead class="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider border-b border-cloud-border">
-              <tr>
-                <th class="p-3.5">Capa</th>
-                <th class="p-3.5">Tecnología / Librería</th>
-                <th class="p-3.5">Versión</th>
-                <th class="p-3.5">Propósito Arquitectónico</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-cloud-border font-medium text-slate-700">
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Lenguaje Core</td>
-                <td class="p-3.5 font-mono text-slate-900">TypeScript</td>
-                <td class="p-3.5 font-mono">v5.7.3</td>
-                <td class="p-3.5">Tipado estático estricto para entidades financieras, mitigando errores de cálculo numérico en mostrador.</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Frontend SPA</td>
-                <td class="p-3.5 font-mono text-slate-900">React + Vite</td>
-                <td class="p-3.5 font-mono">React 18 / Vite 6</td>
-                <td class="p-3.5">Renderizado ultra-rápido, HMR instantáneo y empaquetamiento optimizado con chunks pequeños (&lt;130KB gzipped).</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Estilos & Tokens</td>
-                <td class="p-3.5 font-mono text-slate-900">Tailwind CSS</td>
-                <td class="p-3.5 font-mono">v3.4.17</td>
-                <td class="p-3.5">Paleta corporativa de datáfono (Slate 50, Sky 600, Emerald 600, Amber 600) y diseño táctil optimizado para móviles.</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Base de Datos</td>
-                <td class="p-3.5 font-mono text-slate-900">Supabase (PostgreSQL 15)</td>
-                <td class="p-3.5 font-mono">@supabase/js 2.49</td>
-                <td class="p-3.5">PostgreSQL nativo con RLS multi-tenant, triggers PL/pgSQL y procedimientos almacenados con bloqueo FOR UPDATE.</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Motor Gráfico</td>
-                <td class="p-3.5 font-mono text-slate-900">html-to-image</td>
-                <td class="p-3.5 font-mono">v1.11.11</td>
-                <td class="p-3.5">Conversión de nodos DOM del recibo a imágenes PNG nítidas a resolución 2.5x Retina en menos de 100 milisegundos.</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">PWA & Offline</td>
-                <td class="p-3.5 font-mono text-slate-900">Service Worker + Manifest</td>
-                <td class="p-3.5 font-mono">W3C Standalone</td>
-                <td class="p-3.5">Instalación nativa a pantalla completa en Android/iOS y caché local con fallback en caso de pérdida de señal en la tienda.</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-bold text-brand">Iconografía</td>
-                <td class="p-3.5 font-mono text-slate-900">Lucide React</td>
-                <td class="p-3.5 font-mono">v0.475</td>
-                <td class="p-3.5">Iconos vectoriales ligeros de trazo nítido para interfaces de cobro táctil.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4 text-xs text-slate-700 leading-relaxed">
+          <p>
+            Inicialmente la app estaba confinada a un contenedor móvil estrecho (<code class="font-mono bg-slate-100 px-1 py-0.5 rounded text-brand">max-w-md</code>). Dado que muchos comerciantes usan un <strong>computador portátil o PC en el mostrador</strong>, la interfaz fue rediseñada para ser espaciosa y adaptable:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <span class="font-bold text-slate-900 block text-sm">💻 En Pantalla de Portátil (Desktop)</span>
+              <ul class="list-disc list-inside space-y-1 text-slate-600">
+                <li>Ancho expandido a <code class="font-mono">max-w-6xl</code> para aprovechar el espacio horizontal.</li>
+                <li>Métricas de caja y búsqueda en vista panorámica cómoda.</li>
+                <li>Cuentas de clientes organizadas en cuadrícula responsiva de 2 a 3 columnas (<code class="font-mono">grid-cols-1 md:grid-cols-2 lg:grid-cols-3</code>).</li>
+                <li>Teclado de PIN centrado de forma elegante en un modal limpio.</li>
+              </ul>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <span class="font-bold text-slate-900 block text-sm">📱 En Teléfono Celular (PWA)</span>
+              <ul class="list-disc list-inside space-y-1 text-slate-600">
+                <li>Diseño vertical de una sola columna ergonómica para usar con el pulgar.</li>
+                <li>Manifiesto PWA para instalación a pantalla completa sin barra de navegador.</li>
+                <li>Botones táctiles grandes de alto contraste y retroalimentación háptica (<code class="font-mono">navigator.vibrate</code>).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-3 bg-brand-light rounded-xl border border-brand-pastel">
+            <strong class="text-brand-dark">Lenguaje Humano de Mostrador:</strong> Se eliminaron términos técnicos como "POS", "Terminal", "Ledger", "Tokens" o "BETA". Ahora se usan términos naturales: <em>"Plata Cobrada Hoy"</em>, <em>"Total por Cobrar en la Calle"</em>, <em>"+ Anotar Nueva Cuenta"</em> y <em>"Debe Actualmente: $X"</em>.
+          </div>
         </div>
       </section>
 
-      <!-- 3. Lógica Contable Dual -->
-      <section id="logica-dual" class="space-y-4">
+      <!-- 3. Onboarding & PIN Inicial -->
+      <section id="onboarding" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">3</span>
-            Lógica de Negocio Dual: Plan Separe vs. Fiado
+            Enlistamiento Comercial & Configuración del PIN de Dueño
+          </h3>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4 text-xs text-slate-700 leading-relaxed">
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 block">Paso 1: Landing Comercial</span>
+              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrarse o Probar la Demo.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 block">Paso 2: Registro Validado</span>
+              <p class="text-slate-500">Nombre del local, correo y <strong>celular colombiano (+57, 10 dígitos iniciando en 3)</strong>.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 block">Paso 3: PIN Maestro</span>
+              <p class="text-slate-500">Creación guiada del PIN de 4 dígitos para proteger la cartera y el dinero del dueño.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
+              <span class="font-bold text-emerald-900 block">⚡ Modo Demo Inmediato</span>
+              <p class="text-emerald-700">Acceso en 1 clic para desarrolladores y testers sin crear cuentas (Tienda Stylo Urbano).</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <h4 class="font-bold text-sm text-slate-900">¿Cómo probar el sistema inmediatamente?</h4>
+            <p>
+              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Tienda Demo"</strong>. Al presionarlo se carga inmediatamente la tienda de prueba vinculada a los datos del seed:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                <strong class="text-brand block mb-0.5">PIN Dueño: 1234</strong>
+                <span class="text-slate-500">Permite ver la cartera total ($425.000) y administrar todas las funciones.</span>
+              </div>
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                <strong class="text-emerald-700 block mb-0.5">PIN Cajero: 4321</strong>
+                <span class="text-slate-500">Permite abonar a Separes/Fiados y enviar tirillas manteniendo oculta la cartera general.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-1 text-xs">
+            <span class="font-bold text-sky-950 block">Nota sobre Privacidad de Documentación:</span>
+            <p class="text-sky-800">
+              Este manual (<code class="font-mono font-bold">docs.html</code>) está reservado exclusivamente para los desarrolladores e ingenieros de software. Todos los enlaces públicos hacia este archivo fueron removidos de la interfaz de usuario para no saturar al comerciante de mostrador.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Lógica Contable Dual -->
+      <section id="logica-dual" class="space-y-4">
+        <div class="border-b border-cloud-border pb-2">
+          <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">4</span>
+            Lógica Contable Dual: Plan Separe vs. Fiado
           </h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Tarjeta Separe -->
           <div class="bg-white p-5 rounded-2xl border-2 border-blue-200 shadow-sm space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
@@ -248,145 +277,100 @@
               <span class="text-xs font-mono font-bold text-blue-600">Saldo Decreciente</span>
             </div>
             <p class="text-xs text-slate-600">
-              El cliente aparta un artículo específico por un valor fijo pactado. Cada abono sucesivo reduce la deuda hasta llegar a <strong>$0</strong>, momento en el cual la prenda se entrega y la cuenta pasa a estado <code class="bg-blue-50 text-blue-800 px-1 py-0.5 rounded font-bold">PAGADA</code>.
+              El cliente aparta un artículo específico por un valor pactado. Cada abono resta deuda hasta liquidar en <strong>$0</strong>, momento en el cual pasa a estado <code class="bg-blue-50 text-blue-800 px-1 py-0.5 rounded font-bold">PAGADA</code> para entrega.
             </p>
             <div class="bg-slate-50 p-3 rounded-xl font-mono text-xs text-slate-800 space-y-1">
-              <div>Saldo_Inicial = Valor_Prenda</div>
+              <div>Saldo_Inicial = Valor_Total</div>
               <div>Saldo_Nuevo = Saldo_Anterior - Monto_Abono</div>
               <div class="text-emerald-600 font-bold">IF Saldo_Nuevo &lt;= 0 ➔ Estado = 'PAGADA'</div>
             </div>
           </div>
 
-          <!-- Tarjeta Fiado -->
           <div class="bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900">
-                Modalidad B: Fiado / Cuenta de Tienda
+                Modalidad B: Fiados / Cuenta Corriente
               </span>
-              <span class="text-xs font-mono font-bold text-amber-700">Cuenta Corriente Abierta</span>
+              <span class="text-xs font-mono font-bold text-amber-700">Cuenta Abierta</span>
             </div>
             <p class="text-xs text-slate-600">
-              Línea de crédito informal permanente. Aumenta cuando el cliente retira mercancía a crédito (<code class="bg-amber-50 text-amber-800 px-1 py-0.5 rounded font-bold">+ Cargo</code>) y disminuye cuando entrega dinero (<code class="bg-emerald-50 text-emerald-800 px-1 py-0.5 rounded font-bold">- Abono</code>).
+              Línea de crédito informal permanente. Suma a la deuda con mercancía retirada (<code class="bg-amber-50 text-amber-800 px-1 py-0.5 rounded font-bold">+ Cargo</code>) y resta con pagos (<code class="bg-emerald-50 text-emerald-800 px-1 py-0.5 rounded font-bold">- Abono</code>).
             </p>
             <div class="bg-slate-50 p-3 rounded-xl font-mono text-xs text-slate-800 space-y-1">
               <div>Si es Cargo: Saldo_Nuevo = Saldo_Anterior + Monto</div>
               <div>Si es Abono: Saldo_Nuevo = Saldo_Anterior - Monto</div>
-              <div class="text-amber-700 font-bold">Permanece 'ACTIVA' acumulando histórico</div>
+              <div class="text-amber-700 font-bold">Permanece 'ACTIVA' acumulando historial</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. Arquitectura de Seguridad -->
+      <!-- 5. Arquitectura de Seguridad -->
       <section id="seguridad" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">4</span>
-            Arquitectura de Seguridad & Control de Roles
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">5</span>
+            Seguridad Criptográfica & Timeout de Mostrador
           </h3>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div class="flex items-center gap-2 font-bold text-sm text-emerald-800">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <span>Rol Cajero (PIN: 4321 Demo)</span>
-              </div>
-              <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
-                <li>Buscar clientes y cuentas reactivamente.</li>
-                <li>Registrar abonos (+ Efectivo / Transferencia).</li>
-                <li>Generar y despachar tirillas térmicas por WhatsApp.</li>
-                <li class="text-rose-600 font-semibold">Bloqueado: No ve la cartera total en la calle.</li>
-                <li class="text-rose-600 font-semibold">Bloqueado: No puede eliminar ni anular movimientos.</li>
-              </ul>
-            </div>
-
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-              <div class="flex items-center gap-2 font-bold text-sm text-brand-dark">
-                <span class="w-2.5 h-2.5 rounded-full bg-brand"></span>
-                <span>Rol Dueño / Maestro (PIN: 1234 Demo)</span>
-              </div>
-              <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
-                <li>Acceso irrestricto a todas las funciones operativas.</li>
-                <li>Visualización de la Cartera Total por Cobrar.</li>
-                <li>Autorización de anulaciones mediante modal elevado.</li>
-                <li>Arqueo y cuadre consolidado de caja del día.</li>
-              </ul>
-            </div>
+        <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-3 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200 space-y-1">
+            <strong class="text-blue-900 font-bold block text-sm">🔒 Hashing Seguro SHA-256 en el Cliente</strong>
+            <p>
+              El PIN se procesa con <code class="font-mono bg-white px-1 py-0.5 rounded border border-blue-200">crypto.subtle.digest('SHA-256', ...)</code> nativo del navegador. Nunca se guarda en texto plano en <code class="font-mono">localStorage</code> ni viaja desprotegido.
+            </p>
           </div>
 
-          <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-200 text-xs text-slate-700 space-y-1.5">
-            <p class="font-bold text-blue-900">🔒 Criptografía en Cliente (SHA-256):</p>
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+            <strong class="text-slate-900 font-bold block text-sm">⏱️ Temporizador de Inactividad (3 Minutos)</strong>
             <p>
-              El código utiliza <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-blue-200">crypto.subtle.digest('SHA-256', data)</code> en el navegador. Ningún PIN se almacena en texto plano en <code class="font-mono">localStorage</code> ni en base de datos.
-            </p>
-            <p class="font-bold text-blue-900 pt-1">⏱️ Temporizador de Inactividad (3 Minutos):</p>
-            <p>
-              Un watcher global escucha eventos <code class="font-mono">touchstart</code>, <code class="font-mono">mousedown</code> y <code class="font-mono">keydown</code>. Si transcurren 180 segundos sin interacción en el mostrador, la terminal pasa inmediatamente al estado bloqueado exigiendo PIN.
+              Un watcher detecta ausencia de toques y clicks en el mostrador. Tras 180 segundos sin actividad, la pantalla se bloquea automáticamente exigiendo el PIN numérico de 4 dígitos.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- 5. Base de Datos PostgreSQL -->
+      <!-- 6. Base de Datos PostgreSQL -->
       <section id="basedatos" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">5</span>
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">6</span>
             Esquema de Base de Datos Nuclear (PostgreSQL)
           </h3>
         </div>
 
-        <!-- Diagrama Mermaid Simulado -->
         <div class="bg-slate-900 text-slate-200 p-5 rounded-2xl font-mono text-xs overflow-x-auto shadow-inner space-y-2">
           <div class="text-slate-400 font-bold mb-2">// RELACIÓN ENTIDAD - RELACIÓN (3 TABLAS NUCLEARES)</div>
           <div>[negocios] 1 ───────────&lt; E [cuentas] 1 ───────────&lt; E [movimientos]</div>
           <div class="text-slate-400 text-[11px] pt-1">
-            - negocios: Datos del local, hashes PIN, mensaje de tirilla.<br>
-            - cuentas: Cliente, modalidad (SEPARE / FIADO), saldo_pendiente, consecutivo.<br>
-            - movimientos: Ledger inmutable (ABONO, CARGO, ANULACION), metodo_pago, saldo_anterior, saldo_nuevo.
+            - negocios: Datos del local, hashes PIN, mensaje de tirilla, estado de suscripción.<br>
+            - cuentas: Cliente, celular, modalidad (SEPARE / FIADO), saldo_pendiente, consecutivo.<br>
+            - movimientos: Libro mayor inmutable (ABONO, CARGO, ANULACION), metodo_pago, saldo_anterior, saldo_nuevo.
           </div>
         </div>
 
-        <!-- Triggers y Procedimientos Almacenados -->
-        <div class="space-y-3">
-          <h4 class="font-bold text-sm text-brand-navy">Procedimientos Almacenados & Triggers Inmutables</h4>
-          
-          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-2">
-            <span class="font-mono text-xs font-bold text-brand bg-brand-light px-2 py-0.5 rounded">
-              1. trg_inmutabilidad_movimientos (Trigger PL/pgSQL)
-            </span>
-            <p class="text-xs text-slate-600">
-              Intercepta cualquier operación <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">BEFORE UPDATE OR DELETE</code> en la tabla <code class="font-mono">movimientos</code> y lanza una excepción <code class="font-mono">RAISE EXCEPTION</code>. Garantiza auditoría inalterable.
-            </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-1.5">
+            <span class="font-mono font-bold text-brand block">trg_inmutabilidad_movimientos</span>
+            <p class="text-slate-600 text-[11px]">Bloquea terminantemente <code class="font-mono">UPDATE</code> y <code class="font-mono">DELETE</code> sobre movimientos para garantizar auditoría legal.</p>
           </div>
-
-          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-2">
-            <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
-              2. registrar_movimiento_pos(cuenta_id, tipo, monto, metodo, nota, rol)
-            </span>
-            <p class="text-xs text-slate-600">
-              Ejecuta un bloqueo atómico a nivel de fila mediante <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">SELECT ... FOR UPDATE</code> en la cuenta objetivo. Evita condiciones de carrera si dos cajeros abonan simultáneamente, recalcula el saldo e inserta el movimiento en una única transacción ACID.
-            </p>
+          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-1.5">
+            <span class="font-mono font-bold text-emerald-700 block">registrar_movimiento_pos</span>
+            <p class="text-slate-600 text-[11px]">Procedimiento atómico con bloqueo <code class="font-mono">SELECT ... FOR UPDATE</code> que evita carreras de concurrencia al cobrar.</p>
           </div>
-
-          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-2">
-            <span class="font-mono text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded">
-              3. anular_movimiento_pos(movimiento_id, motivo, rol)
-            </span>
-            <p class="text-xs text-slate-600">
-              Exclusivo para el Dueño. Localiza el movimiento original, calcula el movimiento inverso exacto, registra un nuevo movimiento de tipo <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">ANULACION</code> referenciando al original y actualiza el saldo de la cuenta sin borrar nada.
-            </p>
+          <div class="bg-white p-4 rounded-xl border border-cloud-border shadow-sm space-y-1.5">
+            <span class="font-mono font-bold text-amber-800 block">anular_movimiento_pos</span>
+            <p class="text-slate-600 text-[11px]">Exclusivo del Dueño. Registra el movimiento inverso exacto sin destruir el historial contable.</p>
           </div>
         </div>
       </section>
 
-      <!-- 6. Estructura del Código -->
+      <!-- 7. Estructura del Código -->
       <section id="estructura" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">6</span>
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">7</span>
             Estructura de Archivos y Módulos
           </h3>
         </div>
@@ -394,56 +378,61 @@
         <div class="bg-white rounded-2xl border border-cloud-border p-5 shadow-sm">
           <pre class="text-slate-800 leading-relaxed overflow-x-auto"><code>src/
 ├── features/
+│   ├── landing/
+│   │   └── LandingPage.tsx          # Landing comercial con dolor del cuaderno vs solución digital
+│   ├── auth/
+│   │   ├── AuthModal.tsx            # Registro/Login con validación de celular colombiano (+57)
+│   │   └── SetupPinModal.tsx        # Configuración guiada del PIN Maestro de Dueño de 4 dígitos
 │   ├── auth-pin/
-│   │   ├── MasterPinModal.tsx      # Modal de elevación para autorización con PIN Maestro
+│   │   ├── MasterPinModal.tsx       # Modal de elevación de privilegios para ver cartera o anular
 │   │   ├── PinAuthContext.tsx       # Contexto de sesión, timeout 3min y validación SHA-256
-│   │   └── PinLockScreen.tsx        # Teclado táctil estilo datáfono físico con haptic feedback
+│   │   └── PinLockScreen.tsx        # Teclado táctil centrado y limpio para portátil y celular
 │   ├── cashier/
-│   │   ├── CashierDashboard.tsx     # Buscador reactivo, arqueo diario y filtros de cuentas
-│   │   └── QuickPaymentModal.tsx    # Ficha de abono en 1 toque con píldoras de valor y confeti
+│   │   ├── CashierDashboard.tsx     # Buscador reactivo, plata cobrada hoy y listado en cuadrícula
+│   │   └── QuickPaymentModal.tsx    # Ficha de abono en 1 toque con píldoras de valor ($10k, $20k...)
 │   ├── accounts/
-│   │   └── NewAccountModal.tsx      # Alta express de clientes y cuentas en menos de 5 segundos
+│   │   └── NewAccountModal.tsx      # Formulario express para anotar clientes nuevos en 5 segundos
 │   └── receipt/
-│       ├── ThermalReceipt.tsx       # Componente visual pixel-perfect de tirilla térmica 58/80mm
-│       └── ReceiptModal.tsx         # Generador PNG Retina y dispatch Web Share API / WhatsApp
+│       ├── ThermalReceipt.tsx       # Componente visual del comprobante térmico oficial 58/80mm
+│       └── ReceiptModal.tsx         # Generador PNG Retina y despacho nativo a WhatsApp
 ├── lib/
-│   ├── crypto.ts                    # Hashing seguro SHA-256 vía Web Crypto API nativa
-│   ├── formatters.ts                # Formateo de pesos colombianos COP y fechas datáfono
+│   ├── crypto.ts                    # Hashing seguro SHA-256 nativo de navegador
+│   ├── formatters.ts                # Formateo de pesos colombianos COP y fechas de comprobante
 │   └── supabase.ts                  # Cliente Supabase singleton y detección de configuración
 ├── services/
-│   └── accountService.ts            # Capa de datos con fallback dual (Supabase / LocalStorage)
+│   └── accountService.ts            # Capa de datos con sincronización dual (Supabase & LocalStorage)
 ├── types/
 │   └── database.ts                  # Interfaces TypeScript del modelo de base de datos
-├── App.tsx                          # Orquestador principal y conmutador de pantalla bloqueada
+├── App.tsx                          # Orquestador responsivo para portátiles y móviles
 ├── index.css                        # Tokens CSS, directivas Tailwind y borde receipt-sawtooth
-└── main.tsx                         # Entrypoint React 18 y registro de Service Worker PWA</code></pre>
+└── main.tsx                         # Entrypoint React 18 y registro del Service Worker PWA</code></pre>
         </div>
       </section>
 
-      <!-- 7. Motor Gráfico y WhatsApp -->
+      <!-- 8. Comprobante & WhatsApp -->
       <section id="tirilla" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">7</span>
-            Motor Gráfico de Tirilla & Despacho a WhatsApp ($0 API)
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">8</span>
+            Comprobante Digital y Despacho a WhatsApp ($0 Costo)
           </h3>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-          <div class="space-y-3 text-xs text-slate-700 leading-relaxed">
-            <h4 class="font-bold text-sm text-brand-navy">Flujo de Generación y Envío:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start text-xs text-slate-700 leading-relaxed">
+          <div class="space-y-3">
+            <h4 class="font-bold text-sm text-brand-navy">Flujo de Despacho en 1 Clic:</h4>
             <ol class="list-decimal list-inside space-y-2">
               <li>
-                <strong>Renderizado en el DOM:</strong> El componente <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">ThermalReceipt.tsx</code> renderiza el comprobante con bordes dentados y tipografía monoespaciada de alto contraste.
+                <strong>Renderizado Visual:</strong> El comprobante se dibuja en el DOM con formato de tirilla térmica con tipografía monoespaciada <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">JetBrains Mono</code> de máximo contraste.
               </li>
               <li>
-                <strong>Captura en Memoria:</strong> <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">html-to-image.toBlob()</code> captura el nodo con <code class="font-mono text-brand">pixelRatio: 2.5</code> para garantizar nitidez impecable en pantallas AMOLED de teléfonos celulares.
+                <strong>Conversión Gráfica:</strong> <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">html-to-image</code> convierte el DOM en un Blob PNG a escala 2.5x para que no se pixele en teléfonos móviles.
               </li>
               <li>
-                <strong>Web Share API (Nivel 2):</strong> Se comprueba <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">navigator.canShare({ files: [file] })</code>. En Android y iOS, esto abre directamente el WhatsApp del comerciante con la imagen adjunta lista para enviar al cliente en 1 clic.
+                <strong>Web Share API:</strong> En celulares Android o iOS, <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">navigator.share({ files })</code> abre la app de WhatsApp del comerciante con la imagen adjunta lista para enviar al cliente.
               </li>
               <li>
-                <strong>Fallback de Escritorio:</strong> Si el navegador de escritorio no admite compartir archivos nativos, descarga el archivo <code class="font-mono">recibo-XXXX.png</code> y abre WhatsApp Web con el mensaje pre-redactado de cortesía.
+                <strong>Fallback en Computador:</strong> En navegadores de escritorio que no admiten compartir archivos, descarga el PNG y abre WhatsApp Web con el mensaje pre-redactado de cortesía.
               </li>
             </ol>
           </div>
@@ -482,72 +471,49 @@
         </div>
       </section>
 
-      <!-- 8. GitFlow y Commits -->
+      <!-- 9. GitFlow y Commits -->
       <section id="gitflow" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">8</span>
-            Estándar GitFlow & Conventional Commits
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">9</span>
+            Historial de GitFlow & Conventional Commits
           </h3>
         </div>
 
         <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-3 text-xs">
-          <p class="text-slate-600">
-            El proyecto fue construido y versionado siguiendo la especificación formal de <strong>GitFlow</strong>:
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span class="font-bold text-brand block mb-1">main (Producción)</span>
-              <p class="text-slate-600 text-[11px]">Código estable y verificado. Marcado con el tag oficial <strong>v1.0.0</strong>.</p>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span class="font-bold text-emerald-700 block mb-1">develop (Integración)</span>
-              <p class="text-slate-600 text-[11px]">Rama principal de trabajo donde convergen todas las características probadas.</p>
-            </div>
-          </div>
-
-          <div class="pt-2">
-            <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Historial de Features Mergeadas:</h4>
-            <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
-              <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/project-setup</span> ➔ Scaffolding Vite, React, TS, Tailwind y PWA.</div>
-              <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/supabase-schema</span> ➔ Migración SQL nuclear, triggers de inmutabilidad y seed.</div>
-              <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/pin-lock-security</span> ➔ Teclado datáfono, hashes SHA-256 y auto-bloqueo 3min.</div>
-              <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/accounts-and-cashier</span> ➔ Buscador reactivo, alta express y píldoras de abono.</div>
-              <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/thermal-receipt-canvas</span> ➔ Motor gráfico PNG y despacho directo a WhatsApp.</div>
-              <div class="p-2 bg-slate-50 rounded-lg">🚀 <span class="text-emerald-600 font-semibold">release/v1.0.0</span> ➔ Versión oficial v1.0.0, Service Worker y soporte offline.</div>
-            </div>
+          <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/project-setup</span> ➔ Scaffolding Vite, React, TS, Tailwind y PWA.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/supabase-schema</span> ➔ Migración SQL nuclear, triggers de inmutabilidad y seed demo.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/pin-lock-security</span> ➔ Teclado datáfono, hashes SHA-256 y auto-bloqueo 3min.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/accounts-and-cashier</span> ➔ Buscador reactivo, alta express y píldoras de abono.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/thermal-receipt-canvas</span> ➔ Motor gráfico PNG y despacho directo a WhatsApp.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/landing-and-auth-onboarding</span> ➔ Landing comercial, registro con celular +57 y PIN inicial de dueño.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/clean-ui-laptop-responsive-no-pos</span> ➔ Adaptación para portátiles, eliminación de jerga POS y simplificación UX.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">🚀 <span class="text-emerald-600 font-semibold">release/v1.1.0</span> ➔ Versión estable sincronizada en <code class="font-bold">main</code> y <code class="font-bold">develop</code>.</div>
           </div>
         </div>
       </section>
 
-      <!-- 9. Setup y Despliegue -->
+      <!-- 10. Setup y Despliegue -->
       <section id="setup" class="space-y-4">
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
-            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">9</span>
-            Guía de Instalación Local & Despliegue en Producción
+            <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">10</span>
+            Guía de Puesta en Marcha & Variables de Entorno
           </h3>
         </div>
 
         <div class="space-y-3">
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2 text-xs">
-            <h4 class="font-bold text-sm text-brand-navy">1. Clonar y Levantar en Local</h4>
-            <pre class="bg-slate-900 text-slate-200 p-3 rounded-xl overflow-x-auto"><code>git clone https://github.com/Joelru/saldopos-pwa.git
-cd saldopos-pwa
-npm install
-npm run dev</code></pre>
-          </div>
-
-          <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2 text-xs">
-            <h4 class="font-bold text-sm text-brand-navy">2. Variables de Entorno Requeridas (.env)</h4>
+            <h4 class="font-bold text-sm text-brand-navy">Variables de Entorno Requeridas (.env)</h4>
             <pre class="bg-slate-900 text-slate-200 p-3 rounded-xl overflow-x-auto"><code>VITE_SUPABASE_URL=https://innzcqmwxgnuucjgepty.supabase.co
 VITE_SUPABASE_ANON_KEY=sb_publishable_2mDuJQEZ8wnZFhtNjVe6Mg_aCFxaIrZ</code></pre>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2 text-xs">
-            <h4 class="font-bold text-sm text-brand-navy">3. Despliegue Continuo (CI/CD) en Vercel</h4>
+            <h4 class="font-bold text-sm text-brand-navy">Despliegue Continuo (CI/CD)</h4>
             <p class="text-slate-600">
-              Conectar el repositorio de GitHub con Vercel. Cada <code class="font-mono">git push origin main</code> dispara un despliegue de producción automático en menos de 40 segundos sin necesidad de configuración manual de servidores.
+              Cada <code class="font-mono">git push origin main</code> dispara un build en Vercel que actualiza la PWA en producción en menos de 40 segundos con certificado HTTPS automático.
             </p>
           </div>
         </div>
@@ -555,8 +521,8 @@ VITE_SUPABASE_ANON_KEY=sb_publishable_2mDuJQEZ8wnZFhtNjVe6Mg_aCFxaIrZ</code></pr
 
       <!-- Footer Documentación -->
       <footer class="pt-8 border-t border-cloud-border text-center text-xs text-slate-400 space-y-1">
-        <p><strong>SaldoPOS</strong> — Documentación de Arquitectura de Software y Manual Técnico de Ingeniería.</p>
-        <p>Código fuente disponible bajo estándar GitFlow en GitHub.</p>
+        <p><strong>Saldo</strong> — Documentación de Arquitectura de Software y Manual Técnico de Ingeniería.</p>
+        <p>Repositorio público en GitHub bajo estándar GitFlow estricto.</p>
       </footer>
 
     </main>
