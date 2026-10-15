@@ -19,6 +19,8 @@ export const PinLockScreen: React.FC = () => {
     }
   };
 
+  const isDemo = negocio.id === '00000000-0000-0000-0000-000000000001';
+
   const handleKeyPress = async (digit: string) => {
     if (pin.length >= 4 || isVerifying) return;
     triggerHaptic();
@@ -34,7 +36,11 @@ export const PinLockScreen: React.FC = () => {
 
       if (!result.success) {
         setIsShaking(true);
-        setErrorMessage(result.error || 'PIN Incorrecto. Intenta de nuevo.');
+        setErrorMessage(
+          isDemo 
+            ? 'PIN incorrecto. Para esta prueba ingresa 1234 (Dueño).' 
+            : (result.error || 'PIN Incorrecto. Intenta de nuevo.')
+        );
         triggerHaptic();
         setTimeout(() => {
           setPin('');
@@ -64,7 +70,11 @@ export const PinLockScreen: React.FC = () => {
       const result = await unlockWithPin(demoPin);
       setIsVerifying(false);
       if (!result.success) {
-        setErrorMessage(result.error || 'Error al validar PIN');
+        setErrorMessage(
+          isDemo 
+            ? 'PIN incorrecto. Para esta prueba el PIN es 1234.' 
+            : (result.error || 'Error al validar PIN')
+        );
       }
     }, 150);
   };
@@ -74,7 +84,7 @@ export const PinLockScreen: React.FC = () => {
       {/* Luz ambiental decorativa de fondo */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-gradient-to-tr from-brand/25 to-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="bg-slate-900/90 border border-slate-800/80 w-full max-w-sm rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6 text-center text-white relative z-10">
+      <div className="bg-slate-900/90 border border-slate-800/80 w-full max-w-sm rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5 text-center text-white relative z-10">
         {/* Cabecera del Negocio */}
         <div className="space-y-3">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand to-brand-dark border border-sky-400/30 flex items-center justify-center mx-auto text-white shadow-lg shadow-brand/30">
@@ -130,28 +140,36 @@ export const PinLockScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Píldoras de Acceso Rápido para Pruebas */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-2.5 text-xs space-y-1.5">
-          <span className="text-[10px] uppercase tracking-wider font-extrabold text-slate-400 block">
-            💡 Toca para Probar al Instante:
-          </span>
-          <div className="flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={() => autoFillPin('1234')}
-              className="px-3 py-1.5 rounded-xl bg-blue-600/80 hover:bg-blue-600 text-white font-bold text-[11px] transition-all shadow-xs active:scale-95"
-            >
-              Dueño (1234)
-            </button>
-            <button
-              type="button"
-              onClick={() => autoFillPin('4321')}
-              className="px-3 py-1.5 rounded-xl bg-emerald-600/80 hover:bg-emerald-600 text-white font-bold text-[11px] transition-all shadow-xs active:scale-95"
-            >
-              Cajero (4321)
-            </button>
+        {/* Banner Explícito de Prueba de la Plataforma */}
+        {isDemo ? (
+          <div className="bg-sky-950/80 border-2 border-sky-400/70 rounded-2xl p-3.5 text-center space-y-2 shadow-lg animate-fadeIn">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-400/20 text-sky-300 text-[10px] font-black uppercase tracking-wider border border-sky-400/40">
+              <span>💡 Prueba de Bloqueo</span>
+            </div>
+            <p className="text-xs text-sky-100 leading-snug">
+              Para esta prueba el PIN es <strong className="text-sky-300 text-sm font-mono font-black underline bg-sky-900/90 px-2 py-0.5 rounded-lg border border-sky-400/50">1234</strong>.
+            </p>
+            <p className="text-[11px] text-slate-300 leading-tight">
+              Ingrésalo abajo o toca el botón para volver exactamente al mostrador donde estabas.
+            </p>
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => autoFillPin('1234')}
+                className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-brand to-sky-500 hover:from-brand-hover hover:to-sky-600 text-white font-black text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-1.5"
+              >
+                <span>⚡ Digitar PIN 1234 y Desbloquear</span>
+              </button>
+            </div>
+            <div className="text-[10px] text-slate-400 pt-0.5">
+              (O probar como Cajero: <button type="button" onClick={() => autoFillPin('4321')} className="text-emerald-400 font-bold underline">4321</button>)
+            </div>
           </div>
-        </div>
+        ) : (
+          <p className="text-xs text-slate-400">
+            Ingresa tu clave de 4 dígitos para continuar
+          </p>
+        )}
 
         {/* Teclado Numérico Grande y Cómodo */}
         <div className="w-full max-w-[280px] mx-auto">
