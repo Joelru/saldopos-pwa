@@ -14,11 +14,13 @@ import { ReceiptModal } from './features/receipt/ReceiptModal';
 import { LandingPage } from './features/landing/LandingPage';
 import { AuthModal } from './features/auth/AuthModal';
 import { SetupPinModal } from './features/auth/SetupPinModal';
+import { StoreSettingsModal } from './features/settings/StoreSettingsModal';
 
 function PosMainContent() {
   const { negocio, currentRole, lockNow, logoutShop } = usePinAuth();
   const [activeReceipt, setActiveReceipt] = useState<{ movimiento: Movimiento; cuenta: Cuenta } | null>(null);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
@@ -102,7 +104,18 @@ function PosMainContent() {
               </button>
 
               {showSettingsMenu && (
-                <div className="absolute right-0 top-12 w-52 bg-white border border-cloud-border shadow-pos-lg rounded-2xl p-2 z-50 text-xs space-y-1 animate-fadeIn">
+                <div className="absolute right-0 top-12 w-56 bg-white border border-cloud-border shadow-pos-lg rounded-2xl p-2 z-50 text-xs space-y-1 animate-fadeIn">
+                  <button
+                    onClick={() => {
+                      setShowSettingsMenu(false);
+                      setIsSettingsModalOpen(true);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
+                  >
+                    <Settings className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Ajustes de mi Tienda</span>
+                  </button>
+
                   <button
                     onClick={() => {
                       setShowSettingsMenu(false);
@@ -171,6 +184,12 @@ function PosMainContent() {
         cuenta={activeReceipt?.cuenta || null}
         movimiento={activeReceipt?.movimiento || null}
         onClose={() => setIsReceiptModalOpen(false)}
+      />
+
+      {/* Modal de Ajustes de Tienda (Sistemas de crédito, datos y tirilla) */}
+      <StoreSettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
       />
 
       {/* Footer Limpio */}

@@ -3,6 +3,7 @@ import {
   Search, 
   UserPlus, 
   ArrowDownLeft, 
+  ArrowUpRight,
   Eye, 
   EyeOff, 
   CheckCircle2,
@@ -31,7 +32,10 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
   const [showSensitiveData, setShowSensitiveData] = useState<boolean>(currentRole === 'DUENO');
   const [isMasterModalOpen, setIsMasterModalOpen] = useState<boolean>(false);
   const [isNewAccountOpen, setIsNewAccountOpen] = useState<boolean>(false);
-  const [selectedCuentaForPayment, setSelectedCuentaForPayment] = useState<Cuenta | null>(null);
+  const [paymentModalState, setPaymentModalState] = useState<{
+    cuenta: Cuenta;
+    mode: 'ABONO' | 'CARGO';
+  } | null>(null);
 
   // Cargar datos
   const loadData = useCallback(async () => {
@@ -163,7 +167,7 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
         </button>
       </div>
 
-      {/* 3. Pestañas de Filtro */}
+      {/* 3. Pestañas de Filtro según lo que el negocio maneja */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
         <button
           onClick={() => setActiveFilter('ALL')}
@@ -176,27 +180,31 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
           Todas las Activas ({cuentas.filter(c => c.estado === 'ACTIVA').length})
         </button>
 
-        <button
-          onClick={() => setActiveFilter('SEPARE')}
-          className={`py-2 px-4 rounded-xl font-bold shrink-0 transition-all ${
-            activeFilter === 'SEPARE'
-              ? 'bg-blue-600 text-white shadow-sm'
-              : 'bg-white text-blue-700 border border-blue-200 hover:bg-blue-50'
-          }`}
-        >
-          Plan Separe ({cuentas.filter(c => c.tipo_cuenta === 'SEPARE' && c.estado === 'ACTIVA').length})
-        </button>
+        {negocio.permite_separe !== false && (
+          <button
+            onClick={() => setActiveFilter('SEPARE')}
+            className={`py-2 px-4 rounded-xl font-bold shrink-0 transition-all ${
+              activeFilter === 'SEPARE'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-white text-blue-700 border border-blue-200 hover:bg-blue-50'
+            }`}
+          >
+            Plan Separe ({cuentas.filter(c => c.tipo_cuenta === 'SEPARE' && c.estado === 'ACTIVA').length})
+          </button>
+        )}
 
-        <button
-          onClick={() => setActiveFilter('FIADO')}
-          className={`py-2 px-4 rounded-xl font-bold shrink-0 transition-all ${
-            activeFilter === 'FIADO'
-              ? 'bg-amber-600 text-white shadow-sm'
-              : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
-          }`}
-        >
-          Fiados ({cuentas.filter(c => c.tipo_cuenta === 'FIADO' && c.estado === 'ACTIVA').length})
-        </button>
+        {negocio.permite_fiado !== false && (
+          <button
+            onClick={() => setActiveFilter('FIADO')}
+            className={`py-2 px-4 rounded-xl font-bold shrink-0 transition-all ${
+              activeFilter === 'FIADO'
+                ? 'bg-amber-600 text-white shadow-sm'
+                : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
+            }`}
+          >
+            Fiados ({cuentas.filter(c => c.tipo_cuenta === 'FIADO' && c.estado === 'ACTIVA').length})
+          </button>
+        )}
 
         <button
           onClick={() => setActiveFilter('PAGADAS')}
@@ -321,13 +329,29 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
                   </div>
 
                   {cuenta.estado === 'ACTIVA' ? (
-                    <button
-                      onClick={() => setSelectedCuentaForPayment(cuenta)}
-                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1.5"
-                    >
-                      <PlusCircle className="w-4 h-4 text-emerald-200" />
-                      <span>Abonar</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      {/* Botón Abonar Dinero (Aplica para Separe y Fiados) */}
+                      <button
+                        onClick={() => setPaymentModalState({ cuenta, mode: 'ABONO' })}
+                        className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
+                        title="Recibir abono de dinero"
+                      >
+                        <PlusCircle className="w-3.5 h-3.5 text-emerald-200" />
+                        <span>Abonar</span>
+                      </button>
+
+                      {/* Botón Fiar Más Mercancía (EXCLUSIVO para FIADOS) */}
+                      {!isSepare && (
+                        <button
+                          onClick={() => setPaymentModalState({ cuenta, mode: 'CARGO' })}
+                          className="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1"
+                          title="Anotar más mercancía fiada a esta cuenta"
+                        >
+                          <ArrowUpRight className="w-3.5 h-3.5 text-amber-700" />
+                          <span>+ Fiar</span>
+                        </button>
+                      )}
+                    </div>
                   ) : (
                     <span className="text-xs text-slate-400 font-medium italic">
                       Completada
@@ -343,6 +367,8 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
       {/* Modal de Nueva Cuenta */}
       <NewAccountModal
         isOpen={isNewAccountOpen}
+        permiteSepare={negocio.permite_separe !== false}
+        permiteFiado={negocio.permite_fiado !== false}
         onClose={() => setIsNewAccountOpen(false)}
         onSubmit={async data => {
           const { cuenta, movimientoInicial } = await AccountService.createCuenta(
@@ -357,11 +383,12 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
         }}
       />
 
-      {/* Modal de Abono Rápido */}
+      {/* Modal de Abono / Carga Rápida */}
       <QuickPaymentModal
-        isOpen={Boolean(selectedCuentaForPayment)}
-        cuenta={selectedCuentaForPayment}
-        onClose={() => setSelectedCuentaForPayment(null)}
+        isOpen={Boolean(paymentModalState)}
+        cuenta={paymentModalState?.cuenta || null}
+        initialMode={paymentModalState?.mode || 'ABONO'}
+        onClose={() => setPaymentModalState(null)}
         onPaymentSuccess={handlePaymentSuccess}
       />
 

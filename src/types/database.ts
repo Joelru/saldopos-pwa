@@ -16,6 +16,8 @@ export interface Negocio {
   mensaje_pie_tirilla: string;
   activo: boolean;
   fecha_vencimiento?: string | null;
+  permite_separe?: boolean;
+  permite_fiado?: boolean;
   created_at: string;
 }
 
