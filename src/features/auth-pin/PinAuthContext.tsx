@@ -16,6 +16,8 @@ const DEFAULT_DEMO_NEGOCIO: Negocio = {
   mensaje_pie_tirilla: '¡Gracias por su compra! Conserve esta tirilla como comprobante de su abono.',
   activo: true,
   fecha_vencimiento: null,
+  permite_separe: true,
+  permite_fiado: true,
   created_at: new Date().toISOString(),
 };
 
@@ -68,11 +70,22 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [isLocked, setIsLocked] = useState<boolean>(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Guardar negocio en localStorage al cambiar
+  // Guardar negocio en localStorage al cambiar y sincronizar con Supabase
   const updateNegocio = useCallback((data: Partial<Negocio>) => {
     setNegocio(prev => {
       const updated = { ...prev, ...data };
       localStorage.setItem('saldopos_negocio', JSON.stringify(updated));
+
+      if (isSupabaseConfigured && prev?.id) {
+        supabase
+          .from('negocios')
+          .update(data)
+          .eq('id', prev.id)
+          .then(({ error }) => {
+            if (error) console.warn('Aviso: no se sincronizó cambio en Supabase (puede faltar columna):', error.message);
+          });
+      }
+
       return updated;
     });
   }, []);
@@ -154,6 +167,8 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
         mensaje_pie_tirilla: `¡Gracias por su compra en ${data.nombre_local}! Conserve esta tirilla como comprobante oficial.`,
         activo: true,
         fecha_vencimiento: null,
+        permite_separe: true,
+        permite_fiado: true,
         created_at: new Date().toISOString(),
       };
 

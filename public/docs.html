@@ -277,31 +277,48 @@
               <span class="text-xs font-mono font-bold text-blue-600">Saldo Decreciente</span>
             </div>
             <p class="text-xs text-slate-600">
-              El cliente aparta un artículo específico por un valor pactado. Cada abono resta deuda hasta liquidar en <strong>$0</strong>, momento en el cual pasa a estado <code class="bg-blue-50 text-blue-800 px-1 py-0.5 rounded font-bold">PAGADA</code> para entrega.
+              <strong>Ideal para:</strong> Boutiques de ropa, calzado, ópticas, mueblerías y joyerías. El cliente aparta un artículo específico por un valor pactado y la tienda lo guarda en bodega. La prenda <strong>solo se entrega cuando la cuenta llega a $0</strong>.
             </p>
+            <div class="p-2.5 bg-blue-50/60 rounded-xl text-blue-900 font-semibold text-[11px]">
+              🔒 <strong>Inmutabilidad del valor:</strong> En Plan Separe NO se puede sumar fiado; únicamente se reciben abonos hasta liquidar.
+            </div>
             <div class="bg-slate-50 p-3 rounded-xl font-mono text-xs text-slate-800 space-y-1">
-              <div>Saldo_Inicial = Valor_Total</div>
+              <div>Saldo_Inicial = Valor_Pactado_Prenda</div>
               <div>Saldo_Nuevo = Saldo_Anterior - Monto_Abono</div>
-              <div class="text-emerald-600 font-bold">IF Saldo_Nuevo &lt;= 0 ➔ Estado = 'PAGADA'</div>
+              <div class="text-emerald-600 font-bold">IF Saldo_Nuevo &lt;= 0 ➔ Estado = 'PAGADA' (Entrega)</div>
             </div>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900">
-                Modalidad B: Fiados / Cuenta Corriente
+                Modalidad B: Fiados / Libreta de Barrio
               </span>
-              <span class="text-xs font-mono font-bold text-amber-700">Cuenta Abierta</span>
+              <span class="text-xs font-mono font-bold text-amber-700">Cuenta Corriente Abierta</span>
             </div>
             <p class="text-xs text-slate-600">
-              Línea de crédito informal permanente. Suma a la deuda con mercancía retirada (<code class="bg-amber-50 text-amber-800 px-1 py-0.5 rounded font-bold">+ Cargo</code>) y resta con pagos (<code class="bg-emerald-50 text-emerald-800 px-1 py-0.5 rounded font-bold">- Abono</code>).
+              <strong>Ideal para:</strong> Tiendas de barrio, minimarkets, carnicerías y panaderías. El cliente de confianza retira mercancía de inmediato a crédito y abona periódicamente según sus ingresos.
             </p>
+            <div class="p-2.5 bg-amber-50/60 rounded-xl text-amber-900 font-semibold text-[11px]">
+              ⚡ <strong>Acciones separadas en mostrador:</strong> Botón verde <code class="font-bold">"Abonar"</code> (recibir pago) vs Botón ámbar <code class="font-bold">"+ Fiar"</code> (cargar más productos).
+            </div>
             <div class="bg-slate-50 p-3 rounded-xl font-mono text-xs text-slate-800 space-y-1">
-              <div>Si es Cargo: Saldo_Nuevo = Saldo_Anterior + Monto</div>
-              <div>Si es Abono: Saldo_Nuevo = Saldo_Anterior - Monto</div>
-              <div class="text-amber-700 font-bold">Permanece 'ACTIVA' acumulando historial</div>
+              <div>Si es + Fiar (Cargo): Saldo_Nuevo = Saldo_Anterior + Monto</div>
+              <div>Si es Abonar: Saldo_Nuevo = Saldo_Anterior - Monto</div>
+              <div class="text-amber-700 font-bold">Permanece 'ACTIVA' acumulando movimientos</div>
             </div>
           </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-cloud-border shadow-xs text-xs space-y-2">
+          <h4 class="font-bold text-slate-900 text-sm">Ajustes Modulares de la Tienda (Personalización)</h4>
+          <p class="text-slate-600 leading-relaxed">
+            Desde el modal de <strong>Ajustes de mi Tienda</strong>, el propietario puede encender o apagar independientemente cualquiera de las dos modalidades:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-slate-600">
+            <li>Si desactiva <strong>Plan Separe</strong>, la interfaz oculta la pestaña de filtro y el selector en el alta de clientes, dejando un flujo 100% optimizado para tiendas de abarrotes.</li>
+            <li>Si desactiva <strong>Fiados</strong>, el sistema se convierte en una plataforma pura de apartados para boutiques, eliminando opciones de crédito informal sin respaldo.</li>
+          </ul>
         </div>
       </section>
 

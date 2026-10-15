@@ -7,7 +7,9 @@ import {
   CheckCircle2, 
   Receipt, 
   Zap, 
-  BookX
+  BookX,
+  ShoppingBag,
+  BookOpen
 } from 'lucide-react';
 import { usePinAuth } from '../auth-pin/PinAuthContext';
 
@@ -177,6 +179,53 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sección: Adaptable a tu tipo de negocio (Separe vs Fiado) */}
+      <section className="max-w-5xl mx-auto px-4 pb-16 space-y-6">
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-white text-slate-700 border border-slate-200 shadow-xs">
+            <span>Tu Negocio, Tus Reglas</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-heading tracking-tight">
+            Activa solo el sistema que usa tu negocio
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
+            Una tienda de barrio no hace Plan Separe y una óptica no suele fiar. En Saldo puedes activar o apagar cualquiera de los dos desde tus ajustes para no saturar tu mostrador.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-blue-50/70 via-white to-sky-50/30 border-2 border-blue-200 shadow-sm space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2.5 rounded-2xl bg-blue-600 text-white shadow-sm">
+                <ShoppingBag className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-extrabold text-base text-blue-950">Plan Separe (Apartados)</h3>
+                <span className="text-[11px] font-bold text-blue-600">Boutiques, Calzado, Joyerías y Ópticas</span>
+              </div>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Tu cliente aparta un artículo específico y la tienda lo guarda en bodega. El cliente va abonando cuotas a su ritmo y <strong>solo se le entrega la mercancía cuando el saldo llegue a $0</strong>.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-50/70 via-white to-orange-50/30 border-2 border-amber-200 shadow-sm space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2.5 rounded-2xl bg-amber-600 text-white shadow-sm">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-extrabold text-base text-amber-950">Fiado (Cuentas Abiertas)</h3>
+                <span className="text-[11px] font-bold text-amber-600">Tiendas de Barrio, Minimarkets y Panaderías</span>
+              </div>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Le entregas los productos de inmediato a tu cliente de confianza. Le vas sumando lo que se lleva fiado y el cliente abona cuando cobre quincena o cuando pase por el local.
+            </p>
           </div>
         </div>
       </section>

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { X, UserPlus, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, UserPlus, Check, ShoppingBag, BookOpen } from 'lucide-react';
 import { TipoCuenta, MetodoPago } from '../../types/database';
 import { formatCurrency } from '../../lib/formatters';
 
 interface NewAccountModalProps {
   isOpen: boolean;
+  permiteSepare?: boolean;
+  permiteFiado?: boolean;
   onClose: () => void;
   onSubmit: (data: {
     nombre_cliente: string;
@@ -17,16 +19,40 @@ interface NewAccountModalProps {
   }) => Promise<void>;
 }
 
-export const NewAccountModal: React.FC<NewAccountModalProps> = ({ isOpen, onClose, onSubmit }) => {
+export const NewAccountModal: React.FC<NewAccountModalProps> = ({
+  isOpen,
+  permiteSepare = true,
+  permiteFiado = true,
+  onClose,
+  onSubmit,
+}) => {
   const [nombre, setNombre] = useState('');
   const [celular, setCelular] = useState('');
-  const [tipoCuenta, setTipoCuenta] = useState<TipoCuenta>('SEPARE');
+  const [tipoCuenta, setTipoCuenta] = useState<TipoCuenta>(permiteSepare ? 'SEPARE' : 'FIADO');
   const [concepto, setConcepto] = useState('');
   const [valorTotalStr, setValorTotalStr] = useState('');
   const [abonoInicialStr, setAbonoInicialStr] = useState('');
   const [metodoPago, setMetodoPago] = useState<MetodoPago>('EFECTIVO');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (permiteSepare && !permiteFiado) {
+        setTipoCuenta('SEPARE');
+      } else if (!permiteSepare && permiteFiado) {
+        setTipoCuenta('FIADO');
+      } else {
+        setTipoCuenta('SEPARE');
+      }
+      setNombre('');
+      setCelular('');
+      setConcepto('');
+      setValorTotalStr('');
+      setAbonoInicialStr('');
+      setError(null);
+    }
+  }, [isOpen, permiteSepare, permiteFiado]);
 
   if (!isOpen) return null;
 
@@ -93,39 +119,71 @@ export const NewAccountModal: React.FC<NewAccountModalProps> = ({ isOpen, onClos
         )}
 
         <form onSubmit={handleSubmit} className="space-y-3.5">
-          {/* Selector de Modalidad Dual */}
-          <div>
-            <label className="text-xs font-bold text-slate-muted uppercase tracking-wider block mb-1.5">
-              Modalidad de Cuenta
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setTipoCuenta('SEPARE')}
-                className={`p-2.5 rounded-xl border text-left transition-all ${
-                  tipoCuenta === 'SEPARE'
-                    ? 'border-brand bg-brand-pastel/20 text-brand-dark shadow-sm'
-                    : 'border-cloud-border bg-white text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                <span className="text-xs font-bold block">Plan Separe</span>
-                <span className="text-[10px] text-slate-500">Saldo decreciente a $0</span>
-              </button>
+          {/* Selector de Modalidad Dual según preferencias de la tienda */}
+          {permiteSepare && permiteFiado ? (
+            <div>
+              <label className="text-xs font-bold text-slate-muted uppercase tracking-wider block mb-1.5">
+                Modalidad de Cuenta *
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setTipoCuenta('SEPARE')}
+                  className={`p-3 rounded-2xl border-2 text-left transition-all ${
+                    tipoCuenta === 'SEPARE'
+                      ? 'border-blue-600 bg-blue-50/60 text-blue-900 shadow-xs'
+                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <ShoppingBag className="w-3.5 h-3.5 text-blue-600" />
+                    <span className="text-xs font-black">Plan Separe</span>
+                  </div>
+                  <span className="text-[10px] text-slate-500 leading-tight block">
+                    Apartas la prenda y se entrega al liquidar a $0.
+                  </span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setTipoCuenta('FIADO')}
-                className={`p-2.5 rounded-xl border text-left transition-all ${
-                  tipoCuenta === 'FIADO'
-                    ? 'border-amber-400 bg-amber-50 text-amber-900 shadow-sm'
-                    : 'border-cloud-border bg-white text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                <span className="text-xs font-bold block">Fiado / Tienda</span>
-                <span className="text-[10px] text-slate-500">Cuenta corriente abierta</span>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setTipoCuenta('FIADO')}
+                  className={`p-3 rounded-2xl border-2 text-left transition-all ${
+                    tipoCuenta === 'FIADO'
+                      ? 'border-amber-500 bg-amber-50/60 text-amber-900 shadow-xs'
+                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-xs font-black">Fiado</span>
+                  </div>
+                  <span className="text-[10px] text-slate-500 leading-tight block">
+                    El cliente se lleva los productos ya y anotas la deuda.
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : permiteSepare ? (
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-2xl flex items-center gap-2.5">
+              <div className="p-2 bg-blue-600 text-white rounded-xl shrink-0">
+                <ShoppingBag className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-extrabold text-xs text-blue-950 block">Modalidad: Plan Separe (Apartado)</span>
+                <span className="text-[11px] text-blue-700">La mercancía queda guardada hasta que el cliente termine de pagar.</span>
+              </div>
+            </div>
+          ) : (
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl flex items-center gap-2.5">
+              <div className="p-2 bg-amber-600 text-white rounded-xl shrink-0">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-extrabold text-xs text-amber-950 block">Modalidad: Fiado (Libreta de Confianza)</span>
+                <span className="text-[11px] text-amber-800">El cliente se lleva los artículos de inmediato a crédito.</span>
+              </div>
+            </div>
+          )}
 
           {/* Nombre y Celular */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
