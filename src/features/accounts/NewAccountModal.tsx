@@ -215,19 +215,31 @@ export const NewAccountModal: React.FC<NewAccountModalProps> = ({
             </div>
           </div>
 
-          {/* Concepto del artículo */}
+          {/* Concepto del artículo / Lista de productos */}
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
-              Prenda o Concepto *
-            </label>
-            <input
-              type="text"
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-xs font-semibold text-slate-700">
+                {tipoCuenta === 'SEPARE' ? 'Prenda o Artículo Apartado *' : 'Mercancía o Productos Fiados *'}
+              </label>
+              <span className="text-[10px] text-slate-400">
+                Puedes anotar varios
+              </span>
+            </div>
+            <textarea
+              rows={2}
               required
-              placeholder="Ej: Zapatillas Nike Talla 41 / Jean Azul"
+              placeholder={
+                tipoCuenta === 'SEPARE'
+                  ? 'Ej: Zapatillas Nike Talla 41, Chaqueta Jean...'
+                  : 'Ej: 2 lb arroz, 1 aceite 500ml, 1 cubeta huevos, 2 leches...'
+              }
               value={concepto}
               onChange={e => setConcepto(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-cloud-border text-sm focus:outline-none focus:border-brand"
+              className="w-full px-3 py-2 rounded-xl border border-cloud-border text-sm focus:outline-none focus:border-brand resize-none"
             />
+            <p className="text-[10px] text-slate-400 mt-0.5">
+              Si son varios productos, sepáralos por coma para que el sistema los organice en la lista detallada.
+            </p>
           </div>
 
           {/* Valor Total y Abono Inicial */}
