@@ -1,31 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   CreditCard, 
-  Smartphone,
-  LogOut,
-  Receipt
+  Smartphone, 
+  LogOut, 
+  Receipt,
+  Settings
 } from 'lucide-react';
 import { Cuenta, Movimiento } from './types/database';
 import { PinAuthProvider, usePinAuth } from './features/auth-pin/PinAuthContext';
 import { PinLockScreen } from './features/auth-pin/PinLockScreen';
 import { CashierDashboard } from './features/cashier/CashierDashboard';
 import { ReceiptModal } from './features/receipt/ReceiptModal';
+import { LandingPage } from './features/landing/LandingPage';
+import { AuthModal } from './features/auth/AuthModal';
+import { SetupPinModal } from './features/auth/SetupPinModal';
 
 function PosMainContent() {
-  const { negocio, currentRole, lockNow } = usePinAuth();
+  const { negocio, currentRole, lockNow, logoutShop } = usePinAuth();
   const [activeReceipt, setActiveReceipt] = useState<{ movimiento: Movimiento; cuenta: Cuenta } | null>(null);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   // Escuchar evento de instalación PWA
-  useState(() => {
+  useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
     window.addEventListener('beforeinstallprompt', handler);
     return () => window.removeEventListener('beforeinstallprompt', handler);
-  });
+  }, []);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -51,7 +56,7 @@ function PosMainContent() {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="font-bold text-sm tracking-tight text-slate-heading leading-tight truncate max-w-[170px]">
+              <h1 className="font-bold text-sm tracking-tight text-slate-heading leading-tight truncate max-w-[150px]">
                 {negocio.nombre_local}
               </h1>
             </div>
@@ -59,8 +64,8 @@ function PosMainContent() {
           </div>
         </div>
 
-        {/* Rol Activo & Botón Bloquear Terminal */}
-        <div className="flex items-center gap-2">
+        {/* Rol Activo & Botones de Acción */}
+        <div className="flex items-center gap-1.5 relative">
           <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${
             currentRole === 'DUENO'
               ? 'bg-blue-50 text-brand-dark border-brand-pastel'
@@ -70,13 +75,42 @@ function PosMainContent() {
             <span>{currentRole === 'DUENO' ? 'Dueño' : 'Cajero'}</span>
           </div>
 
-          <button
-            onClick={lockNow}
-            title="Bloquear Datáfono"
-            className="p-1.5 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
-          >
-            <LogOut className="w-4 h-4 text-slate-600" />
-          </button>
+          {/* Menú Rápido de Opciones */}
+          <div className="relative">
+            <button
+              onClick={() => setShowSettingsMenu(prev => !prev)}
+              className="p-1.5 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
+              title="Opciones del Datáfono"
+            >
+              <Settings className="w-4 h-4 text-slate-600" />
+            </button>
+
+            {showSettingsMenu && (
+              <div className="absolute right-0 top-10 w-48 bg-white border border-cloud-border shadow-pos-lg rounded-2xl p-2 z-50 text-xs space-y-1 animate-fadeIn">
+                <button
+                  onClick={() => {
+                    setShowSettingsMenu(false);
+                    lockNow();
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold text-slate-700 flex items-center gap-2"
+                >
+                  <LogOut className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Bloquear Datáfono</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowSettingsMenu(false);
+                    if (confirm('¿Deseas desvincular esta tienda de este dispositivo?')) {
+                      logoutShop();
+                    }
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 font-semibold text-semantic-anulacion flex items-center gap-2"
+                >
+                  <span>Cerrar Sesión Tienda</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
@@ -148,11 +182,34 @@ export default function App() {
 }
 
 function AppRoot() {
-  const { isLocked } = usePinAuth();
+  const { isAuthenticated, needsPinSetup, isLocked } = usePinAuth();
+  const [authModalMode, setAuthModalMode] = useState<'register' | 'login' | null>(null);
 
+  // 1. Si no hay tienda vinculada, mostrar Landing Page comercial
+  if (!isAuthenticated) {
+    return (
+      <>
+        <LandingPage onOpenAuth={(mode) => setAuthModalMode(mode)} />
+        <AuthModal
+          isOpen={Boolean(authModalMode)}
+          initialMode={authModalMode || 'register'}
+          onClose={() => setAuthModalMode(null)}
+          onSuccess={() => setAuthModalMode(null)}
+        />
+      </>
+    );
+  }
+
+  // 2. Si la tienda fue registrada pero aún no ha configurado su PIN Maestro
+  if (needsPinSetup) {
+    return <SetupPinModal onSuccess={() => {}} />;
+  }
+
+  // 3. Si la terminal está bloqueada por inactividad o seguridad
   if (isLocked) {
     return <PinLockScreen />;
   }
 
+  // 4. Operación del mostrador
   return <PosMainContent />;
 }

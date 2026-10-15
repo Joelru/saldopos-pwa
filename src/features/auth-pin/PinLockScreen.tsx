@@ -3,7 +3,7 @@ import { Lock, Delete, Store, ShieldCheck, Fingerprint, AlertCircle } from 'luci
 import { usePinAuth } from './PinAuthContext';
 
 export const PinLockScreen: React.FC = () => {
-  const { negocio, unlockWithPin } = usePinAuth();
+  const { negocio, unlockWithPin, logoutShop } = usePinAuth();
   const [pin, setPin] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isShaking, setIsShaking] = useState<boolean>(false);
@@ -190,9 +190,17 @@ export const PinLockScreen: React.FC = () => {
           </div>
         </div>
 
-        <div className="text-center text-[10px] text-slate-400 flex items-center justify-center gap-1">
-          <Fingerprint className="w-3.5 h-3.5 text-slate-400" />
-          <span>Bloqueo automático tras 3 minutos sin uso</span>
+        <div className="text-center text-[10px] text-slate-400 flex flex-col items-center justify-center gap-1">
+          <div className="flex items-center gap-1">
+            <Fingerprint className="w-3.5 h-3.5 text-slate-400" />
+            <span>Bloqueo automático tras 3 minutos sin uso</span>
+          </div>
+          <button
+            onClick={logoutShop}
+            className="text-[11px] text-slate-400 hover:text-slate-600 underline pt-1"
+          >
+            Cambiar de Tienda o Salir al Inicio
+          </button>
         </div>
       </div>
     </div>
