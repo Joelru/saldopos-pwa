@@ -1,7 +1,24 @@
 -- ==============================================================================
--- DATOS SEED PARA PRUEBAS: BOUTIQUE & CALZADO STYLO URBANO
+-- DATOS SEED PARA PRUEBAS: BOUTIQUE & CALZADO STYLO URBANO (SALDOPOS)
 -- ==============================================================================
 
+-- 1. Asegurar que owner_user_id permita NULL (para operar sin requerir login email/password en el datáfono)
+ALTER TABLE public.negocios ALTER COLUMN owner_user_id DROP NOT NULL;
+
+-- 2. Actualizar políticas RLS para que el datáfono (con anon key) pueda operar en mostrador
+DROP POLICY IF EXISTS "negocios_owner_all" ON public.negocios;
+DROP POLICY IF EXISTS "negocios_access_policy" ON public.negocios;
+CREATE POLICY "negocios_access_policy" ON public.negocios FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "cuentas_negocio_all" ON public.cuentas;
+DROP POLICY IF EXISTS "cuentas_access_policy" ON public.cuentas;
+CREATE POLICY "cuentas_access_policy" ON public.cuentas FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "movimientos_negocio_select_insert" ON public.movimientos;
+DROP POLICY IF EXISTS "movimientos_access_policy" ON public.movimientos;
+CREATE POLICY "movimientos_access_policy" ON public.movimientos FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+
+-- 3. Poblar datos demo del negocio, cuentas y movimientos
 DO $$
 DECLARE
     v_user_id UUID;
@@ -11,13 +28,10 @@ DECLARE
     v_cuenta_3 UUID := '33333333-3333-3333-3333-333333333333'::uuid;
     v_cuenta_4 UUID := '44444444-4444-4444-4444-444444444444'::uuid;
 BEGIN
-    -- Obtener el primer usuario de auth si existe, de lo contrario un id fijo
+    -- Obtener id de auth si existe, de lo contrario NULL (sin violar foreign key)
     SELECT id INTO v_user_id FROM auth.users LIMIT 1;
-    IF v_user_id IS NULL THEN
-        v_user_id := '99999999-9999-9999-9999-999999999999'::uuid;
-    END IF;
 
-    -- 1. Insertar Negocio Demo (PIN Dueño: "1234", PIN Cajero: "4321")
+    -- A. Insertar Negocio Demo (PIN Dueño: "1234", PIN Cajero: "4321")
     INSERT INTO public.negocios (
         id,
         owner_user_id,
@@ -42,9 +56,12 @@ BEGIN
         '¡Agradecemos su preferencia! Conserve esta tirilla como comprobante oficial de su abono.',
         TRUE,
         NOW() + INTERVAL '1 year'
-    ) ON CONFLICT (id) DO NOTHING;
+    ) ON CONFLICT (id) DO UPDATE SET
+        nombre_local = EXCLUDED.nombre_local,
+        pin_dueno_hash = EXCLUDED.pin_dueno_hash,
+        pin_cajero_hash = EXCLUDED.pin_cajero_hash;
 
-    -- 2. Insertar Cuentas Demo
+    -- B. Insertar Cuentas Demo
     -- Cuenta 1: PLAN SEPARE ACTIVO (Zapatillas Nike)
     INSERT INTO public.cuentas (
         id,
@@ -145,7 +162,7 @@ BEGIN
         'ACTIVA'
     ) ON CONFLICT (id) DO NOTHING;
 
-    -- 3. Movimientos Históricos Iniciales
+    -- C. Movimientos Históricos Iniciales
     INSERT INTO public.movimientos (
         cuenta_id,
         negocio_id,

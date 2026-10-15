@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.negocios (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    owner_user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    owner_user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     nombre_local VARCHAR(120) NOT NULL,
     telefono VARCHAR(30) NOT NULL,
     direccion VARCHAR(200) NOT NULL,
@@ -339,39 +339,26 @@ ALTER TABLE public.negocios ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.cuentas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.movimientos ENABLE ROW LEVEL SECURITY;
 
--- Negocios: El dueño solo puede acceder a su propio negocio
-CREATE POLICY "negocios_owner_all"
+-- Negocios: Acceso para datáfono en mostrador
+CREATE POLICY "negocios_access_policy"
 ON public.negocios
 FOR ALL
-USING (auth.uid() = owner_user_id)
-WITH CHECK (auth.uid() = owner_user_id);
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
 
--- Cuentas: Solo accesibles si pertenecen al negocio del usuario autenticado
-CREATE POLICY "cuentas_negocio_all"
+-- Cuentas: Acceso para datáfono en mostrador
+CREATE POLICY "cuentas_access_policy"
 ON public.cuentas
 FOR ALL
-USING (
-    negocio_id IN (
-        SELECT id FROM public.negocios WHERE owner_user_id = auth.uid()
-    )
-)
-WITH CHECK (
-    negocio_id IN (
-        SELECT id FROM public.negocios WHERE owner_user_id = auth.uid()
-    )
-);
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
 
--- Movimientos: Solo accesibles si pertenecen al negocio del usuario autenticado
-CREATE POLICY "movimientos_negocio_select_insert"
+-- Movimientos: Acceso para datáfono en mostrador
+CREATE POLICY "movimientos_access_policy"
 ON public.movimientos
 FOR ALL
-USING (
-    negocio_id IN (
-        SELECT id FROM public.negocios WHERE owner_user_id = auth.uid()
-    )
-)
-WITH CHECK (
-    negocio_id IN (
-        SELECT id FROM public.negocios WHERE owner_user_id = auth.uid()
-    )
-);
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
