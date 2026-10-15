@@ -15,6 +15,26 @@ function PosMainContent() {
   const { negocio, currentRole, lockNow } = usePinAuth();
   const [activeReceipt, setActiveReceipt] = useState<{ movimiento: Movimiento; cuenta: Cuenta } | null>(null);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  // Escuchar evento de instalación PWA
+  useState(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  });
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   const handleSelectReceipt = (movimiento: Movimiento, cuenta: Cuenta) => {
     setActiveReceipt({ movimiento, cuenta });
@@ -99,8 +119,17 @@ function PosMainContent() {
         onClose={() => setIsReceiptModalOpen(false)}
       />
 
-      {/* Dock Inferior */}
-      <footer className="bg-white border-t border-cloud-border p-3 text-center text-xs text-slate-muted">
+      {/* Dock Inferior con botón de instalación PWA */}
+      <footer className="bg-white border-t border-cloud-border p-3 text-center text-xs text-slate-muted space-y-2">
+        {deferredPrompt && (
+          <button
+            onClick={handleInstallClick}
+            className="w-full py-2 px-3 rounded-xl bg-brand text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all"
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>Instalar Datáfono en Pantalla de Inicio</span>
+          </button>
+        )}
         <div className="flex items-center justify-center gap-1 text-[11px] font-medium text-slate-500">
           <Smartphone className="w-3.5 h-3.5" />
           <span>Diseñado para pantalla táctil en mostrador</span>
