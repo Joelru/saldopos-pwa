@@ -31,21 +31,26 @@ export const PinLockScreen: React.FC = () => {
 
     if (newPin.length === 4) {
       setIsVerifying(true);
-      const result = await unlockWithPin(newPin);
-      setIsVerifying(false);
-
-      if (!result.success) {
-        setIsShaking(true);
-        setErrorMessage(
-          isDemo 
-            ? 'PIN incorrecto. Para esta prueba ingresa 1234 (Dueño).' 
-            : (result.error || 'PIN Incorrecto. Intenta de nuevo.')
-        );
-        triggerHaptic();
-        setTimeout(() => {
-          setPin('');
-          setIsShaking(false);
-        }, 600);
+      try {
+        const result = await unlockWithPin(newPin);
+        if (!result.success) {
+          setIsShaking(true);
+          setErrorMessage(
+            isDemo 
+              ? 'PIN incorrecto. Para esta prueba ingresa 1234 (Dueño).' 
+              : (result.error || 'PIN Incorrecto. Intenta de nuevo.')
+          );
+          triggerHaptic();
+          setTimeout(() => {
+            setPin('');
+            setIsShaking(false);
+          }, 600);
+        }
+      } catch (err) {
+        console.error('Error verificando PIN:', err);
+        setErrorMessage('Error al validar el PIN. Intenta nuevamente.');
+      } finally {
+        setIsVerifying(false);
       }
     }
   };
@@ -63,12 +68,12 @@ export const PinLockScreen: React.FC = () => {
   };
 
   // Autollenar para pruebas
-  const autoFillPin = (demoPin: string) => {
+  const autoFillPin = async (demoPin: string) => {
     setPin(demoPin);
     setIsVerifying(true);
-    setTimeout(async () => {
+    setErrorMessage(null);
+    try {
       const result = await unlockWithPin(demoPin);
-      setIsVerifying(false);
       if (!result.success) {
         setErrorMessage(
           isDemo 
@@ -76,7 +81,12 @@ export const PinLockScreen: React.FC = () => {
             : (result.error || 'Error al validar PIN')
         );
       }
-    }, 150);
+    } catch (err) {
+      console.error('Error en autoFillPin:', err);
+      setErrorMessage('Error al desbloquear con PIN de prueba');
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
