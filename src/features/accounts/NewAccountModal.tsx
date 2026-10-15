@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus, Check, Sparkles } from 'lucide-react';
+import { X, UserPlus, Check } from 'lucide-react';
 import { TipoCuenta, MetodoPago } from '../../types/database';
 import { formatCurrency } from '../../lib/formatters';
 
@@ -74,8 +74,8 @@ export const NewAccountModal: React.FC<NewAccountModalProps> = ({ isOpen, onClos
               <UserPlus className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-heading">Nueva Cuenta en Mostrador</h3>
-              <p className="text-xs text-slate-muted">Registro ultra-rápido de crédito</p>
+              <h3 className="text-base font-bold text-slate-heading">Anotar Nuevo Cliente</h3>
+              <p className="text-xs text-slate-500">Plan Separe o Cuenta de Fiado</p>
             </div>
           </div>
           <button
@@ -255,8 +255,7 @@ export const NewAccountModal: React.FC<NewAccountModalProps> = ({ isOpen, onClos
             ) : (
               <>
                 <Check className="w-4 h-4" />
-                <span>Crear Cuenta en 1 Toque</span>
-                <Sparkles className="w-3.5 h-3.5 text-brand-pastel" />
+                <span>Guardar y Abrir Cuenta</span>
               </>
             )}
           </button>
