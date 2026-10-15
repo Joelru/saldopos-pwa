@@ -2,7 +2,6 @@
 -- DATOS SEED PARA PRUEBAS: BOUTIQUE & CALZADO STYLO URBANO
 -- ==============================================================================
 
--- ID Fijo para pruebas
 DO $$
 DECLARE
     v_user_id UUID;
@@ -76,6 +75,16 @@ BEGIN
         id,
         negocio_id,
         consecutivo,
+        nombre_cliente,
+        celular_cliente,
+        tipo_cuenta,
+        concepto_articulo,
+        valor_inicial,
+        saldo_pendiente,
+        estado
+    ) VALUES (
+        v_cuenta_2,
+        v_negocio_id,
         1002,
         'María Camila Restrepo',
         '3159876543',
@@ -91,6 +100,16 @@ BEGIN
         id,
         negocio_id,
         consecutivo,
+        nombre_cliente,
+        celular_cliente,
+        tipo_cuenta,
+        concepto_articulo,
+        valor_inicial,
+        saldo_pendiente,
+        estado
+    ) VALUES (
+        v_cuenta_3,
+        v_negocio_id,
         1003,
         'Don Hernán Ramírez',
         '3001122334',
@@ -106,6 +125,16 @@ BEGIN
         id,
         negocio_id,
         consecutivo,
+        nombre_cliente,
+        celular_cliente,
+        tipo_cuenta,
+        concepto_articulo,
+        valor_inicial,
+        saldo_pendiente,
+        estado
+    ) VALUES (
+        v_cuenta_4,
+        v_negocio_id,
         1004,
         'Diana Marcela Torres',
         '3185566778',
