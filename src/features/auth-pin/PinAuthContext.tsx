@@ -148,6 +148,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
           email: data.email,
           password: data.password,
           options: {
+            emailRedirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
             data: {
               nombre_local: data.nombre_local,
               celular: data.celular,
