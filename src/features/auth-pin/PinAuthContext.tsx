@@ -278,7 +278,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
         return { success: true };
       }
 
-      return { success: false, error: 'Correo o contraseña incorrectos, o tienda no registrada.' };
+      return { success: false, error: 'Correo o contraseña incorrectos, o negocio no registrado.' };
     } catch (err: unknown) {
       return { success: false, error: err instanceof Error ? err.message : 'Error al iniciar sesión.' };
     }

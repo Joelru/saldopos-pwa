@@ -52,7 +52,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         return setError('El nombre del local o comercio debe tener al menos 3 caracteres.');
       }
       if (!isEmailValid) {
-        return setError('Ingrese un correo electrónico válido con formato correcto (ej: contacto@mitienda.com).');
+        return setError('Ingrese un correo electrónico válido con formato correcto (ej: contacto@minegocio.com).');
       }
       if (!isPhoneValid) {
         return setError('El celular colombiano debe tener exactamente 10 dígitos e iniciar en 3 (ej: 3123456789).');
@@ -71,7 +71,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setIsSubmitting(false);
 
       if (!res.success) {
-        return setError(res.error || 'Error registrando la tienda.');
+        return setError(res.error || 'Error registrando el negocio.');
       }
 
       onSuccess();
@@ -89,7 +89,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setIsSubmitting(false);
 
       if (!res.success) {
-        return setError(res.error || 'Credenciales incorrectas o tienda no encontrada.');
+        return setError(res.error || 'Credenciales incorrectas o negocio no encontrado.');
       }
 
       onSuccess();
@@ -112,7 +112,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 mode === 'register' ? 'bg-white text-brand-dark shadow-sm' : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              Registrar Tienda
+              Registrar Negocio
             </button>
             <button
               type="button"
@@ -139,7 +139,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Mensaje de Bienvenida */}
         <div>
           <h3 className="text-lg font-extrabold text-slate-heading">
-            {mode === 'register' ? 'Registra tu Tienda en Kora' : 'Iniciar Sesión en tu Tienda'}
+            {mode === 'register' ? 'Registra tu Negocio en Kora' : 'Iniciar Sesión en tu Negocio'}
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
             {mode === 'register'
@@ -159,7 +159,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'register' && (
             <div>
               <label className="text-xs font-bold text-slate-700 block mb-1">
-                Nombre de tu Local o Comercio *
+                Nombre de tu Negocio o Local *
               </label>
               <div className="relative">
                 <Store className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -185,7 +185,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <input
                 type="email"
                 required
-                placeholder="ejemplo@mitienda.com"
+                placeholder="ejemplo@minegocio.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-cloud-border text-sm focus:outline-none focus:border-brand shadow-sm font-medium"
@@ -197,7 +197,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'register' && (
             <div>
               <label className="text-xs font-bold text-slate-700 block mb-1">
-                Celular WhatsApp del Comercio *
+                Celular WhatsApp del Negocio *
               </label>
               <div className="relative flex rounded-xl border border-cloud-border shadow-sm overflow-hidden focus-within:border-brand">
                 <div className="bg-slate-50 px-3 py-2.5 border-r border-cloud-border flex items-center gap-1 text-xs font-bold text-slate-700 select-none">
@@ -258,19 +258,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <span>Procesando...</span>
             ) : mode === 'register' ? (
               <>
-                <span>Registrar mi Tienda</span>
+                <span>Registrar mi Negocio</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             ) : (
               <>
-                <span>Entrar a mi Tienda</span>
+                <span>Entrar a mi Negocio</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>
         </form>
 
-        {/* Acceso Rápido a Tienda Demo para Probar */}
+        {/* Acceso Rápido a Negocio Demo para Probar */}
         <div className="pt-3 border-t border-slate-100 space-y-2">
           <div className="text-center">
             <span className="text-[11px] text-slate-500 font-medium">¿Deseas probar el sistema de inmediato?</span>
@@ -284,7 +284,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-sky-50 to-emerald-50 hover:from-sky-100 hover:to-emerald-100 border border-sky-200 text-brand-dark text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-xs"
           >
             <Sparkles className="w-3.5 h-3.5 text-brand" />
-            <span>⚡ Probar con Tienda Demo (Boutique Stylo Urbano)</span>
+            <span>⚡ Probar con Negocio Demo (Boutique Stylo Urbano)</span>
           </button>
         </div>
 

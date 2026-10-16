@@ -106,7 +106,7 @@ function PosMainContent() {
               <button
                 onClick={() => setShowSettingsMenu(prev => !prev)}
                 className="p-2 rounded-xl border border-cloud-border text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-95 transition-all"
-                title="Ajustes de tienda"
+                title="Ajustes de negocio"
               >
                 <Settings className="w-4 h-4 text-slate-600" />
               </button>
@@ -129,7 +129,7 @@ function PosMainContent() {
                         <Settings className="w-3.5 h-3.5" />
                       </div>
                       <div>
-                        <div className="font-bold text-slate-800">Ajustes de mi Tienda</div>
+                        <div className="font-bold text-slate-800">Ajustes de mi Negocio</div>
                         <div className="text-[10px] text-slate-400">Separe, Fiado y datos</div>
                       </div>
                     </button>
@@ -155,7 +155,7 @@ function PosMainContent() {
                     <button
                       onClick={() => {
                         setShowSettingsMenu(false);
-                        if (confirm('¿Deseas desvincular o salir de esta tienda en este dispositivo?')) {
+                        if (confirm('¿Deseas desvincular o salir de este negocio en este dispositivo?')) {
                           logoutShop();
                         }
                       }}
@@ -165,7 +165,7 @@ function PosMainContent() {
                         <LogOut className="w-3.5 h-3.5" />
                       </div>
                       <div>
-                        <div className="font-bold text-rose-600">Cerrar Sesión Tienda</div>
+                        <div className="font-bold text-rose-600">Cerrar Sesión Negocio</div>
                         <div className="text-[10px] text-rose-400">Salir de esta cuenta</div>
                       </div>
                     </button>
@@ -202,7 +202,7 @@ function PosMainContent() {
 
             {/* Panel Desplegable Móvil */}
             <div className="absolute top-16 left-0 right-0 bg-white border-b border-cloud-border shadow-pos-lg z-50 p-4 space-y-3 sm:hidden animate-fadeIn">
-              {/* Info de la Tienda y Rol Actual */}
+              {/* Info del Negocio y Rol Actual */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="min-w-0 flex-1 mr-2">
                   <div className="font-extrabold text-sm text-slate-heading truncate">
@@ -223,7 +223,7 @@ function PosMainContent() {
                 </div>
               </div>
 
-              {/* Botón 1: Ajustes de mi Tienda */}
+              {/* Botón 1: Ajustes de mi Negocio */}
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
@@ -237,7 +237,7 @@ function PosMainContent() {
                   </div>
                   <div>
                     <span className="font-extrabold text-sm text-slate-heading block">
-                      Ajustes de mi Tienda
+                      Ajustes de mi Negocio
                     </span>
                     <span className="text-xs text-slate-500 block">
                       Activar/desactivar Separe, Fiado y datos
@@ -297,11 +297,11 @@ function PosMainContent() {
                 </button>
               )}
 
-              {/* Botón 4: Cerrar Sesión Tienda */}
+              {/* Botón 4: Cerrar Sesión Negocio */}
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  if (confirm('¿Deseas desvincular o cerrar sesión de esta tienda en este celular?')) {
+                  if (confirm('¿Deseas desvincular o cerrar sesión de este negocio en este celular?')) {
                     logoutShop();
                   }
                 }}
@@ -313,7 +313,7 @@ function PosMainContent() {
                   </div>
                   <div>
                     <span className="font-extrabold text-sm text-rose-700 block">
-                      Cerrar Sesión Tienda
+                      Cerrar Sesión Negocio
                     </span>
                     <span className="text-xs text-rose-500 block">
                       Desvincular del dispositivo

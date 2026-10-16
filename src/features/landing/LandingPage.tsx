@@ -58,7 +58,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
               onClick={() => onOpenAuth('register')}
               className="px-4 py-2 text-xs font-extrabold text-white bg-brand hover:bg-brand-hover rounded-xl shadow-sm active:scale-95 transition-all flex items-center gap-1.5"
             >
-              <span>Registrar mi Tienda</span>
+              <span>Registrar mi Negocio</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -73,11 +73,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-black text-slate-heading tracking-tight leading-tight max-w-4xl mx-auto">
-          Control Inteligente de <span className="bg-gradient-to-r from-brand via-sky-600 to-emerald-600 bg-clip-text text-transparent">Cartera, Abonos y Fiados</span> para tu Tienda
+          Control Inteligente de <span className="bg-gradient-to-r from-brand via-sky-600 to-emerald-600 bg-clip-text text-transparent">Cartera, Abonos y Fiados</span> para tu Negocio
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Pensada para tiendas de ropa, calzado, ópticas, mueblerías y comercios locales. Dile adiós al cuaderno de papel: anota abonos en <strong>5 segundos</strong> y envía el comprobante por WhatsApp a tus clientes <strong>sin pagar nada por mensajes</strong>.
+          Pensada para negocios de ropa, calzado, ópticas, mueblerías y comercios locales. Dile adiós al cuaderno de papel: anota abonos en <strong>5 segundos</strong> y envía el comprobante por WhatsApp a tus clientes <strong>sin pagar nada por mensajes</strong>.
         </p>
 
         {/* Botones de Acción */}
@@ -86,7 +86,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             onClick={() => onOpenAuth('register')}
             className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-brand hover:bg-brand-hover text-white font-extrabold text-sm shadow-pos-lg active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <span>Empezar Gratis con mi Tienda</span>
+            <span>Empezar Gratis con mi Negocio</span>
             <ArrowRight className="w-4 h-4" />
           </button>
 
@@ -95,7 +95,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
           >
             <Sparkles className="w-4 h-4 text-emerald-200" />
-            <span>⚡ Probar Tienda Demo (Sin Registro)</span>
+            <span>⚡ Probar Negocio Demo (Sin Registro)</span>
           </button>
         </div>
 
@@ -209,7 +209,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
               </div>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Tu cliente aparta un artículo específico y la tienda lo guarda en bodega. El cliente va abonando cuotas a su ritmo y <strong>solo se le entrega la mercancía cuando el saldo llegue a $0</strong>.
+              Tu cliente aparta un artículo específico y el negocio lo guarda en bodega. El cliente va abonando cuotas a su ritmo y <strong>solo se le entrega la mercancía cuando el saldo llegue a $0</strong>.
             </p>
           </div>
 

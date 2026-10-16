@@ -72,7 +72,7 @@ export const StoreSettingsModal: React.FC<StoreSettingsModalProps> = ({ isOpen, 
               <Settings className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-extrabold text-slate-heading">Ajustes de mi Tienda</h3>
+              <h3 className="text-base font-extrabold text-slate-heading">Ajustes de mi Negocio</h3>
               <p className="text-xs text-slate-500">Personaliza tus modalidades y datos de mostrador</p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export const StoreSettingsModal: React.FC<StoreSettingsModalProps> = ({ isOpen, 
         )}
 
         <form onSubmit={handleSave} className="space-y-5">
-          {/* SECCIÓN 1: Modalidades de Crédito según tipo de tienda */}
+          {/* SECCIÓN 1: Modalidades de Crédito según tipo de negocio */}
           <div className="space-y-3">
             <div>
               <span className="text-xs font-black uppercase tracking-wider text-slate-400 block">
@@ -132,7 +132,7 @@ export const StoreSettingsModal: React.FC<StoreSettingsModalProps> = ({ isOpen, 
                       </span>
                     </div>
                     <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                      El cliente <strong>aparta un artículo fijo</strong> y la tienda lo guarda en bodega. El cliente va haciendo abonos y la prenda <strong>solo se le entrega cuando termine de pagar el 100%</strong>.
+                      El cliente <strong>aparta un artículo fijo</strong> y el negocio lo guarda en bodega. El cliente va haciendo abonos y la prenda <strong>solo se le entrega cuando termine de pagar el 100%</strong>.
                     </p>
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export const StoreSettingsModal: React.FC<StoreSettingsModalProps> = ({ isOpen, 
                       </span>
                     </div>
                     <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                      El cliente de confianza <strong>se lleva la mercancía de una vez</strong> sin pagarla completa. La tienda le va sumando deudas y el cliente abona cuando cobre quincena o cuando pueda.
+                      El cliente de confianza <strong>se lleva la mercancía de una vez</strong> sin pagarla completa. El negocio le va sumando deudas y el cliente abona cuando cobre quincena o cuando pueda.
                     </p>
                   </div>
                 </div>
@@ -182,12 +182,12 @@ export const StoreSettingsModal: React.FC<StoreSettingsModalProps> = ({ isOpen, 
           {/* SECCIÓN 2: Datos del Local */}
           <div className="space-y-3 pt-2 border-t border-slate-100">
             <span className="text-xs font-black uppercase tracking-wider text-slate-400 block">
-              2. Datos del Comercio
+              2. Datos del Negocio
             </span>
 
             {/* Nombre del Local */}
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">Nombre de tu Tienda o Local</label>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Nombre de tu Negocio o Local</label>
               <div className="relative">
                 <Store className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input

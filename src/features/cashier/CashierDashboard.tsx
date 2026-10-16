@@ -292,7 +292,7 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
               <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                 {searchQuery
                   ? 'No hay ningún cliente o prenda que coincida con esa búsqueda. Prueba con otro nombre o celular.'
-                  : 'Aún no tienes cuentas registradas en este negocio. Toda tienda nueva se entrega completamente limpia para que comiences a registrar tus fiados y apartados.'}
+                  : 'Aún no tienes cuentas registradas en este negocio. Todo negocio nuevo se entrega completamente limpio para que comiences a registrar tus fiados y apartados.'}
               </p>
             </div>
             {!searchQuery && (

@@ -141,7 +141,7 @@
             <div class="text-2xl">📓</div>
             <h4 class="font-bold text-sm text-brand-navy">Control de Cartera, No un "POS"</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Los dueños de tiendas locales (30-50+ años) huyen de los sistemas POS por complejos. <strong>Kora</strong> se enfoca únicamente en la cartera del negocio: anotar quién debe, recibir abonos y enviar comprobantes.
+              Los dueños de negocios locales (30-50+ años) huyen de los sistemas POS por complejos. <strong>Kora</strong> se enfoca únicamente en la cartera del negocio: anotar quién debe, recibir abonos y enviar comprobantes.
             </p>
           </div>
 
@@ -192,7 +192,7 @@
               <span class="font-bold text-slate-900 block text-sm">📱 En Teléfono Celular (PWA)</span>
               <ul class="list-disc list-inside space-y-1 text-slate-600">
                 <li>Diseño vertical de una sola columna ergonómica para usar con el pulgar.</li>
-                <li><strong>Menú Hamburguesa Móvil:</strong> En pantallas celulares (&lt;640px) se agrupan los Ajustes de Tienda, el Bloqueo con PIN y el Cierre de Sesión en un botón hamburguesa desplegable para evitar desbordes horizontales.</li>
+                <li><strong>Menú Hamburguesa Móvil:</strong> En pantallas celulares (&lt;640px) se agrupan los Ajustes del Negocio, el Bloqueo con PIN y el Cierre de Sesión en un botón hamburguesa desplegable para evitar desbordes horizontales.</li>
                 <li>Manifiesto PWA (<strong>Kora - Control de Cartera</strong>) para instalación a pantalla completa sin barra de navegador.</li>
                 <li>Botones táctiles grandes de alto contraste y retroalimentación háptica (<code class="font-mono">navigator.vibrate</code>).</li>
               </ul>
@@ -218,11 +218,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 1: Landing Kora</span>
-              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrar Tienda o Probar la Demo.</p>
+              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrar Negocio o Probar la Demo.</p>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 2: Alta Directa (0 Email)</span>
-              <p class="text-slate-500">Crea la tienda con <code class="font-mono">deriveStoreUuid(email, password)</code> directo en <code class="font-mono">public.negocios</code> sin esperar confirmación de Gmail.</p>
+              <p class="text-slate-500">Crea el negocio con <code class="font-mono">deriveStoreUuid(email, password)</code> directo en <code class="font-mono">public.negocios</code> sin esperar confirmación de Gmail.</p>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 3: PIN Maestro</span>
@@ -230,14 +230,14 @@
             </div>
             <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
               <span class="font-bold text-emerald-900 block">⚡ Modo Demo Inmediato</span>
-              <p class="text-emerald-700">Acceso en 1 clic para pruebas sin crear cuentas (Tienda Stylo Urbano).</p>
+              <p class="text-emerald-700">Acceso en 1 clic para pruebas sin crear cuentas (Negocio Stylo Urbano).</p>
             </div>
           </div>
 
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
             <h4 class="font-bold text-sm text-slate-900">¿Cómo probar el sistema inmediatamente?</h4>
             <p>
-              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Tienda Demo"</strong>. Al presionarlo se carga inmediatamente la tienda de prueba aislada con sus datos semilla:
+              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Negocio Demo"</strong>. Al presionarlo se carga inmediatamente el negocio de prueba aislado con sus datos semilla:
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
               <div class="p-2.5 bg-white rounded-lg border border-slate-200">
@@ -271,7 +271,7 @@
               <span class="text-xs font-mono font-bold text-blue-600">Saldo Decreciente</span>
             </div>
             <p class="text-xs text-slate-600">
-              <strong>Ideal para:</strong> Boutiques de ropa, calzado, ópticas, mueblerías y joyerías. El cliente aparta un artículo específico por un valor pactado y la tienda lo guarda en bodega. La prenda <strong>solo se entrega cuando la cuenta llega a $0</strong>.
+              <strong>Ideal para:</strong> Boutiques de ropa, calzado, ópticas, mueblerías y joyerías. El cliente aparta un artículo específico por un valor pactado y el negocio lo guarda en bodega. La prenda <strong>solo se entrega cuando la cuenta llega a $0</strong>.
             </p>
             <div class="p-2.5 bg-blue-50/60 rounded-xl text-blue-900 font-semibold text-[11px]">
               🔒 <strong>Inmutabilidad del valor:</strong> En Plan Separe NO se puede sumar fiado; únicamente se reciben abonos hasta liquidar.
@@ -286,7 +286,7 @@
           <div class="bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900">
-                Modalidad B: Fiados / Libreta de Barrio
+                Modalidad B: Fiados / Cuentas Abiertas
               </span>
               <span class="text-xs font-mono font-bold text-amber-700">Cuenta Corriente Abierta</span>
             </div>
@@ -318,14 +318,14 @@
           <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200 space-y-1">
             <strong class="text-blue-900 font-bold block text-sm">🔑 UUID Determinístico SHA-256 (Sin Verificación de Gmail)</strong>
             <p>
-              Para evitar bloqueos por correos no confirmados o límites de envío SMTP (<code class="font-mono">over_email_send_rate_limit</code>), <code class="font-mono">deriveStoreUuid(email, password)</code> genera un UUID v4 determinístico mediante SHA-256. Esto permite crear la tienda e iniciar sesión instantáneamente contra <code class="font-mono">public.negocios</code> desde cualquier dispositivo.
+              Para evitar bloqueos por correos no confirmados o límites de envío SMTP (<code class="font-mono">over_email_send_rate_limit</code>), <code class="font-mono">deriveStoreUuid(email, password)</code> genera un UUID v4 determinístico mediante SHA-256. Esto permite crear el negocio e iniciar sesión instantáneamente contra <code class="font-mono">public.negocios</code> desde cualquier dispositivo.
             </p>
           </div>
 
           <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200 space-y-1">
-            <strong class="text-emerald-900 font-bold block text-sm">🏢 Aislamiento Estricto por Tienda (Store Isolation)</strong>
+            <strong class="text-emerald-900 font-bold block text-sm">🏢 Aislamiento Estricto por Negocio (Business Isolation)</strong>
             <p>
-              Cada tienda registrada opera exclusivamente sobre su propio <code class="font-mono">negocio_id</code> tanto en Supabase como en las particiones locales (<code class="font-mono">saldos_cuentas_${negocioId}</code> y <code class="font-mono">saldos_movimientos_${negocioId}</code>). Las tiendas nuevas inician 100% limpias en <code class="font-mono">$0</code> sin mezclar datos de demostración.
+              Cada negocio registrado opera exclusivamente sobre su propio <code class="font-mono">negocio_id</code> tanto en Supabase como en las particiones locales (<code class="font-mono">saldos_cuentas_${negocioId}</code> y <code class="font-mono">saldos_movimientos_${negocioId}</code>). Los negocios nuevos inician 100% limpios en <code class="font-mono">$0</code> sin mezclar datos de demostración.
             </p>
           </div>
 
@@ -385,8 +385,8 @@
         <div class="bg-white rounded-2xl border border-cloud-border p-5 shadow-sm">
           <pre class="text-slate-800 leading-relaxed overflow-x-auto"><code>├── docs/
 │   ├── DOCUMENTACION_DESARROLLADORES.md  # Arquitectura técnica, seguridad SHA-256 y base de datos
-│   ├── MANUAL_CLIENTE_KORA.md            # Guía práctica paso a paso para dueños de tiendas y cajeros
-│   └── PROPUESTA_DE_VALOR_COMERCIAL.md   # Pitch comercial, beneficios y retorno de inversión B2B
+│   ├── Manual_Cliente_Kora.docx          # Guía práctica paso a paso para dueños de negocios y cajeros
+│   └── Propuesta_Comercial_Kora.docx     # Pitch comercial, beneficios y retorno de inversión B2B
 ├── src/
 │   ├── features/
 │   │   ├── landing/LandingPage.tsx       # Landing comercial de Kora - Control de Cartera
@@ -410,7 +410,7 @@
 │   │   ├── crypto.ts                     # SHA-256, fallback hex y deriveStoreUuid
 │   │   ├── formatters.ts                 # Formateo de pesos colombianos COP y fechas
 │   │   └── supabase.ts                   # Cliente Supabase singleton
-│   └── services/accountService.ts        # Sincronización aislada por tienda (Supabase + Local)</code></pre>
+│   └── services/accountService.ts        # Sincronización aislada por negocio (Supabase + Local)</code></pre>
         </div>
       </section>
 
@@ -493,7 +493,7 @@
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/pin-lock-security</span> ➔ Teclado datáfono, hashes SHA-256 y auto-bloqueo 3min.</div>
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/accounts-and-cashier</span> ➔ Buscador reactivo, alta express y píldoras de abono.</div>
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/thermal-receipt-canvas</span> ➔ Motor gráfico PNG centrado y despacho directo a WhatsApp.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/saldos-branding-and-store-isolation</span> ➔ Aislamiento por tienda, eliminación de verificación Gmail y rebranding a <strong>Kora - Control de Cartera</strong>.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/saldos-branding-and-store-isolation</span> ➔ Aislamiento por negocio, eliminación de verificación Gmail y rebranding a <strong>Kora - Control de Cartera</strong>.</div>
             <div class="p-2 bg-slate-50 rounded-lg">🚀 <span class="text-emerald-600 font-semibold">main / develop</span> ➔ Producción sincronizada continuamente.</div>
           </div>
         </div>

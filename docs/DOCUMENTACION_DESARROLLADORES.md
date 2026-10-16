@@ -13,10 +13,10 @@
 1. **Cero fricción en mostrador (<5 segundos por operación):** Buscador en memoria (`useMemo`) con filtrado instantáneo (<10ms) y píldoras rápidas de abono.
 2. **Registro e Inicio de Sesión sin bloqueo por verificación de Gmail:**
    - En lugar de depender del envío de correos de confirmación SMTP de Supabase Auth (que genera bloqueos `Email not confirmed` o errores `429 over_email_send_rate_limit`), el sistema deriva un **UUID v4 determinístico** mediante `deriveStoreUuid(email, password)` con SHA-256 en [`src/lib/crypto.ts`](../src/lib/crypto.ts).
-   - Esto permite registrar tiendas nuevas y autenticarlas directamente contra `public.negocios` en <100ms desde cualquier dispositivo.
-3. **Aislamiento Estricto Multi-Tenant (Store Isolation):**
+   - Esto permite registrar negocios nuevos y autenticarlos directamente contra `public.negocios` en <100ms desde cualquier dispositivo.
+3. **Aislamiento Estricto Multi-Tenant (Business Isolation):**
    - Cada comercio opera exclusivamente bajo su `negocio_id` tanto en PostgreSQL (`public.cuentas`, `public.movimientos`) como en las particiones de almacenamiento local (`saldos_cuentas_${negocioId}`, `saldos_movimientos_${negocioId}`).
-   - Toda tienda recién registrada inicia 100% limpia (`$0` cobrados, `0` cuentas), mientras que los datos semilla (`SEED_CUENTAS`, `SEED_MOVIMIENTOS`) sólo se cargan para el tenant de demostración (`00000000-0000-0000-0000-000000000001`).
+   - Todo negocio recién registrado inicia 100% limpio (`$0` cobrados, `0` cuentas), mientras que los datos semilla (`SEED_CUENTAS`, `SEED_MOVIMIENTOS`) sólo se cargan para el tenant de demostración (`00000000-0000-0000-0000-000000000001`).
 4. **Inmutabilidad Contable:**
    - La tabla `public.movimientos` cuenta con un trigger de base de datos (`trg_inmutabilidad_movimientos`) que prohíbe `UPDATE` y `DELETE`.
    - Cualquier corrección se realiza mediante una anulación autorizada por el PIN Maestro del Dueño (`anular_movimiento_pos`), generando un asiento inverso auditable.
@@ -30,16 +30,18 @@
 ```text
 ├── docs/
 │   ├── DOCUMENTACION_DESARROLLADORES.md  # Referencia técnica de arquitectura y base de datos
-│   ├── MANUAL_CLIENTE_KORA.md            # Guía de usuario paso a paso para comerciantes
-│   └── PROPUESTA_DE_VALOR_COMERCIAL.md   # Dossier comercial y propuesta de valor B2B
+│   ├── Manual_Cliente_Kora.docx          # Guía de usuario paso a paso en formato Word
+│   └── Propuesta_Comercial_Kora.docx     # Propuesta de valor comercial B2B en formato Word
 ├── public/
 │   ├── manifest.json                     # Manifiesto PWA (Kora - Control de Cartera)
 │   ├── sw.js                             # Service Worker con soporte offline (kora-v1.1.0)
+│   ├── propuesta-comercial.html          # Presentación comercial interactiva 16:9 (8 diapositivas)
+│   ├── manual-cliente.html               # Manual interactivo del cliente
 │   └── docs.html                         # Manual técnico interactivo HTML
 ├── src/
 │   ├── features/
 │   │   ├── landing/
-│   │   │   └── LandingPage.tsx           # Landing comercial B2B + acceso 1-clic a Tienda Demo
+│   │   │   └── LandingPage.tsx           # Landing comercial B2B + acceso 1-clic a Negocio Demo
 │   │   ├── auth/
 │   │   │   ├── AuthModal.tsx             # Registro y Login sin verificación de Gmail (+57)
 │   │   │   └── SetupPinModal.tsx         # Configuración inicial de PIN Maestro (Dueño) y Cajero
@@ -77,7 +79,7 @@
 
 ## 3. Flujo de Autenticación y Seguridad Criptográfica
 
-### 3.1 Derivación Determinística de Tienda (`deriveStoreUuid`)
+### 3.1 Derivación Determinística de Negocio (`deriveStoreUuid`)
 Para eliminar la fricción de verificación de correo en mostrador:
 - `deriveStoreUuid(email, password)` calcula dos hashes SHA-256 con sal criptográfica:
   - `emailHash = sha256Hex("saldos_store_email:" + email)`
@@ -86,7 +88,7 @@ Para eliminar la fricción de verificación de correo en mostrador:
 - Al iniciar sesión (`loginShop`), se recalcula el UUID y se consulta `public.negocios` por llave primaria en <50ms.
 
 ### 3.2 Roles y Bloqueo Automático por Inactividad
-- **Dueño (`DUENO`)**: Acceso total a métricas de cartera (*"Total por Cobrar en la Calle"*), ajustes de tienda y anulaciones.
+- **Dueño (`DUENO`)**: Acceso total a métricas de cartera (*"Total por Cobrar en la Calle"*), ajustes del negocio y anulaciones.
 - **Cajero (`CAJERO`)**: Puede crear cuentas, registrar abonos/cargos y enviar comprobantes por WhatsApp, pero tiene oculto el monto total de la cartera del negocio.
 - **Auto-Lock (3 minutos)**: [`PinAuthContext.tsx`](../src/features/auth-pin/PinAuthContext.tsx) escucha eventos físicos (`mousedown`, `touchstart`, `keypress`, `scroll`). Tras 180 segundos sin actividad, bloquea la interfaz mostrando [`PinLockScreen.tsx`](../src/features/auth-pin/PinLockScreen.tsx).
 - **Credenciales de Prueba (Modo Demo)**:
