@@ -116,13 +116,13 @@
         <div class="max-w-3xl space-y-3">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Arquitectura v1.1.0 • Producción Live
+            Arquitectura v1.2.0 • Producción Live
           </span>
           <h2 class="text-2xl sm:text-3xl font-black text-brand-navy tracking-tight">
-            Manual de Arquitectura y Referencia Técnica
+            Manual de Arquitectura y Referencia Técnica — Kora
           </h2>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Documentación técnica oficial de <strong>Saldo</strong>. Detalla la arquitectura de software, el modelo inmutable en Supabase, el flujo de incorporación comercial con validación telefónica en Colombia, y la adaptación responsiva para pantallas de portátil y celular.
+            Documentación técnica oficial de <strong>Kora - Control de Cartera</strong>. Detalla la arquitectura de software, el modelo inmutable multi-tenant en Supabase, el registro instantáneo sin verificación de correo (Gmail) mediante UUID determinístico SHA-256, y la generación de comprobantes digitales para WhatsApp.
           </p>
         </div>
       </section>
@@ -132,16 +132,16 @@
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">1</span>
-            Visión del Producto: Cero Complejidad "POS"
+            Visión del Producto: Kora — Control de Cartera (Cero Complejidad "POS")
           </h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2">
             <div class="text-2xl">📓</div>
-            <h4 class="font-bold text-sm text-brand-navy">Libreta Digital, No un "POS"</h4>
+            <h4 class="font-bold text-sm text-brand-navy">Control de Cartera, No un "POS"</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Los dueños de tiendas locales (30-50+ años) huyen de los sistemas POS por complejos. Saldos se enfoca únicamente en el crédito informal: anotar quién debe, recibir abonos y enviar comprobantes.
+              Los dueños de tiendas locales (30-50+ años) huyen de los sistemas POS por complejos. <strong>Kora</strong> se enfoca únicamente en la cartera del negocio: anotar quién debe, recibir abonos y enviar comprobantes.
             </p>
           </div>
 
@@ -149,7 +149,7 @@
             <div class="text-2xl">💬</div>
             <h4 class="font-bold text-sm text-brand-navy">Costo Operativo $0 en WhatsApp</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Sin APIs oficiales de pago. La imagen del comprobante se genera en el navegador del comerciante y se comparte directamente mediante la Web Share API a su WhatsApp nativo.
+              Sin APIs oficiales de pago. La imagen del comprobante con sello oficial <strong>Kora - Control de Cartera</strong> se genera en el navegador del comerciante y se comparte directamente mediante la Web Share API a su WhatsApp nativo.
             </p>
           </div>
 
@@ -174,7 +174,7 @@
 
         <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4 text-xs text-slate-700 leading-relaxed">
           <p>
-            Inicialmente la app estaba confinada a un contenedor móvil estrecho (<code class="font-mono bg-slate-100 px-1 py-0.5 rounded text-brand">max-w-md</code>). Dado que muchos comerciantes usan un <strong>computador portátil o PC en el mostrador</strong>, la interfaz fue rediseñada para ser espaciosa y adaptable:
+            Dado que muchos comerciantes usan tanto su teléfono celular como un <strong>computador portátil o PC en el mostrador</strong>, la interfaz de <strong>Kora - Control de Cartera</strong> fue diseñada para ser espaciosa y adaptable:
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -192,15 +192,15 @@
               <span class="font-bold text-slate-900 block text-sm">📱 En Teléfono Celular (PWA)</span>
               <ul class="list-disc list-inside space-y-1 text-slate-600">
                 <li>Diseño vertical de una sola columna ergonómica para usar con el pulgar.</li>
-                <li><strong>Menú Hamburguesa Móvil:</strong> En pantallas celulares (&lt;640px) se agrupan los Ajustes de Tienda, el Bloqueo con PIN y el Cierre de Sesión en un botón hamburguesa desplegable para evitar desbordes horizontales o márgenes desplazados.</li>
-                <li>Manifiesto PWA para instalación a pantalla completa sin barra de navegador.</li>
+                <li><strong>Menú Hamburguesa Móvil:</strong> En pantallas celulares (&lt;640px) se agrupan los Ajustes de Tienda, el Bloqueo con PIN y el Cierre de Sesión en un botón hamburguesa desplegable para evitar desbordes horizontales.</li>
+                <li>Manifiesto PWA (<strong>Kora - Control de Cartera</strong>) para instalación a pantalla completa sin barra de navegador.</li>
                 <li>Botones táctiles grandes de alto contraste y retroalimentación háptica (<code class="font-mono">navigator.vibrate</code>).</li>
               </ul>
             </div>
           </div>
 
           <div class="p-3 bg-brand-light rounded-xl border border-brand-pastel">
-            <strong class="text-brand-dark">Lenguaje Humano de Mostrador:</strong> Se eliminaron términos técnicos como "POS", "Terminal", "Ledger", "Tokens" o "BETA". Ahora se usan términos naturales: <em>"Plata Cobrada Hoy"</em>, <em>"Total por Cobrar en la Calle"</em>, <em>"+ Anotar Nueva Cuenta"</em> y <em>"Debe Actualmente: $X"</em>.
+            <strong class="text-brand-dark">Lenguaje Humano de Mostrador:</strong> Se eliminaron términos técnicos como "POS", "Terminal", "Ledger" o "Tokens". Se usan términos naturales: <em>"Plata Cobrada Hoy"</em>, <em>"Total por Cobrar en la Calle"</em>, <em>"+ Anotar Nueva Cuenta"</em> y <em>"Debe: $X"</em>.
           </div>
         </div>
       </section>
@@ -210,19 +210,19 @@
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">3</span>
-            Enlistamiento Comercial & Configuración del PIN de Dueño
+            Registro Instantáneo (Sin Verificación de Gmail) & PIN de Dueño
           </h3>
         </div>
 
         <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-4 text-xs text-slate-700 leading-relaxed">
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="font-bold text-slate-900 block">Paso 1: Landing Comercial</span>
-              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrarse o Probar la Demo.</p>
+              <span class="font-bold text-slate-900 block">Paso 1: Landing Kora</span>
+              <p class="text-slate-500">Muestra los beneficios y permite Iniciar Sesión, Registrar Tienda o Probar la Demo.</p>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="font-bold text-slate-900 block">Paso 2: Registro Validado</span>
-              <p class="text-slate-500">Nombre del local, correo y <strong>celular colombiano (+57, 10 dígitos iniciando en 3)</strong>.</p>
+              <span class="font-bold text-slate-900 block">Paso 2: Alta Directa (0 Email)</span>
+              <p class="text-slate-500">Crea la tienda con <code class="font-mono">deriveStoreUuid(email, password)</code> directo en <code class="font-mono">public.negocios</code> sin esperar confirmación de Gmail.</p>
             </div>
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
               <span class="font-bold text-slate-900 block">Paso 3: PIN Maestro</span>
@@ -230,32 +230,25 @@
             </div>
             <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
               <span class="font-bold text-emerald-900 block">⚡ Modo Demo Inmediato</span>
-              <p class="text-emerald-700">Acceso en 1 clic para desarrolladores y testers sin crear cuentas (Tienda Stylo Urbano).</p>
+              <p class="text-emerald-700">Acceso en 1 clic para pruebas sin crear cuentas (Tienda Stylo Urbano).</p>
             </div>
           </div>
 
           <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
             <h4 class="font-bold text-sm text-slate-900">¿Cómo probar el sistema inmediatamente?</h4>
             <p>
-              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Tienda Demo"</strong>. Al presionarlo se carga inmediatamente la tienda de prueba vinculada a los datos del seed:
+              Tanto en la Landing como en el modal de autenticación existe el botón <strong>"⚡ Probar Tienda Demo"</strong>. Al presionarlo se carga inmediatamente la tienda de prueba aislada con sus datos semilla:
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
               <div class="p-2.5 bg-white rounded-lg border border-slate-200">
                 <strong class="text-brand block mb-0.5">PIN Dueño: 1234</strong>
-                <span class="text-slate-500">Permite ver la cartera total ($425.000) y administrar todas las funciones.</span>
+                <span class="text-slate-500">Permite ver la cartera total ($365.000) y administrar todas las funciones.</span>
               </div>
               <div class="p-2.5 bg-white rounded-lg border border-slate-200">
                 <strong class="text-emerald-700 block mb-0.5">PIN Cajero: 4321</strong>
                 <span class="text-slate-500">Permite abonar a Separes/Fiados y enviar tirillas manteniendo oculta la cartera general.</span>
               </div>
             </div>
-          </div>
-
-          <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-1 text-xs">
-            <span class="font-bold text-sky-950 block">Nota sobre Privacidad de Documentación:</span>
-            <p class="text-sky-800">
-              Este manual (<code class="font-mono font-bold">docs.html</code>) está reservado exclusivamente para los desarrolladores e ingenieros de software. Todos los enlaces públicos hacia este archivo fueron removidos de la interfaz de usuario para no saturar al comerciante de mostrador.
-            </p>
           </div>
         </div>
       </section>
@@ -310,28 +303,6 @@
             </div>
           </div>
         </div>
-
-        <div class="bg-white p-4 rounded-2xl border border-cloud-border shadow-xs text-xs space-y-2">
-          <h4 class="font-bold text-slate-900 text-sm">Ajustes Modulares de la Tienda (Personalización)</h4>
-          <p class="text-slate-600 leading-relaxed">
-            Desde el modal de <strong>Ajustes de mi Tienda</strong>, el propietario puede encender o apagar independientemente cualquiera de las dos modalidades:
-          </p>
-          <ul class="list-disc list-inside space-y-1 text-slate-600">
-            <li>Si desactiva <strong>Plan Separe</strong>, la interfaz oculta la pestaña de filtro y el selector en el alta de clientes, dejando un flujo 100% optimizado para tiendas de abarrotes.</li>
-            <li>Si desactiva <strong>Fiados</strong>, el sistema se convierte en una plataforma pura de apartados para boutiques, eliminando opciones de crédito informal sin respaldo.</li>
-          </ul>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl border border-cloud-border shadow-xs text-xs space-y-2">
-          <h4 class="font-bold text-slate-900 text-sm">Organización Proporcional de Listas Largas y Modal de Detalle</h4>
-          <p class="text-slate-600 leading-relaxed">
-            En tiendas de abarrotes y minimarkets los clientes acumulan listas extensas de compras (ej: arroz, aceite, huevos, leche, queso). Para evitar tarjetas desproporcionadas y que desalineen la cuadrícula:
-          </p>
-          <ul class="list-disc list-inside space-y-1 text-slate-600">
-            <li><strong>Tarjeta Proporcional:</strong> La tarjeta en el mostrador muestra una insignia con el total de artículos (ej: <code class="font-mono bg-blue-50 px-1 py-0.5 rounded text-blue-800">5 productos</code>), los primeros 2 renglones resumidos y un botón interactivo <code class="font-mono">+3 más... Ver todo</code>.</li>
-            <li><strong>Modal de Detalle Completo (<code class="font-mono">AccountDetailModal</code>):</strong> Desglosa cada producto en viñetas numeradas independientes, lista la mercancía fiada con posterioridad con sus respectivas fechas, y muestra el historial cronológico de todos los abonos y comprobantes de WhatsApp emitidos.</li>
-          </ul>
-        </div>
       </section>
 
       <!-- 5. Arquitectura de Seguridad -->
@@ -339,22 +310,29 @@
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">5</span>
-            Seguridad Criptográfica & Timeout de Mostrador
+            Seguridad Criptográfica, Autenticación sin Gmail & Aislamiento Multi-Tenant
           </h3>
         </div>
 
         <div class="bg-white p-6 rounded-2xl border border-cloud-border shadow-sm space-y-3 text-xs text-slate-700 leading-relaxed">
           <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200 space-y-1">
-            <strong class="text-blue-900 font-bold block text-sm">🔒 Hashing Seguro SHA-256 en el Cliente</strong>
+            <strong class="text-blue-900 font-bold block text-sm">🔑 UUID Determinístico SHA-256 (Sin Verificación de Gmail)</strong>
             <p>
-              El PIN se procesa con <code class="font-mono bg-white px-1 py-0.5 rounded border border-blue-200">crypto.subtle.digest('SHA-256', ...)</code> nativo del navegador. Nunca se guarda en texto plano en <code class="font-mono">localStorage</code> ni viaja desprotegido.
+              Para evitar bloqueos por correos no confirmados o límites de envío SMTP (<code class="font-mono">over_email_send_rate_limit</code>), <code class="font-mono">deriveStoreUuid(email, password)</code> genera un UUID v4 determinístico mediante SHA-256. Esto permite crear la tienda e iniciar sesión instantáneamente contra <code class="font-mono">public.negocios</code> desde cualquier dispositivo.
+            </p>
+          </div>
+
+          <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200 space-y-1">
+            <strong class="text-emerald-900 font-bold block text-sm">🏢 Aislamiento Estricto por Tienda (Store Isolation)</strong>
+            <p>
+              Cada tienda registrada opera exclusivamente sobre su propio <code class="font-mono">negocio_id</code> tanto en Supabase como en las particiones locales (<code class="font-mono">saldos_cuentas_${negocioId}</code> y <code class="font-mono">saldos_movimientos_${negocioId}</code>). Las tiendas nuevas inician 100% limpias en <code class="font-mono">$0</code> sin mezclar datos de demostración.
             </p>
           </div>
 
           <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
-            <strong class="text-slate-900 font-bold block text-sm">⏱️ Temporizador de Inactividad (3 Minutos)</strong>
+            <strong class="text-slate-900 font-bold block text-sm">⏱️ Temporizador de Inactividad (3 Minutos) y PIN SHA-256</strong>
             <p>
-              Un watcher detecta ausencia de toques y clicks en el mostrador. Tras 180 segundos sin actividad, la pantalla se bloquea automáticamente exigiendo el PIN numérico de 4 dígitos.
+              Tras 180 segundos sin actividad en mostrador, la pantalla se bloquea automáticamente exigiendo el PIN numérico de 4 dígitos validado con SHA-256 (y fallback hexadecimal determinístico en entornos HTTP).
             </p>
           </div>
         </div>
@@ -373,7 +351,7 @@
           <div class="text-slate-400 font-bold mb-2">// RELACIÓN ENTIDAD - RELACIÓN (3 TABLAS NUCLEARES)</div>
           <div>[negocios] 1 ───────────&lt; E [cuentas] 1 ───────────&lt; E [movimientos]</div>
           <div class="text-slate-400 text-[11px] pt-1">
-            - negocios: Datos del local, hashes PIN, mensaje de tirilla, estado de suscripción.<br>
+            - negocios: Datos del local, hashes PIN, mensaje de tirilla, estado activo.<br>
             - cuentas: Cliente, celular, modalidad (SEPARE / FIADO), saldo_pendiente, consecutivo.<br>
             - movimientos: Libro mayor inmutable (ABONO, CARGO, ANULACION), metodo_pago, saldo_anterior, saldo_nuevo.
           </div>
@@ -400,41 +378,39 @@
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">7</span>
-            Estructura de Archivos y Módulos
+            Estructura de Archivos y Documentación del Proyecto
           </h3>
         </div>
 
         <div class="bg-white rounded-2xl border border-cloud-border p-5 shadow-sm">
-          <pre class="text-slate-800 leading-relaxed overflow-x-auto"><code>src/
-├── features/
-│   ├── landing/
-│   │   └── LandingPage.tsx          # Landing comercial con dolor del cuaderno vs solución digital
-│   ├── auth/
-│   │   ├── AuthModal.tsx            # Registro/Login con validación de celular colombiano (+57)
-│   │   └── SetupPinModal.tsx        # Configuración guiada del PIN Maestro de Dueño de 4 dígitos
-│   ├── auth-pin/
-│   │   ├── MasterPinModal.tsx       # Modal de elevación de privilegios para ver cartera o anular
-│   │   ├── PinAuthContext.tsx       # Contexto de sesión, timeout 3min y validación SHA-256
-│   │   └── PinLockScreen.tsx        # Teclado táctil centrado y limpio para portátil y celular
-│   ├── cashier/
-│   │   ├── CashierDashboard.tsx     # Buscador reactivo, plata cobrada hoy y listado en cuadrícula
-│   │   └── QuickPaymentModal.tsx    # Ficha de abono en 1 toque con píldoras de valor ($10k, $20k...)
-│   ├── accounts/
-│   │   └── NewAccountModal.tsx      # Formulario express para anotar clientes nuevos en 5 segundos
-│   └── receipt/
-│       ├── ThermalReceipt.tsx       # Componente visual del comprobante térmico oficial 58/80mm
-│       └── ReceiptModal.tsx         # Generador PNG Retina y despacho nativo a WhatsApp
-├── lib/
-│   ├── crypto.ts                    # Hashing seguro SHA-256 nativo de navegador
-│   ├── formatters.ts                # Formateo de pesos colombianos COP y fechas de comprobante
-│   └── supabase.ts                  # Cliente Supabase singleton y detección de configuración
-├── services/
-│   └── accountService.ts            # Capa de datos con sincronización dual (Supabase & LocalStorage)
-├── types/
-│   └── database.ts                  # Interfaces TypeScript del modelo de base de datos
-├── App.tsx                          # Orquestador responsivo para portátiles y móviles
-├── index.css                        # Tokens CSS, directivas Tailwind y borde receipt-sawtooth
-└── main.tsx                         # Entrypoint React 18 y registro del Service Worker PWA</code></pre>
+          <pre class="text-slate-800 leading-relaxed overflow-x-auto"><code>├── docs/
+│   ├── DOCUMENTACION_DESARROLLADORES.md  # Arquitectura técnica, seguridad SHA-256 y base de datos
+│   ├── MANUAL_CLIENTE_KORA.md            # Guía práctica paso a paso para dueños de tiendas y cajeros
+│   └── PROPUESTA_DE_VALOR_COMERCIAL.md   # Pitch comercial, beneficios y retorno de inversión B2B
+├── src/
+│   ├── features/
+│   │   ├── landing/LandingPage.tsx       # Landing comercial de Kora - Control de Cartera
+│   │   ├── auth/
+│   │   │   ├── AuthModal.tsx             # Registro/Login directo sin verificación de Gmail (+57)
+│   │   │   └── SetupPinModal.tsx         # Configuración guiada del PIN Maestro de Dueño
+│   │   ├── auth-pin/
+│   │   │   ├── MasterPinModal.tsx        # Modal de elevación de privilegios para ver cartera
+│   │   │   ├── PinAuthContext.tsx        # Contexto de sesión, UUID determinístico y timeout 3min
+│   │   │   └── PinLockScreen.tsx         # Teclado táctil centrado con firma Kora
+│   │   ├── cashier/
+│   │   │   ├── CashierDashboard.tsx      # Buscador reactivo, skeleton loaders y cuadrícula
+│   │   │   └── QuickPaymentModal.tsx     # Ficha de abono en 1 toque con píldoras rápidas
+│   │   ├── accounts/
+│   │   │   ├── AccountDetailModal.tsx    # Detalle de artículos e historial de abonos
+│   │   │   └── NewAccountModal.tsx       # Formulario express para anotar clientes nuevos
+│   │   └── receipt/
+│   │       ├── ThermalReceipt.tsx        # Comprobante térmico 340px con sello Kora al pie
+│   │       └── ReceiptModal.tsx          # Generador PNG centrado y envío directo a WhatsApp
+│   ├── lib/
+│   │   ├── crypto.ts                     # SHA-256, fallback hex y deriveStoreUuid
+│   │   ├── formatters.ts                 # Formateo de pesos colombianos COP y fechas
+│   │   └── supabase.ts                   # Cliente Supabase singleton
+│   └── services/accountService.ts        # Sincronización aislada por tienda (Supabase + Local)</code></pre>
         </div>
       </section>
 
@@ -443,7 +419,7 @@
         <div class="border-b border-cloud-border pb-2">
           <h3 class="text-xl font-bold text-brand-navy flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-brand text-white text-xs flex items-center justify-center">8</span>
-            Comprobante Digital y Despacho a WhatsApp ($0 Costo)
+            Comprobante Digital Centrado y Despacho a WhatsApp ($0 Costo)
           </h3>
         </div>
 
@@ -452,16 +428,16 @@
             <h4 class="font-bold text-sm text-brand-navy">Flujo de Despacho en 1 Clic:</h4>
             <ol class="list-decimal list-inside space-y-2">
               <li>
-                <strong>Renderizado Visual:</strong> El comprobante se dibuja en el DOM con formato de tirilla térmica con tipografía monoespaciada <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">JetBrains Mono</code> de máximo contraste.
+                <strong>Renderizado de Ancho Fijo (340px):</strong> El comprobante se dibuja con ancho fijo de <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">340px</code> y márgenes reseteados a cero durante la captura para garantizar un centrado simétrico sin recortes en móviles ni portátiles.
               </li>
               <li>
-                <strong>Conversión Gráfica:</strong> <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">html-to-image</code> convierte el DOM en un Blob PNG a escala 2.5x para que no se pixele en teléfonos móviles.
+                <strong>Firma de Marca al Pie:</strong> Al final de cada tirilla aparece el sello <strong>KORA - CONTROL DE CARTERA</strong> junto al código de referencia único.
               </li>
               <li>
-                <strong>Web Share API:</strong> En celulares Android o iOS, <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">navigator.share({ files })</code> abre la app de WhatsApp del comerciante con la imagen adjunta lista para enviar al cliente.
+                <strong>Web Share API:</strong> En celulares Android o iOS, <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">navigator.share({ files })</code> abre el WhatsApp del comerciante con la imagen adjunta lista para enviar al cliente.
               </li>
               <li>
-                <strong>Fallback en Computador:</strong> En navegadores de escritorio que no admiten compartir archivos, descarga el PNG y abre WhatsApp Web con el mensaje pre-redactado de cortesía.
+                <strong>Fallback en Computador:</strong> En navegadores de escritorio descarga el PNG automáticamente y abre WhatsApp Web con el mensaje pre-redactado firmado por <em>Kora - Control de Cartera</em>.
               </li>
             </ol>
           </div>
@@ -492,8 +468,9 @@
                 <div class="text-[8px] font-bold text-amber-300">NUEVO SALDO PENDIENTE</div>
                 <div class="text-base font-black">$120.000</div>
               </div>
-              <div class="text-center pt-1 border-t border-dashed border-slate-300 text-[8px] text-slate-400">
-                REF: A4D78718-9952-4B5C
+              <div class="text-center pt-1 border-t border-dashed border-slate-300 text-[8px] text-slate-400 space-y-0.5">
+                <div>REF: A4D78718-9952-4B5C</div>
+                <div class="font-bold text-slate-700 text-[9px]">KORA - CONTROL DE CARTERA</div>
               </div>
             </div>
           </div>
@@ -515,10 +492,9 @@
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/supabase-schema</span> ➔ Migración SQL nuclear, triggers de inmutabilidad y seed demo.</div>
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/pin-lock-security</span> ➔ Teclado datáfono, hashes SHA-256 y auto-bloqueo 3min.</div>
             <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/accounts-and-cashier</span> ➔ Buscador reactivo, alta express y píldoras de abono.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/thermal-receipt-canvas</span> ➔ Motor gráfico PNG y despacho directo a WhatsApp.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/landing-and-auth-onboarding</span> ➔ Landing comercial, registro con celular +57 y PIN inicial de dueño.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/clean-ui-laptop-responsive-no-pos</span> ➔ Adaptación para portátiles, eliminación de jerga POS y simplificación UX.</div>
-            <div class="p-2 bg-slate-50 rounded-lg">🚀 <span class="text-emerald-600 font-semibold">release/v1.1.0</span> ➔ Versión estable sincronizada en <code class="font-bold">main</code> y <code class="font-bold">develop</code>.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/thermal-receipt-canvas</span> ➔ Motor gráfico PNG centrado y despacho directo a WhatsApp.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">✅ <span class="text-brand font-semibold">feature/saldos-branding-and-store-isolation</span> ➔ Aislamiento por tienda, eliminación de verificación Gmail y rebranding a <strong>Kora - Control de Cartera</strong>.</div>
+            <div class="p-2 bg-slate-50 rounded-lg">🚀 <span class="text-emerald-600 font-semibold">main / develop</span> ➔ Producción sincronizada continuamente.</div>
           </div>
         </div>
       </section>
@@ -542,7 +518,7 @@ VITE_SUPABASE_ANON_KEY=sb_publishable_2mDuJQEZ8wnZFhtNjVe6Mg_aCFxaIrZ</code></pr
           <div class="bg-white p-5 rounded-2xl border border-cloud-border shadow-sm space-y-2 text-xs">
             <h4 class="font-bold text-sm text-brand-navy">Despliegue Continuo (CI/CD)</h4>
             <p class="text-slate-600">
-              Cada <code class="font-mono">git push origin main</code> dispara un build en Vercel que actualiza la PWA en producción en menos de 40 segundos con certificado HTTPS automático.
+              Cada <code class="font-mono">git push origin main</code> dispara un build en Vercel que actualiza la PWA de <strong>Kora - Control de Cartera</strong> en producción en menos de 40 segundos con certificado HTTPS automático.
             </p>
           </div>
         </div>
@@ -550,7 +526,7 @@ VITE_SUPABASE_ANON_KEY=sb_publishable_2mDuJQEZ8wnZFhtNjVe6Mg_aCFxaIrZ</code></pr
 
       <!-- Footer Documentación -->
       <footer class="pt-8 border-t border-cloud-border text-center text-xs text-slate-400 space-y-1">
-        <p><strong>Saldo</strong> — Documentación de Arquitectura de Software y Manual Técnico de Ingeniería.</p>
+        <p><strong>Kora — Control de Cartera</strong> | Documentación de Arquitectura de Software y Manual Técnico de Ingeniería.</p>
         <p>Repositorio público en GitHub bajo estándar GitFlow estricto.</p>
       </footer>
 

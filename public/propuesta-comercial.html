@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kora - Control de Cartera | Presentación Comercial B2B</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              pastel: '#BAE6FD',
+              light: '#E0F2FE',
+              DEFAULT: '#0284C7',
+              dark: '#0369A1',
+              navy: '#0F172A',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #090D16;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+    .slide {
+      display: none;
+      animation: slideFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide.active {
+      display: flex;
+    }
+    @keyframes slideFade {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media print {
+      body { background: #FFFFFF; color: #0F172A; }
+      .no-print { display: none !important; }
+      .slide {
+        display: flex !important;
+        page-break-after: always;
+        min-height: 100vh;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+
+  <!-- Barra Superior de Controles (Estilo Canva / Pitch Deck) -->
+  <header class="no-print sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-8 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center text-white font-black text-base shadow-lg shadow-sky-500/20">
+        K
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-sm text-white tracking-tight">Kora — Control de Cartera</span>
+          <span class="px-2 py-0.5 text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30 rounded-full">PITCH COMERCIAL B2B</span>
+        </div>
+        <p class="text-[11px] text-slate-400 hidden sm:block">Usa las flechas del teclado (← →) o los botones inferiores para presentar</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="/manual-cliente.html" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all">
+        📘 Ver Manual del Cliente
+      </a>
+      <button onclick="window.print()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
+        <span>🖨️ Guardar PDF</span>
+      </button>
+      <button onclick="toggleFullScreen()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold shadow-md shadow-sky-600/20 transition-all">
+        ⛶ Pantalla Completa
+      </button>
+    </div>
+  </header>
+
+  <!-- Lienzo Central de Diapositivas (16:9 Canvas) -->
+  <main class="flex-1 flex items-center justify-center p-3 sm:p-6 md:p-10">
+    <div class="w-full max-w-6xl min-h-[580px] lg:aspect-[16/9] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col justify-center">
+
+      <!-- Luz decorativa de fondo -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- ==========================================
+           DIAPOSITIVA 1: PORTADA EJECUTIVA
+           ========================================== -->
+      <section class="slide active flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/15 border border-sky-400/30 text-sky-300 text-xs font-bold">
+            <span>✨ Solución Digital para Comercios Locales</span>
+          </div>
+          <span class="text-xs font-mono text-slate-400">01 / 08</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-6">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="flex items-center gap-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-sky-500/30">
+                K
+              </div>
+              <div>
+                <h2 class="text-2xl font-black text-white tracking-tight">Kora</h2>
+                <p class="text-xs font-bold uppercase tracking-widest text-sky-400">Control de Cartera</p>
+              </div>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-[1.12]">
+              Dile adiós al cuaderno de papel.<br />
+              <span class="bg-gradient-to-r from-sky-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
+                Controla tus Abonos y Fiados en 5 segundos.
+              </span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+              La plataforma diseñada para que tiendas de ropa, calzado, ópticas, joyerías, mueblerías y comercios de barrio lleven sus cuentas claras, sin errores de suma y enviando <strong>comprobantes digitales por WhatsApp a costo $0</strong>.
+            </p>
+
+            <div class="flex flex-wrap gap-3 pt-2 text-xs font-bold">
+              <div class="px-3.5 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-emerald-300">
+                ✓ Cero programas complicados
+              </div>
+              <div class="px-3.5 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-sky-300">
+                ✓ Funciona en Celular y Portátil
+              </div>
+              <div class="px-3.5 py-2 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-300">
+                ✓ Plan Separe & Fiados
+              </div>
+            </div>
+          </div>
+
+          <!-- Mockup de Tirilla Digital en Portada -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="w-72 bg-white text-slate-900 rounded-2xl p-5 font-mono text-xs shadow-2xl border-4 border-slate-800/40 transform lg:rotate-2">
+              <div class="text-center pb-2.5 border-b-2 border-dashed border-slate-300">
+                <div class="font-extrabold text-sm uppercase">BOUTIQUE STYLO URBANO</div>
+                <div class="text-[10px] text-slate-500">TEL: +57 310 456 7890</div>
+                <span class="inline-block bg-slate-900 text-white text-[9px] font-bold px-2 py-0.5 rounded mt-1">
+                  COMPROBANTE OFICIAL
+                </span>
+              </div>
+              <div class="py-2 border-b border-dashed border-slate-300 space-y-1 text-[10px]">
+                <div class="flex justify-between"><span class="text-slate-500">RECIBO:</span><b>#1001</b></div>
+                <div class="flex justify-between"><span class="text-slate-500">MODALIDAD:</span><b>PLAN SEPARE</b></div>
+                <div class="flex justify-between"><span class="text-slate-500">CLIENTE:</span><b>CARLOS GÓMEZ</b></div>
+              </div>
+              <div class="py-2.5 space-y-1 text-[11px]">
+                <div class="flex justify-between text-slate-600"><span>SALDO ANTERIOR:</span><span>$180.000</span></div>
+                <div class="flex justify-between font-extrabold text-emerald-700 border-y border-dashed border-slate-300 py-1">
+                  <span>[-] ABONO RECIBIDO:</span><span>$60.000</span>
+                </div>
+              </div>
+              <div class="p-2.5 bg-slate-900 text-white rounded-xl text-center space-y-0.5">
+                <div class="text-[9px] font-bold text-amber-300">NUEVO SALDO PENDIENTE</div>
+                <div class="text-xl font-black">$120.000</div>
+              </div>
+              <div class="text-center pt-2 mt-2 border-t border-dashed border-slate-300">
+                <div class="text-[9px] text-slate-400">Comprobante digital verificado</div>
+                <div class="text-[10px] font-extrabold text-slate-800 mt-0.5">KORA - CONTROL DE CARTERA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Propuesta de Valor Comercial • Kora</span>
+          <span>Presiona "Siguiente ➔" para continuar</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 2: EL PROBLEMA REAL
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-rose-500/15 border border-rose-400/30 text-rose-300 text-xs font-bold uppercase tracking-wider">
+            El Problema Actual
+          </span>
+          <span class="text-xs font-mono text-slate-400">02 / 08</span>
+        </div>
+
+        <div class="my-auto py-4 space-y-6">
+          <div class="max-w-3xl">
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              El cuaderno de papel le hace perder plata y tiempo a tu negocio todos los meses
+            </h2>
+            <p class="text-sm text-slate-400 mt-2">
+              Entre el 30% y el 60% de las ventas de un comercio local se mueven por apartados o confianza, pero anotar a mano tiene 4 costos silenciosos:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl bg-slate-800/60 border border-rose-500/30 space-y-2">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black">1</span>
+                <h3 class="font-extrabold text-base text-white">Errores de resta en horas pico</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Cuando el mostrador está lleno, restar abonos a mano o con afán deja saldos mal calculados que siempre terminan en pérdida para el dueño.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/60 border border-rose-500/30 space-y-2">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black">2</span>
+                <h3 class="font-extrabold text-base text-white">Discusiones incómodas con clientes</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <em>"Yo vine el sábado y dejé $40.000, ¿no lo anotó?"</em> Sin un comprobante claro en el WhatsApp del cliente, cualquier olvido genera desconfianza.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/60 border border-rose-500/30 space-y-2">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black">3</span>
+                <h3 class="font-extrabold text-base text-white">Cero privacidad frente a empleados</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                En un cuaderno físico cualquiera puede ver cuánto dinero total tienes por cobrar, tachar un número o arrancar una hoja sin dejar rastro.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/60 border border-rose-500/30 space-y-2">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black">4</span>
+                <h3 class="font-extrabold text-base text-white">Riesgo total de extravío o daño</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Si el cuaderno se moja, se pierde o se deteriora, el negocio pierde de inmediato millones de pesos en cuentas por cobrar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Diagnóstico de Mostrador</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 3: LA SOLUCIÓN EN 3 PASOS
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+            La Solución Kora
+          </span>
+          <span class="text-xs font-mono text-slate-400">03 / 08</span>
+        </div>
+
+        <div class="my-auto py-4 space-y-8">
+          <div class="text-center max-w-3xl mx-auto space-y-2">
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              Tan fácil como mandar un audio por WhatsApp
+            </h2>
+            <p class="text-sm text-slate-400">
+              Sin menús contables ni configuraciones complicadas. Así opera tu negocio en 3 pasos:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="p-6 rounded-3xl bg-slate-800/70 border border-slate-700/80 space-y-3 relative">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-sky-500/25">
+                1
+              </div>
+              <h3 class="text-lg font-extrabold text-white">Busca en 1 segundo</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Escribe las primeras letras del nombre del cliente, su celular o el artículo apartado. Su cuenta aparece al instante sin pasar hojas.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-slate-800/70 border border-slate-700/80 space-y-3 relative">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                2
+              </div>
+              <h3 class="text-lg font-extrabold text-white">Registra en 1 toque</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Toca el botón verde <strong>"Abonar"</strong>, elige el monto rápido (<code>$10.000</code>, <code>$20.000</code>, <code>$50.000</code>) e indica si pagó en Efectivo o Nequi.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-slate-800/70 border border-slate-700/80 space-y-3 relative">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-500 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                3
+              </div>
+              <h3 class="text-lg font-extrabold text-white">Comprobante al WhatsApp</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Kora calcula el nuevo saldo sin errores y genera la tirilla oficial lista para enviarse al WhatsApp del cliente con un solo clic.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Flujo Operativo de 5 Segundos</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 4: ADAPTABLE A TU NEGOCIO (SEPARE Y FIADO)
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/30 text-sky-300 text-xs font-bold uppercase tracking-wider">
+            2 Sistemas en 1
+          </span>
+          <span class="text-xs font-mono text-slate-400">04 / 08</span>
+        </div>
+
+        <div class="my-auto py-4 space-y-6">
+          <div class="max-w-3xl">
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              Se adapta exactamente al tipo de comercio que tienes
+            </h2>
+            <p class="text-sm text-slate-400 mt-1">
+              Puedes activar solo <strong>Plan Separe</strong>, solo <strong>Fiado</strong>, o ambos según las reglas de tu local:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Plan Separe -->
+            <div class="p-6 rounded-3xl bg-gradient-to-br from-blue-950/80 to-slate-900 border-2 border-sky-500/50 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-sky-500 text-white">
+                  MODALIDAD 1: PLAN SEPARE
+                </span>
+                <span class="text-xs font-mono text-sky-300">Saldo hacia $0</span>
+              </div>
+              <h3 class="text-xl font-black text-white">
+                Para Boutiques, Calzado, Ópticas, Joyerías y Mueblerías
+              </h3>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+                <li>• El cliente aparta una o varias prendas y la tienda las reserva en bodega.</li>
+                <li>• Va realizando abonos parciales a su ritmo y recibiendo su tirilla en cada pago.</li>
+                <li>• Cuando el saldo llega a <strong>$0</strong>, Kora marca la cuenta como <strong>LIQUIDADA</strong> lista para entregar el artículo.</li>
+              </ul>
+            </div>
+
+            <!-- Fiado -->
+            <div class="p-6 rounded-3xl bg-gradient-to-br from-amber-950/60 to-slate-900 border-2 border-amber-500/50 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500 text-slate-950">
+                  MODALIDAD 2: CUENTA DE FIADO
+                </span>
+                <span class="text-xs font-mono text-amber-300">Cuenta Abierta</span>
+              </div>
+              <h3 class="text-xl font-black text-white">
+                Para Tiendas de Barrio, Minimarkets, Panaderías y Distribuidoras
+              </h3>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+                <li>• El cliente de confianza retira mercancía hoy y su lista de productos queda organizada y numerada.</li>
+                <li>• Si pide más productos en la semana, los sumas con el botón <strong>"+ Fiar"</strong> con fecha automática.</li>
+                <li>• Cuando llega la quincena y abona, descuentas el pago con el botón <strong>"Abonar"</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Configuración Modular por Comercio</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 5: COMPROBANTE WHATSAPP ($0 COSTO)
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+            Transparencia & Confianza
+          </span>
+          <span class="text-xs font-mono text-slate-400">05 / 08</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-4">
+          <div class="lg:col-span-6 space-y-4">
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+              Un recibo profesional que enamora y da confianza a tu cliente
+            </h2>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Olvídate de comprar impresoras térmicas o rollos de papel que se borran con el calor. Cada movimiento genera un comprobante digital con la identidad de tu local y el respaldo de <strong>Kora - Control de Cartera</strong>.
+            </p>
+            <div class="space-y-3 pt-2">
+              <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-start gap-3">
+                <span class="text-lg">💸</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-extrabold text-white">$0 en Papel y $0 por Mensaje</h4>
+                  <p class="text-xs text-slate-400">Se envía directamente desde tu WhatsApp habitual con un solo toque, sin cobros por mensaje enviado.</p>
+                </div>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-start gap-3">
+                <span class="text-lg">🤝</span>
+                <div>
+                  <h4 class="text-xs sm:text-sm font-extrabold text-white">Cero discusiones sobre el saldo</h4>
+                  <p class="text-xs text-slate-400">Tanto tú como tu cliente tienen en el chat de WhatsApp la foto exacta de cuánto debía, cuánto abonó y cuánto le falta.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 flex justify-center">
+            <div class="bg-emerald-950/60 border border-emerald-500/40 rounded-3xl p-5 max-w-md w-full space-y-3 shadow-xl">
+              <div class="flex items-center gap-2.5 pb-2 border-b border-emerald-800/60">
+                <div class="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center text-xs">WA</div>
+                <div>
+                  <div class="text-xs font-bold text-white">Mensaje automático para tu cliente</div>
+                  <div class="text-[10px] text-emerald-300">Con imagen del comprobante adjunta</div>
+                </div>
+              </div>
+              <div class="bg-slate-900/90 rounded-2xl p-4 text-xs text-slate-200 space-y-1.5 font-sans border border-slate-800">
+                <p>Hola <strong>Carlos Alberto Gómez</strong>! 👋</p>
+                <p>Te compartimos el comprobante de tu abono por valor de <strong>$60.000</strong> en <strong>Boutique Stylo Urbano</strong>.</p>
+                <p class="pt-1">📌 <strong>Artículo:</strong> Zapatillas Nike Air Max Talla 41</p>
+                <p>💰 <strong>Nuevo Saldo Pendiente:</strong> <span class="text-amber-300 font-bold">$120.000</span></p>
+                <p>🧾 <strong>Recibo:</strong> #1001</p>
+                <p class="pt-1">¡Gracias por tu compra y puntualidad! 🙏</p>
+                <p class="text-[11px] italic text-sky-400">_Kora - Control de Cartera_</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Comprobante Digital Verificado</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 6: SEGURIDAD Y CONTROL PARA EL DUEÑO
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-400/30 text-indigo-300 text-xs font-bold uppercase tracking-wider">
+            Seguridad de Mostrador
+          </span>
+          <span class="text-xs font-mono text-slate-400">06 / 08</span>
+        </div>
+
+        <div class="my-auto py-4 space-y-6">
+          <div class="max-w-3xl">
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              Tus empleados operan el mostrador; tú mantienes el control total
+            </h2>
+            <p class="text-sm text-slate-400 mt-1">
+              Diseñado con seguridad tipo datáfono para que puedas delegar sin temor:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-5 rounded-2xl bg-slate-800/70 border border-slate-700 space-y-2.5">
+              <div class="text-2xl">🔐</div>
+              <h3 class="font-extrabold text-base text-white">PIN Dueño vs. PIN Cajero</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Con el <strong>PIN de Cajero</strong> tu empleado recibe abonos y envía recibos, pero el monto total de tu cartera (<em>"Total por Cobrar en la Calle"</em>) permanece oculto con asteriscos (<code>••••••••</code>).
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/70 border border-slate-700 space-y-2.5">
+              <div class="text-2xl">🛡️</div>
+              <h3 class="font-extrabold text-base text-white">Prohibido borrar deudas</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Nadie puede eliminar un abono o una cuenta a escondidas. Todo movimiento queda registrado con fecha, hora y si fue hecho por el Dueño o el Cajero.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-800/70 border border-slate-700 space-y-2.5">
+              <div class="text-2xl">📊</div>
+              <h3 class="font-extrabold text-base text-white">Cuadre de Caja al Instante</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Mira en todo momento cuánta plata entró hoy al local, separada automáticamente entre <strong>Efectivo</strong> y <strong>Nequi / Transferencias</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Control Interno y Auditoría</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 7: TABLA COMPARATIVA
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
+            Comparativa Directa
+          </span>
+          <span class="text-xs font-mono text-slate-400">07 / 08</span>
+        </div>
+
+        <div class="my-auto py-4 space-y-5">
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            ¿Por qué Kora supera al cuaderno y a los sistemas tradicionales?
+          </h2>
+
+          <div class="overflow-x-auto rounded-2xl border border-slate-700">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-800 text-slate-300">
+                  <th class="p-3.5 font-bold">Característica</th>
+                  <th class="p-3.5 font-bold text-rose-300">Cuaderno de Papel</th>
+                  <th class="p-3.5 font-bold text-slate-400">POS de Facturación</th>
+                  <th class="p-3.5 font-extrabold text-sky-300 bg-sky-950/60">Kora — Control de Cartera</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 bg-slate-900/80">
+                <tr>
+                  <td class="p-3.5 font-semibold text-white">Tiempo para anotar un abono</td>
+                  <td class="p-3.5 text-slate-400">1 a 2 min buscando la hoja</td>
+                  <td class="p-3.5 text-slate-400">Lento (múltiples menús)</td>
+                  <td class="p-3.5 font-bold text-emerald-400 bg-sky-950/30">⚡ 5 segundos</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-semibold text-white">Cálculo de saldos</td>
+                  <td class="p-3.5 text-rose-400">Manual (errores frecuentes)</td>
+                  <td class="p-3.5 text-slate-300">Automático</td>
+                  <td class="p-3.5 font-bold text-emerald-400 bg-sky-950/30">✓ 100% Automático y exacto</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-semibold text-white">Recibo para el cliente</td>
+                  <td class="p-3.5 text-rose-400">No tiene o papelito a mano</td>
+                  <td class="p-3.5 text-slate-400">Exige impresora térmica</td>
+                  <td class="p-3.5 font-bold text-emerald-400 bg-sky-950/30">📲 Tirilla oficial en WhatsApp ($0)</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-semibold text-white">Si se pierde el cuaderno / equipo</td>
+                  <td class="p-3.5 text-rose-400">Pierdes toda tu cartera</td>
+                  <td class="p-3.5 text-slate-400">Riesgo en PC local</td>
+                  <td class="p-3.5 font-bold text-emerald-400 bg-sky-950/30">☁️ Respaldado en la nube 24/7</td>
+                </tr>
+                <tr>
+                  <td class="p-3.5 font-semibold text-white">Privacidad ante empleados</td>
+                  <td class="p-3.5 text-rose-400">Ninguna (todos ven todo)</td>
+                  <td class="p-3.5 text-slate-400">Compleja</td>
+                  <td class="p-3.5 font-bold text-emerald-400 bg-sky-950/30">🔒 PIN Dueño vs. PIN Cajero</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>Kora — Control de Cartera</span>
+          <span>Ventaja Competitiva</span>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           DIAPOSITIVA 8: CIERRE Y LLAMADO A LA ACCIÓN
+           ========================================== -->
+      <section class="slide flex-col justify-between p-6 sm:p-12 lg:p-14 h-full relative z-10">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+            Empieza Hoy Mismo
+          </span>
+          <span class="text-xs font-mono text-slate-400">08 / 08</span>
+        </div>
+
+        <div class="my-auto text-center max-w-3xl mx-auto space-y-6 py-6">
+          <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-sky-500 to-emerald-500 flex items-center justify-center text-white font-black text-3xl mx-auto shadow-2xl shadow-sky-500/30">
+            K
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+            Con una sola cuenta que no se pierda, <span class="text-emerald-400">Kora se paga sola</span>.
+          </h2>
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Moderniza tu mostrador en menos de 2 minutos. Sin contratos forzosos, sin comprar equipos adicionales y funcionando desde hoy en tu celular o computador portátil.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 no-print">
+            <a href="/" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-sm shadow-xl shadow-sky-500/25 transition-all">
+              🚀 Abrir Kora y Probar Demo en Vivo
+            </a>
+            <a href="/manual-cliente.html" class="px-6 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-sm transition-all">
+              📘 Ver Guía Paso a Paso del Cliente
+            </a>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/80 pt-4">
+          <span>© 2026 Kora — Control de Cartera</span>
+          <span>Cuentas claras, clientes felices</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Barra Inferior de Navegación de Diapositivas -->
+  <footer class="no-print bg-slate-950/90 border-t border-slate-800/80 px-4 sm:px-8 py-3 flex items-center justify-between">
+    <button id="prevBtn" onclick="changeSlide(-1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-white text-xs font-bold transition-all">
+      ← Anterior
+    </button>
+
+    <div class="flex items-center gap-2" id="dotsContainer"></div>
+
+    <button id="nextBtn" onclick="changeSlide(1)" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 disabled:opacity-30 text-white text-xs font-extrabold transition-all shadow-md shadow-sky-600/20">
+      Siguiente →
+    </button>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function renderDots() {
+      dotsContainer.innerHTML = '';
+      slides.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.className = idx === currentSlide
+          ? 'w-7 h-2.5 rounded-full bg-sky-400 transition-all'
+          : 'w-2.5 h-2.5 rounded-full bg-slate-700 hover:bg-slate-500 transition-all';
+        dot.onclick = () => goToSlide(idx);
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateSlides() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+      renderDots();
+    }
+
+    function changeSlide(delta) {
+      const next = currentSlide + delta;
+      if (next >= 0 && next < slides.length) {
+        currentSlide = next;
+        updateSlides();
+      }
+    }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      updateSlides();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        changeSlide(-1);
+      }
+    });
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    updateSlides();
+  </script>
+</body>
+</html>
