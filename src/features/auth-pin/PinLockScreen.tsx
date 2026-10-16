@@ -225,17 +225,20 @@ export const PinLockScreen: React.FC = () => {
         </div>
 
         {/* Pie de pantalla */}
-        <div className="pt-2 border-t border-slate-800">
+        <div className="pt-2 border-t border-slate-800 space-y-1.5">
           <button
             onClick={() => {
               if (confirm('¿Deseas salir de esta tienda en este dispositivo?')) {
                 logoutShop();
               }
             }}
-            className="text-xs text-slate-400 hover:text-slate-200 underline font-medium"
+            className="text-xs text-slate-400 hover:text-slate-200 underline font-medium block mx-auto"
           >
             Cambiar de tienda o salir
           </button>
+          <p className="text-[10px] font-bold tracking-wider uppercase text-slate-500">
+            Kora — Control de Cartera
+          </p>
         </div>
       </div>
     </div>

@@ -133,13 +133,16 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
             "{negocio.mensaje_pie_tirilla}"
           </p>
 
-          {/* Código de Verificación Digital */}
-          <div className="pt-2">
+          {/* Código de Verificación Digital y Marca Kora */}
+          <div className="pt-2 space-y-0.5">
             <div className="font-mono text-[9px] tracking-widest text-slate-400 truncate">
               REF: {movimiento.id.slice(0, 18).toUpperCase()}
             </div>
-            <p className="text-[9px] text-slate-400 mt-0.5">
+            <p className="text-[9px] text-slate-400">
               Comprobante digital verificado
+            </p>
+            <p className="text-[10px] font-extrabold text-slate-700 pt-1 tracking-wide uppercase">
+              Kora - Control de Cartera
             </p>
           </div>
         </div>

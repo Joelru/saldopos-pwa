@@ -36,7 +36,8 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
     `📌 *Artículo:* ${cuenta.concepto_articulo}\n` +
     `💰 *Nuevo Saldo Pendiente:* *${formatCurrency(movimiento.saldo_nuevo)}*\n` +
     `🧾 *Recibo:* #${cuenta.consecutivo}\n\n` +
-    `¡Gracias por tu compra y puntualidad! 🙏`;
+    `¡Gracias por tu compra y puntualidad! 🙏\n` +
+    `_Kora - Control de Cartera_`;
 
   // Generador de imagen con medidas fijas, margen reseteado y centrado absoluto
   const generateReceiptImage = async (type: 'blob' | 'png', pixelRatio = 2.5) => {

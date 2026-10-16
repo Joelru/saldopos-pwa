@@ -1,6 +1,6 @@
-# Saldos — Plataforma de Abonos y Fiados (PWA Multi-tenant)
+# Kora — Control de Cartera (PWA Multi-tenant)
 
-**Saldos** es una solución Micro-SaaS B2B para digitalizar el crédito informal en comercios locales (Plan Separe y Cuentas de Fiado) con velocidad operativa de mostrador (<5 segundos por abono) y costo operativo $0 en mensajería.
+**Kora - Control de Cartera** es una solución Micro-SaaS B2B para digitalizar el crédito informal en comercios locales (Plan Separe y Cuentas de Fiado) con velocidad operativa de mostrador (<5 segundos por abono) y costo operativo $0 en mensajería.
 
 ## 🚀 Propuesta de Valor y Filosofía
 - **Cero complejidad:** Sin inventarios engorrosos ni facturación pesada.

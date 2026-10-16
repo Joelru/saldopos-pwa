@@ -139,7 +139,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Mensaje de Bienvenida */}
         <div>
           <h3 className="text-lg font-extrabold text-slate-heading">
-            {mode === 'register' ? 'Registra tu Tienda en Saldos' : 'Iniciar Sesión en tu Tienda'}
+            {mode === 'register' ? 'Registra tu Tienda en Kora' : 'Iniciar Sesión en tu Tienda'}
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
             {mode === 'register'

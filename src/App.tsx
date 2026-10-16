@@ -75,7 +75,7 @@ function PosMainContent() {
                 )}
               </div>
               <p className="text-[11px] sm:text-xs text-slate-400 font-medium truncate">
-                Libreta de Abonos y Fiados
+                Kora — Control de Cartera
               </p>
             </div>
           </div>
@@ -377,7 +377,7 @@ function PosMainContent() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <div className="flex items-center gap-1.5 font-medium text-slate-500">
             <CreditCard className="w-4 h-4 text-brand" />
-            <span>Saldos — Control de Abonos, Plan Separe y Fiados</span>
+            <span>Kora — Control de Cartera</span>
           </div>
 
           {deferredPrompt && (
@@ -390,7 +390,7 @@ function PosMainContent() {
             </button>
           )}
 
-          <p className="text-[11px]">Saldos • Diseñado para operar rápido y sin complicaciones</p>
+          <p className="text-[11px]">Kora - Control de Cartera • Rápido y sin complicaciones</p>
         </div>
       </footer>
     </div>
