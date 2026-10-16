@@ -377,7 +377,7 @@ function PosMainContent() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <div className="flex items-center gap-1.5 font-medium text-slate-500">
             <CreditCard className="w-4 h-4 text-brand" />
-            <span>Control de Abonos, Plan Separe y Fiados</span>
+            <span>Saldos — Control de Abonos, Plan Separe y Fiados</span>
           </div>
 
           {deferredPrompt && (
@@ -390,7 +390,7 @@ function PosMainContent() {
             </button>
           )}
 
-          <p className="text-[11px]">Diseñado para operar rápido y sin complicaciones</p>
+          <p className="text-[11px]">Saldos • Diseñado para operar rápido y sin complicaciones</p>
         </div>
       </footer>
     </div>

@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
     navigator.serviceWorker
       .register('/sw.js')
       .then(reg => {
-        console.log('✅ SaldoPOS Service Worker registrado con éxito:', reg.scope);
+        console.log('✅ Saldos Service Worker registrado con éxito:', reg.scope);
       })
       .catch(err => {
         console.warn('⚠️ Error registrando Service Worker:', err);

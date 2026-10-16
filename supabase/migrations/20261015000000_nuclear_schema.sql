@@ -1,5 +1,5 @@
 -- ==============================================================================
--- MIGRACIÓN NUCLEAR: DATÁFONO DIGITAL DE ABONOS Y FIADOS (SALDOPOS)
+-- MIGRACIÓN NUCLEAR: PLATAFORMA DE ABONOS Y FIADOS (SALDOS)
 -- Arquitectura Multi-Tenant, Inmutabilidad Contable y Motor de Movimientos Dual
 -- ==============================================================================
 

@@ -17,7 +17,7 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
     return (
       <div
         ref={ref}
-        className="w-full max-w-[340px] mx-auto bg-white text-slate-900 p-5 font-mono text-xs select-none shadow-pos-lg border border-slate-200 relative"
+        className="w-[340px] max-w-full bg-white text-slate-900 p-5 font-mono text-xs select-none shadow-pos-lg border border-slate-200 relative box-border"
         style={{ fontFamily: '"JetBrains Mono", monospace' }}
       >
         {/* Encabezado del Comercio */}
@@ -58,7 +58,7 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
         <div className="py-2.5 border-b border-dashed border-slate-300 space-y-1 text-[11px]">
           <div>
             <span className="text-slate-500 text-[10px] block">CLIENTE:</span>
-            <span className="font-bold text-xs uppercase block">{cuenta.nombre_cliente}</span>
+            <span className="font-bold text-xs uppercase block break-words">{cuenta.nombre_cliente}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-500">TEL:</span>
@@ -66,7 +66,7 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
           </div>
           <div>
             <span className="text-slate-500 text-[10px] block">ARTÍCULO / PRENDA:</span>
-            <span className="font-semibold text-xs block text-slate-800">{cuenta.concepto_articulo}</span>
+            <span className="font-semibold text-xs block text-slate-800 break-words">{cuenta.concepto_articulo}</span>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
           </div>
 
           {movimiento.nota && (
-            <div className="text-[10px] text-slate-500 italic pt-1">
+            <div className="text-[10px] text-slate-500 italic pt-1 break-words">
               <span>Nota: "{movimiento.nota}"</span>
             </div>
           )}
@@ -129,13 +129,13 @@ export const ThermalReceipt = React.forwardRef<HTMLDivElement, ThermalReceiptPro
 
         {/* Pie de Recibo */}
         <div className="text-center pt-2 space-y-1.5 border-t-2 border-dashed border-slate-300">
-          <p className="text-[10px] text-slate-600 italic leading-snug">
+          <p className="text-[10px] text-slate-600 italic leading-snug break-words">
             "{negocio.mensaje_pie_tirilla}"
           </p>
 
           {/* Código de Verificación Digital */}
           <div className="pt-2">
-            <div className="font-mono text-[9px] tracking-widest text-slate-400">
+            <div className="font-mono text-[9px] tracking-widest text-slate-400 truncate">
               REF: {movimiento.id.slice(0, 18).toUpperCase()}
             </div>
             <p className="text-[9px] text-slate-400 mt-0.5">

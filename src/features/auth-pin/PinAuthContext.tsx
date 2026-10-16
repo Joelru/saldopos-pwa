@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import { Negocio, RolUsuario } from '../../types/database';
 import { hashPin, DEMO_HASH_PIN_DUENO, DEMO_HASH_PIN_CAJERO } from '../../lib/crypto';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
+import { SEED_CUENTAS, SEED_MOVIMIENTOS } from '../../services/accountService';
 
 // Negocio por defecto si se desea probar modo demo sin registro
 const DEFAULT_DEMO_NEGOCIO: Negocio = {
@@ -42,27 +43,35 @@ interface PinAuthContextType {
 
 const PinAuthContext = createContext<PinAuthContextType | undefined>(undefined);
 
+const KEY_AUTH = 'saldos_authenticated';
+const KEY_NEGOCIO = 'saldos_negocio';
+const KEY_ROLE = 'saldos_role';
+
+const LEGACY_KEY_AUTH = 'saldopos_authenticated';
+const LEGACY_KEY_NEGOCIO = 'saldopos_negocio';
+const LEGACY_KEY_ROLE = 'saldopos_role';
+
 export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Estado de autenticación persistente del dispositivo
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('saldopos_authenticated') === 'true';
+    return localStorage.getItem(KEY_AUTH) === 'true' || localStorage.getItem(LEGACY_KEY_AUTH) === 'true';
   });
 
   const [negocio, setNegocio] = useState<Negocio>(() => {
-    const saved = localStorage.getItem('saldopos_negocio');
+    const saved = localStorage.getItem(KEY_NEGOCIO) || localStorage.getItem(LEGACY_KEY_NEGOCIO);
     return saved ? JSON.parse(saved) : DEFAULT_DEMO_NEGOCIO;
   });
 
   // Requiere configurar PIN si no tiene hash definido
   const [needsPinSetup, setNeedsPinSetup] = useState<boolean>(() => {
-    const saved = localStorage.getItem('saldopos_negocio');
+    const saved = localStorage.getItem(KEY_NEGOCIO) || localStorage.getItem(LEGACY_KEY_NEGOCIO);
     if (!saved) return false;
     const parsed: Negocio = JSON.parse(saved);
     return !parsed.pin_dueno_hash || parsed.pin_dueno_hash === 'SETUP_PENDING' || parsed.pin_dueno_hash === '';
   });
 
   const [currentRole, setCurrentRole] = useState<RolUsuario | null>(() => {
-    const saved = localStorage.getItem('saldopos_role');
+    const saved = localStorage.getItem(KEY_ROLE) || localStorage.getItem(LEGACY_KEY_ROLE);
     return saved ? (saved as RolUsuario) : null;
   });
 
@@ -74,7 +83,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const updateNegocio = useCallback((data: Partial<Negocio>) => {
     setNegocio(prev => {
       const updated = { ...prev, ...data };
-      localStorage.setItem('saldopos_negocio', JSON.stringify(updated));
+      localStorage.setItem(KEY_NEGOCIO, JSON.stringify(updated));
 
       if (isSupabaseConfigured && prev?.id) {
         supabase
@@ -181,10 +190,18 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       // Guardar sesión persistente en dispositivo
       setNegocio(nuevoNegocio);
-      localStorage.setItem('saldopos_negocio', JSON.stringify(nuevoNegocio));
-      localStorage.setItem('saldopos_authenticated', 'true');
+      localStorage.setItem(KEY_NEGOCIO, JSON.stringify(nuevoNegocio));
+      localStorage.setItem(KEY_AUTH, 'true');
       setIsAuthenticated(true);
       setNeedsPinSetup(true);
+
+      // Asegurar que la nueva tienda inicie 100% limpia sin mezclar datos de otras tiendas o demo
+      localStorage.setItem(`saldos_cuentas_${nuevoNegocio.id}`, JSON.stringify([]));
+      localStorage.setItem(`saldos_movimientos_${nuevoNegocio.id}`, JSON.stringify([]));
+      localStorage.removeItem('saldos_cuentas');
+      localStorage.removeItem('saldopos_cuentas');
+      localStorage.removeItem('saldos_movimientos');
+      localStorage.removeItem('saldopos_movimientos');
 
       return { success: true };
     } catch (err: unknown) {
@@ -216,14 +233,14 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
           if (!negocioError && negocioData) {
             setNegocio(negocioData);
-            localStorage.setItem('saldopos_negocio', JSON.stringify(negocioData));
+            localStorage.setItem(KEY_NEGOCIO, JSON.stringify(negocioData));
             const hasPin = Boolean(negocioData.pin_dueno_hash && negocioData.pin_dueno_hash !== 'SETUP_PENDING');
             setNeedsPinSetup(!hasPin);
           }
         }
       }
 
-      localStorage.setItem('saldopos_authenticated', 'true');
+      localStorage.setItem(KEY_AUTH, 'true');
       setIsAuthenticated(true);
       return { success: true };
     } catch (err: unknown) {
@@ -244,8 +261,8 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       };
 
       setNegocio(updatedNegocio);
-      localStorage.setItem('saldopos_negocio', JSON.stringify(updatedNegocio));
-      localStorage.setItem('saldopos_role', 'DUENO');
+      localStorage.setItem(KEY_NEGOCIO, JSON.stringify(updatedNegocio));
+      localStorage.setItem(KEY_ROLE, 'DUENO');
 
       if (isSupabaseConfigured) {
         try {
@@ -281,9 +298,12 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }
     }
 
-    localStorage.removeItem('saldopos_authenticated');
-    localStorage.removeItem('saldopos_role');
-    localStorage.removeItem('saldopos_negocio');
+    localStorage.removeItem(KEY_AUTH);
+    localStorage.removeItem(KEY_ROLE);
+    localStorage.removeItem(KEY_NEGOCIO);
+    localStorage.removeItem(LEGACY_KEY_AUTH);
+    localStorage.removeItem(LEGACY_KEY_ROLE);
+    localStorage.removeItem(LEGACY_KEY_NEGOCIO);
     setIsAuthenticated(false);
     setCurrentRole(null);
     setIsLocked(true);
@@ -292,13 +312,23 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Cargar tienda de demostración para pruebas inmediatas
   const enterDemoMode = (role: RolUsuario = 'DUENO') => {
     setNegocio(DEFAULT_DEMO_NEGOCIO);
-    localStorage.setItem('saldopos_negocio', JSON.stringify(DEFAULT_DEMO_NEGOCIO));
-    localStorage.setItem('saldopos_authenticated', 'true');
-    localStorage.setItem('saldopos_role', role);
+    localStorage.setItem(KEY_NEGOCIO, JSON.stringify(DEFAULT_DEMO_NEGOCIO));
+    localStorage.setItem(KEY_AUTH, 'true');
+    localStorage.setItem(KEY_ROLE, role);
     setIsAuthenticated(true);
     setNeedsPinSetup(false);
     setIsLocked(false);
     setCurrentRole(role);
+
+    // Sembrar explícitamente en la partición del negocio demo
+    const demoKeyCuentas = `saldos_cuentas_${DEFAULT_DEMO_NEGOCIO.id}`;
+    const demoKeyMovs = `saldos_movimientos_${DEFAULT_DEMO_NEGOCIO.id}`;
+    if (!localStorage.getItem(demoKeyCuentas)) {
+      localStorage.setItem(demoKeyCuentas, JSON.stringify(SEED_CUENTAS));
+    }
+    if (!localStorage.getItem(demoKeyMovs)) {
+      localStorage.setItem(demoKeyMovs, JSON.stringify(SEED_MOVIMIENTOS));
+    }
   };
 
   // Desbloqueo mediante comparación hash de PIN
@@ -314,7 +344,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (cleanPin === '1234') {
         setCurrentRole('DUENO');
         setIsLocked(false);
-        localStorage.setItem('saldopos_role', 'DUENO');
+        localStorage.setItem(KEY_ROLE, 'DUENO');
         return { success: true, role: 'DUENO' };
       }
 
@@ -322,7 +352,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (cleanPin === '4321') {
         setCurrentRole('CAJERO');
         setIsLocked(false);
-        localStorage.setItem('saldopos_role', 'CAJERO');
+        localStorage.setItem(KEY_ROLE, 'CAJERO');
         return { success: true, role: 'CAJERO' };
       }
 
@@ -332,7 +362,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (hashedInput === negocio.pin_dueno_hash || hashedInput === DEMO_HASH_PIN_DUENO) {
         setCurrentRole('DUENO');
         setIsLocked(false);
-        localStorage.setItem('saldopos_role', 'DUENO');
+        localStorage.setItem(KEY_ROLE, 'DUENO');
         return { success: true, role: 'DUENO' };
       }
 
@@ -340,7 +370,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (hashedInput === negocio.pin_cajero_hash || hashedInput === DEMO_HASH_PIN_CAJERO) {
         setCurrentRole('CAJERO');
         setIsLocked(false);
-        localStorage.setItem('saldopos_role', 'CAJERO');
+        localStorage.setItem(KEY_ROLE, 'CAJERO');
         return { success: true, role: 'CAJERO' };
       }
 
@@ -350,7 +380,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (cleanPin === '1234') {
         setCurrentRole('DUENO');
         setIsLocked(false);
-        localStorage.setItem('saldopos_role', 'DUENO');
+        localStorage.setItem(KEY_ROLE, 'DUENO');
         return { success: true, role: 'DUENO' };
       }
       return { success: false, error: 'Error al verificar el PIN.' };

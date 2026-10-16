@@ -1,14 +1,16 @@
 import { Cuenta, Movimiento, TipoCuenta, TipoMovimiento, MetodoPago, RolUsuario, CuadreCajaResumen } from '../types/database';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
-const STORAGE_KEY_CUENTAS = 'saldopos_cuentas';
-const STORAGE_KEY_MOVIMIENTOS = 'saldopos_movimientos';
+export const DEMO_NEGOCIO_ID = '00000000-0000-0000-0000-000000000001';
 
-// Datos semilla de inicio para funcionamiento inmediato
-const SEED_CUENTAS: Cuenta[] = [
+export const getCuentasStorageKey = (negocioId: string) => `saldos_cuentas_${negocioId}`;
+export const getMovimientosStorageKey = (negocioId: string) => `saldos_movimientos_${negocioId}`;
+
+// Datos semilla exclusivamente para la tienda de demostración (Boutique Stylo Urbano)
+export const SEED_CUENTAS: Cuenta[] = [
   {
     id: '11111111-1111-1111-1111-111111111111',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     consecutivo: 1001,
     nombre_cliente: 'Carlos Alberto Gómez',
     celular_cliente: '3124567890',
@@ -22,7 +24,7 @@ const SEED_CUENTAS: Cuenta[] = [
   },
   {
     id: '22222222-2222-2222-2222-222222222222',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     consecutivo: 1002,
     nombre_cliente: 'María Camila Restrepo',
     celular_cliente: '3159876543',
@@ -36,7 +38,7 @@ const SEED_CUENTAS: Cuenta[] = [
   },
   {
     id: '33333333-3333-3333-3333-333333333333',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     consecutivo: 1003,
     nombre_cliente: 'Don Hernán Ramírez',
     celular_cliente: '3001122334',
@@ -50,7 +52,7 @@ const SEED_CUENTAS: Cuenta[] = [
   },
   {
     id: '44444444-4444-4444-4444-444444444444',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     consecutivo: 1004,
     nombre_cliente: 'Diana Marcela Torres',
     celular_cliente: '3185566778',
@@ -64,11 +66,11 @@ const SEED_CUENTAS: Cuenta[] = [
   },
 ];
 
-const SEED_MOVIMIENTOS: Movimiento[] = [
+export const SEED_MOVIMIENTOS: Movimiento[] = [
   {
     id: 'm1',
     cuenta_id: '11111111-1111-1111-1111-111111111111',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     tipo_movimiento: 'ABONO',
     monto: 100000,
     saldo_anterior: 280000,
@@ -81,7 +83,7 @@ const SEED_MOVIMIENTOS: Movimiento[] = [
   {
     id: 'm2',
     cuenta_id: '11111111-1111-1111-1111-111111111111',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     tipo_movimiento: 'ABONO',
     monto: 60000,
     saldo_anterior: 180000,
@@ -94,7 +96,7 @@ const SEED_MOVIMIENTOS: Movimiento[] = [
   {
     id: 'm3',
     cuenta_id: '33333333-3333-3333-3333-333333333333',
-    negocio_id: '00000000-0000-0000-0000-000000000001',
+    negocio_id: DEMO_NEGOCIO_ID,
     tipo_movimiento: 'ABONO',
     monto: 85000,
     saldo_anterior: 145000,
@@ -107,7 +109,7 @@ const SEED_MOVIMIENTOS: Movimiento[] = [
 ];
 
 export const AccountService = {
-  // Cargar cuentas
+  // Cargar cuentas estrictamente aisladas por negocio
   async getCuentas(negocioId: string): Promise<Cuenta[]> {
     if (isSupabaseConfigured) {
       try {
@@ -116,23 +118,40 @@ export const AccountService = {
           .select('*')
           .eq('negocio_id', negocioId)
           .order('updated_at', { ascending: false });
-        if (!error && data && data.length > 0) {
-          localStorage.setItem(STORAGE_KEY_CUENTAS, JSON.stringify(data));
+
+        // Si Supabase responde exitosamente (incluso con lista vacía []), esa es la verdad absoluta
+        if (!error && Array.isArray(data)) {
+          localStorage.setItem(getCuentasStorageKey(negocioId), JSON.stringify(data));
           return data;
         }
       } catch (e) {
-        console.warn('Fallback a almacenamiento local para cuentas:', e);
+        console.warn(`Fallback local para cuentas de tienda ${negocioId}:`, e);
       }
     }
 
-    const saved = localStorage.getItem(STORAGE_KEY_CUENTAS);
-    if (saved) return JSON.parse(saved);
-    localStorage.setItem(STORAGE_KEY_CUENTAS, JSON.stringify(SEED_CUENTAS));
-    return SEED_CUENTAS;
+    // Consulta local aislada por tienda
+    const saved = localStorage.getItem(getCuentasStorageKey(negocioId));
+    if (saved !== null) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // En caso de dato corrupto
+      }
+    }
+
+    // Si es la tienda demo y nunca se ha sembrado en este navegador, sembrar los datos demo
+    if (negocioId === DEMO_NEGOCIO_ID) {
+      localStorage.setItem(getCuentasStorageKey(negocioId), JSON.stringify(SEED_CUENTAS));
+      return SEED_CUENTAS;
+    }
+
+    // Para cualquier tienda nueva registrada: SIEMPRE entregar lista 100% limpia y vacía
+    localStorage.setItem(getCuentasStorageKey(negocioId), JSON.stringify([]));
+    return [];
   },
 
   // Cargar movimientos de una cuenta
-  async getMovimientos(cuentaId: string): Promise<Movimiento[]> {
+  async getMovimientos(cuentaId: string, negocioId?: string): Promise<Movimiento[]> {
     if (isSupabaseConfigured) {
       try {
         const { data, error } = await supabase
@@ -140,15 +159,40 @@ export const AccountService = {
           .select('*')
           .eq('cuenta_id', cuentaId)
           .order('created_at', { ascending: false });
-        if (!error && data) return data;
+
+        if (!error && Array.isArray(data)) {
+          return data;
+        }
       } catch (e) {
-        console.warn('Fallback a almacenamiento local para movimientos:', e);
+        console.warn('Fallback local para movimientos:', e);
       }
     }
 
-    const saved = localStorage.getItem(STORAGE_KEY_MOVIMIENTOS);
-    const allMovimientos: Movimiento[] = saved ? JSON.parse(saved) : SEED_MOVIMIENTOS;
-    return allMovimientos.filter(m => m.cuenta_id === cuentaId);
+    // Búsqueda en partición local
+    if (negocioId) {
+      const saved = localStorage.getItem(getMovimientosStorageKey(negocioId));
+      if (saved !== null) {
+        try {
+          const movs: Movimiento[] = JSON.parse(saved);
+          return movs.filter(m => m.cuenta_id === cuentaId);
+        } catch {}
+      }
+      if (negocioId === DEMO_NEGOCIO_ID) {
+        return SEED_MOVIMIENTOS.filter(m => m.cuenta_id === cuentaId);
+      }
+      return [];
+    }
+
+    // Fallback revisando la demo si no se especificó negocioId
+    const demoSaved = localStorage.getItem(getMovimientosStorageKey(DEMO_NEGOCIO_ID));
+    if (demoSaved) {
+      try {
+        const movs: Movimiento[] = JSON.parse(demoSaved);
+        const filtered = movs.filter(m => m.cuenta_id === cuentaId);
+        if (filtered.length > 0) return filtered;
+      } catch {}
+    }
+    return SEED_MOVIMIENTOS.filter(m => m.cuenta_id === cuentaId);
   },
 
   // Crear una nueva cuenta en <5 segundos
@@ -170,9 +214,6 @@ export const AccountService = {
     
     const valorTotal = data.valor_inicial;
     const abonoInicial = data.abono_inicial || 0;
-    
-    // En Separe: saldo pendiente = total - abono inicial
-    // En Fiado: saldo pendiente = total - abono inicial
     const saldoPendiente = Math.max(0, valorTotal - abonoInicial);
     const estado = saldoPendiente === 0 ? 'PAGADA' : 'ACTIVA';
 
@@ -209,14 +250,14 @@ export const AccountService = {
       };
     }
 
-    // Persistir localmente
+    // Persistir en almacenamiento local aislado de este negocio
     const updatedCuentas = [nuevaCuenta, ...cuentas];
-    localStorage.setItem(STORAGE_KEY_CUENTAS, JSON.stringify(updatedCuentas));
+    localStorage.setItem(getCuentasStorageKey(negocioId), JSON.stringify(updatedCuentas));
 
     if (movimientoInicial) {
-      const savedMovs = localStorage.getItem(STORAGE_KEY_MOVIMIENTOS);
-      const allMovs: Movimiento[] = savedMovs ? JSON.parse(savedMovs) : SEED_MOVIMIENTOS;
-      localStorage.setItem(STORAGE_KEY_MOVIMIENTOS, JSON.stringify([movimientoInicial, ...allMovs]));
+      const savedMovs = localStorage.getItem(getMovimientosStorageKey(negocioId));
+      const allMovs: Movimiento[] = savedMovs ? JSON.parse(savedMovs) : (negocioId === DEMO_NEGOCIO_ID ? SEED_MOVIMIENTOS : []);
+      localStorage.setItem(getMovimientosStorageKey(negocioId), JSON.stringify([movimientoInicial, ...allMovs]));
     }
 
     // Si Supabase está disponible, sincronizar
@@ -277,14 +318,14 @@ export const AccountService = {
       updated_at: new Date().toISOString(),
     };
 
-    // Actualizar local
+    // Actualizar almacenamiento local aislado de la tienda
     const cuentas = await this.getCuentas(cuenta.negocio_id);
     const updatedCuentas = cuentas.map(c => (c.id === cuenta.id ? cuentaActualizada : c));
-    localStorage.setItem(STORAGE_KEY_CUENTAS, JSON.stringify(updatedCuentas));
+    localStorage.setItem(getCuentasStorageKey(cuenta.negocio_id), JSON.stringify(updatedCuentas));
 
-    const savedMovs = localStorage.getItem(STORAGE_KEY_MOVIMIENTOS);
-    const allMovs: Movimiento[] = savedMovs ? JSON.parse(savedMovs) : SEED_MOVIMIENTOS;
-    localStorage.setItem(STORAGE_KEY_MOVIMIENTOS, JSON.stringify([nuevoMovimiento, ...allMovs]));
+    const savedMovs = localStorage.getItem(getMovimientosStorageKey(cuenta.negocio_id));
+    const allMovs: Movimiento[] = savedMovs ? JSON.parse(savedMovs) : (cuenta.negocio_id === DEMO_NEGOCIO_ID ? SEED_MOVIMIENTOS : []);
+    localStorage.setItem(getMovimientosStorageKey(cuenta.negocio_id), JSON.stringify([nuevoMovimiento, ...allMovs]));
 
     // Sincronizar en background si Supabase está activo
     if (isSupabaseConfigured) {
@@ -305,18 +346,50 @@ export const AccountService = {
     return { cuenta: cuentaActualizada, movimiento: nuevoMovimiento };
   },
 
-  // Resumen del cuadre de caja diario
+  // Resumen del cuadre de caja diario aislado por tienda
   async getCuadreCaja(negocioId: string): Promise<CuadreCajaResumen> {
     const cuentas = await this.getCuentas(negocioId);
-    const savedMovs = localStorage.getItem(STORAGE_KEY_MOVIMIENTOS);
-    const allMovs: Movimiento[] = savedMovs ? JSON.parse(savedMovs) : SEED_MOVIMIENTOS;
+    let allMovs: Movimiento[] = [];
+
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from('movimientos')
+          .select('*')
+          .eq('negocio_id', negocioId);
+
+        if (!error && Array.isArray(data)) {
+          allMovs = data;
+          localStorage.setItem(getMovimientosStorageKey(negocioId), JSON.stringify(data));
+        }
+      } catch (err) {
+        console.warn('Fallback a local para cuadre:', err);
+      }
+    }
+
+    if (allMovs.length === 0) {
+      const saved = localStorage.getItem(getMovimientosStorageKey(negocioId));
+      if (saved) {
+        try {
+          allMovs = JSON.parse(saved);
+        } catch {
+          allMovs = [];
+        }
+      } else if (negocioId === DEMO_NEGOCIO_ID) {
+        allMovs = SEED_MOVIMIENTOS;
+        localStorage.setItem(getMovimientosStorageKey(negocioId), JSON.stringify(SEED_MOVIMIENTOS));
+      } else {
+        allMovs = [];
+      }
+    }
 
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
 
+    // Filtrar estrictamente por fecha de hoy, tipo ABONO y negocioId
     const movimientosHoy = allMovs.filter(m => {
       const fecha = new Date(m.created_at);
-      return fecha >= todayStart && m.tipo_movimiento === 'ABONO';
+      return fecha >= todayStart && m.tipo_movimiento === 'ABONO' && m.negocio_id === negocioId;
     });
 
     const totalEfectivoHoy = movimientosHoy
