@@ -10,7 +10,8 @@ import {
   X,
   PlusCircle,
   MessageCircle,
-  Package
+  Package,
+  Sparkles
 } from 'lucide-react';
 import { Cuenta, Movimiento, CuadreCajaResumen } from '../../types/database';
 import { formatCurrency } from '../../lib/formatters';
@@ -29,6 +30,7 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
   const { negocio, currentRole } = usePinAuth();
   const [cuentas, setCuentas] = useState<Cuenta[]>([]);
   const [cuadre, setCuadre] = useState<CuadreCajaResumen | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeFilter, setActiveFilter] = useState<'ALL' | 'SEPARE' | 'FIADO' | 'PAGADAS'>('ALL');
   const [showSensitiveData, setShowSensitiveData] = useState<boolean>(currentRole === 'DUENO');
@@ -40,18 +42,27 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
     mode: 'ABONO' | 'CARGO';
   } | null>(null);
 
-  // Cargar datos
-  const loadData = useCallback(async () => {
-    const [loadedCuentas, loadedCuadre] = await Promise.all([
-      AccountService.getCuentas(negocio.id),
-      AccountService.getCuadreCaja(negocio.id),
-    ]);
-    setCuentas(loadedCuentas);
-    setCuadre(loadedCuadre);
+  // Cargar datos con transición fluida y animada
+  const loadData = useCallback(async (isInitial = false) => {
+    setIsLoading(true);
+    try {
+      const [loadedCuentas, loadedCuadre] = await Promise.all([
+        AccountService.getCuentas(negocio.id),
+        AccountService.getCuadreCaja(negocio.id),
+        // Pausa dinámica suave calculada para dar tiempo a la transición de entrada
+        new Promise(res => setTimeout(res, isInitial ? 400 : 200)),
+      ]);
+      setCuentas(loadedCuentas);
+      setCuadre(loadedCuadre);
+    } catch (err) {
+      console.error('Error cargando cuentas:', err);
+    } finally {
+      setIsLoading(false);
+    }
   }, [negocio.id]);
 
   useEffect(() => {
-    loadData();
+    loadData(true);
   }, [loadData]);
 
   // Manejo de visibilidad de cartera total con PIN Maestro
@@ -107,12 +118,22 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
               <ArrowDownLeft className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight">
-            {formatCurrency(cuadre?.totalAbonosHoy || 0)}
-          </div>
+          {isLoading ? (
+            <div className="h-9 w-40 bg-white/20 rounded-xl animate-pulse my-1" />
+          ) : (
+            <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight animate-fadeIn">
+              {formatCurrency(cuadre?.totalAbonosHoy || 0)}
+            </div>
+          )}
           <div className="text-xs text-emerald-100 mt-2 pt-2 border-t border-emerald-500/40 flex items-center justify-between font-mono">
-            <span>Efectivo: <strong className="text-white font-black">{formatCurrency(cuadre?.totalEfectivoHoy || 0)}</strong></span>
-            <span>Nequi / Transf: <strong className="text-white font-black">{formatCurrency(cuadre?.totalTransferenciaHoy || 0)}</strong></span>
+            {isLoading ? (
+              <div className="h-3.5 w-full bg-white/20 rounded-md animate-pulse" />
+            ) : (
+              <>
+                <span>Efectivo: <strong className="text-white font-black">{formatCurrency(cuadre?.totalEfectivoHoy || 0)}</strong></span>
+                <span>Nequi / Transf: <strong className="text-white font-black">{formatCurrency(cuadre?.totalTransferenciaHoy || 0)}</strong></span>
+              </>
+            )}
           </div>
         </div>
 
@@ -130,15 +151,23 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
               {showSensitiveData ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight">
-            {showSensitiveData ? formatCurrency(cuadre?.totalPorCobrarCartera || 0) : '••••••••'}
-          </div>
+          {isLoading ? (
+            <div className="h-9 w-40 bg-white/20 rounded-xl animate-pulse my-1" />
+          ) : (
+            <div className="text-2xl sm:text-3xl font-black text-white font-mono tracking-tight animate-fadeIn">
+              {showSensitiveData ? formatCurrency(cuadre?.totalPorCobrarCartera || 0) : '••••••••'}
+            </div>
+          )}
           <div className="text-xs text-slate-300 mt-2 pt-2 border-t border-slate-700/60 flex items-center justify-between">
-            <span>
-              {showSensitiveData
-                ? `${cuadre?.totalClientesActivos || 0} clientes con deuda activa`
-                : 'Oculto para cajeros (Toca el ojo para ver)'}
-            </span>
+            {isLoading ? (
+              <div className="h-3.5 w-44 bg-white/20 rounded-md animate-pulse" />
+            ) : (
+              <span>
+                {showSensitiveData
+                  ? `${cuadre?.totalClientesActivos || 0} clientes con deuda activa`
+                  : 'Oculto para cajeros (Toca el ojo para ver)'}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -226,22 +255,58 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
 
       {/* 4. Listado de Cuentas (Grid Responsivo para Portátiles y Móviles) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredCuentas.length === 0 ? (
-          <div className="col-span-full bg-white border border-cloud-border rounded-3xl p-10 text-center space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
-              <Search className="w-6 h-6" />
+        {isLoading ? (
+          // Tarjetas Skeleton durante carga / entrada al demo
+          [1, 2, 3].map((n) => (
+            <div
+              key={n}
+              className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4 animate-pulse"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="h-5 w-24 bg-slate-200 rounded-full" />
+                  <div className="h-5 w-16 bg-slate-100 rounded-md" />
+                </div>
+                <div className="h-6 w-3/4 bg-slate-200 rounded-xl" />
+                <div className="h-14 w-full bg-slate-100 rounded-2xl" />
+              </div>
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <div className="h-3.5 w-1/2 bg-slate-100 rounded" />
+                <div className="h-7 w-2/3 bg-slate-200 rounded-xl" />
+              </div>
+              <div className="flex gap-2 pt-2">
+                <div className="h-10 flex-1 bg-slate-200 rounded-xl" />
+                <div className="h-10 w-24 bg-slate-100 rounded-xl" />
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-bold text-slate-700">No se encontraron cuentas</p>
-              <p className="text-xs text-slate-400 mt-1">
+          ))
+        ) : filteredCuentas.length === 0 ? (
+          <div className="col-span-full bg-white border border-cloud-border rounded-3xl p-10 text-center space-y-4 animate-fadeIn">
+            <div className="w-14 h-14 rounded-2xl bg-brand/10 text-brand flex items-center justify-center mx-auto shadow-inner">
+              {searchQuery ? <Search className="w-7 h-7" /> : <Sparkles className="w-7 h-7" />}
+            </div>
+            <div className="max-w-md mx-auto">
+              <p className="text-base font-extrabold text-slate-800">
+                {searchQuery ? 'No se encontraron resultados' : '¡Tu libreta de mostrador está limpia y lista!'}
+              </p>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                 {searchQuery
-                  ? 'No hay ningún cliente o prenda que coincida con esa búsqueda.'
-                  : 'Aún no tienes cuentas registradas. Toca en "+ Anotar Nueva Cuenta".'}
+                  ? 'No hay ningún cliente o prenda que coincida con esa búsqueda. Prueba con otro nombre o celular.'
+                  : 'Aún no tienes cuentas registradas en este negocio. Toda tienda nueva se entrega completamente limpia para que comiences a registrar tus fiados y apartados.'}
               </p>
             </div>
+            {!searchQuery && (
+              <button
+                onClick={() => setIsNewAccountOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-brand-hover text-white text-xs font-black rounded-2xl shadow-md active:scale-95 transition-all"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>+ Anotar mi Primer Cliente</span>
+              </button>
+            )}
           </div>
         ) : (
-          filteredCuentas.map(cuenta => {
+          filteredCuentas.map((cuenta, idx) => {
             const isSepare = cuenta.tipo_cuenta === 'SEPARE';
             const progress = isSepare
               ? Math.min(100, Math.round(((cuenta.valor_inicial - cuenta.saldo_pendiente) / cuenta.valor_inicial) * 100))
@@ -250,7 +315,8 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
             return (
               <div
                 key={cuenta.id}
-                className={`p-5 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-3 ${
+                style={{ animationDelay: `${idx * 50}ms` }}
+                className={`p-5 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-3 animate-fadeIn ${
                   cuenta.estado === 'PAGADA'
                     ? 'bg-emerald-50/40 border border-emerald-200 border-l-4 border-l-emerald-500'
                     : isSepare

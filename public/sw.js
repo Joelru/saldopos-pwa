@@ -1,4 +1,4 @@
-const CACHE_NAME = 'saldopos-v1.0.0';
+const CACHE_NAME = 'saldos-v1.0.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

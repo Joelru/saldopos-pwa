@@ -38,19 +38,51 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
     `🧾 *Recibo:* #${cuenta.consecutivo}\n\n` +
     `¡Gracias por tu compra y puntualidad! 🙏`;
 
+  // Generador de imagen con medidas fijas, margen reseteado y centrado absoluto
+  const generateReceiptImage = async (type: 'blob' | 'png', pixelRatio = 2.5) => {
+    if (!receiptRef.current) return null;
+    const node = receiptRef.current;
+
+    // Medidas base del voucher: 340px de ancho y alto completo con margen inferior para el dentado
+    const targetWidth = 340;
+    const targetHeight = Math.ceil(node.offsetHeight || node.scrollHeight) + 12;
+
+    const options = {
+      pixelRatio,
+      backgroundColor: '#FFFFFF',
+      width: targetWidth,
+      height: targetHeight,
+      style: {
+        margin: '0',
+        marginLeft: '0',
+        marginRight: '0',
+        marginTop: '0',
+        marginBottom: '0',
+        transform: 'none',
+        left: '0',
+        top: '0',
+        position: 'relative',
+        boxSizing: 'border-box',
+        width: `${targetWidth}px`,
+      },
+    };
+
+    if (type === 'blob') {
+      return await toBlob(node, options);
+    } else {
+      return await toPng(node, options);
+    }
+  };
+
   // Compartir directamente por WhatsApp con imagen adjunta ($0 API)
   const handleShareWhatsApp = async () => {
     if (!receiptRef.current) return;
     setIsGenerating(true);
 
     try {
-      // 1. Generar blob de alta resolución (2x pixel ratio para pantallas Retina/Móvil)
-      const blob = await toBlob(receiptRef.current, {
-        pixelRatio: 2.5,
-        backgroundColor: '#FFFFFF',
-      });
-
-      if (!blob) throw new Error('No se pudo generar la imagen');
+      // 1. Generar blob centrado y sin recortes
+      const blob = await generateReceiptImage('blob', 2.5);
+      if (!blob) throw new Error('No se pudo generar la imagen del voucher');
 
       const fileName = `recibo-${cuenta.consecutivo}-${Date.now()}.png`;
       const file = new File([blob], fileName, { type: 'image/png' });
@@ -67,11 +99,13 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
       } else {
         // Fallback para computadores de escritorio o navegadores sin Web Share
         // A) Descargar imagen automáticamente
-        const dataUrl = await toPng(receiptRef.current, { pixelRatio: 2.5, backgroundColor: '#FFFFFF' });
-        const link = document.createElement('a');
-        link.download = fileName;
-        link.href = dataUrl;
-        link.click();
+        const dataUrl = (await generateReceiptImage('png', 2.5)) as string;
+        if (dataUrl) {
+          const link = document.createElement('a');
+          link.download = fileName;
+          link.href = dataUrl;
+          link.click();
+        }
 
         // B) Abrir WhatsApp Web con el texto pre-redactado
         const waUrl = `https://wa.me/${phoneNormalized}?text=${encodeURIComponent(whatsappCaption)}`;
@@ -91,7 +125,8 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
     if (!receiptRef.current) return;
     setIsGenerating(true);
     try {
-      const dataUrl = await toPng(receiptRef.current, { pixelRatio: 3, backgroundColor: '#FFFFFF' });
+      const dataUrl = (await generateReceiptImage('png', 3)) as string;
+      if (!dataUrl) return;
       const link = document.createElement('a');
       link.download = `tirilla-${cuenta.consecutivo}-${cuenta.nombre_cliente.replace(/\s+/g, '_')}.png`;
       link.href = dataUrl;
@@ -126,7 +161,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
         </div>
 
         {/* Contenedor del Recibo Térmico (Scrollable) */}
-        <div className="p-4 overflow-y-auto no-scrollbar flex-1 bg-slate-100/70 flex justify-center items-center">
+        <div className="p-4 overflow-y-auto no-scrollbar flex-1 bg-slate-100/70 flex justify-center items-start">
           <ThermalReceipt
             ref={receiptRef}
             negocio={negocio}

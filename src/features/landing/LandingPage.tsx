@@ -33,7 +33,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
               <CreditCard className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-extrabold text-base text-brand-navy tracking-tight">Saldo</span>
+              <span className="font-extrabold text-base text-brand-navy tracking-tight">Saldos</span>
               <span className="block text-[10px] text-slate-400 -mt-0.5 font-semibold">Abonos & Fiados</span>
             </div>
           </div>
@@ -193,7 +193,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             Activa solo el sistema que usa tu negocio
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-            Una tienda de barrio no hace Plan Separe y una óptica no suele fiar. En Saldo puedes activar o apagar cualquiera de los dos desde tus ajustes para no saturar tu mostrador.
+            Una tienda de barrio no hace Plan Separe y una óptica no suele fiar. En Saldos puedes activar o apagar cualquiera de los dos desde tus ajustes para no saturar tu mostrador.
           </p>
         </div>
 
@@ -237,7 +237,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             Diseñado para que cualquier persona lo maneje sin ayuda
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-            No necesitas saber de sistemas ni de contabilidad. Si sabes mandar un mensaje por WhatsApp, ya sabes usar Saldo.
+            No necesitas saber de sistemas ni de contabilidad. Si sabes mandar un mensaje por WhatsApp, ya sabes usar Saldos.
           </p>
         </div>
 
@@ -266,13 +266,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
             </ul>
           </div>
 
-          {/* Saldo */}
+          {/* Saldos */}
           <div className="bg-gradient-to-br from-emerald-50/50 via-white to-sky-50/40 p-6 rounded-3xl border-2 border-emerald-500 shadow-pos-lg space-y-4">
             <div className="flex items-center gap-2.5 text-emerald-950">
               <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
                 <Zap className="w-5 h-5" />
               </div>
-              <h3 className="font-extrabold text-base">La tranquilidad con Saldo</h3>
+              <h3 className="font-extrabold text-base">La tranquilidad con Saldos</h3>
             </div>
             <ul className="text-xs text-slate-700 space-y-2.5 list-none">
               <li className="flex items-start gap-2">
@@ -296,9 +296,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenAuth }) => {
       <footer className="mt-auto py-8 px-4 text-center text-xs text-slate-400 space-y-2 border-t border-sky-100 bg-white/40 backdrop-blur-xs">
         <div className="flex items-center justify-center gap-2 font-bold text-slate-700">
           <CreditCard className="w-4 h-4 text-brand" />
-          <span>Saldo — Abonos y Fiados</span>
+          <span>Saldos — Abonos y Fiados</span>
         </div>
-        <p>© 2026 Saldo. Diseñado para comerciantes de mostrador en Colombia.</p>
+        <p>© 2026 Saldos. Diseñado para comerciantes de mostrador en Colombia.</p>
         <div className="flex items-center justify-center gap-3 text-[11px] text-slate-400">
           <span>Seguro & Confiable</span>
           <span>•</span>
