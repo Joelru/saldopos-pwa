@@ -35,7 +35,7 @@ export const AccountDetailModal: React.FC<AccountDetailModalProps> = ({
   useEffect(() => {
     if (isOpen && cuenta) {
       setIsLoadingMovs(true);
-      AccountService.getMovimientos(cuenta.id)
+      AccountService.getMovimientos(cuenta.id, cuenta.negocio_id)
         .then(movs => setMovimientos(movs))
         .catch(err => console.warn('Error cargando movimientos:', err))
         .finally(() => setIsLoadingMovs(false));

@@ -1,5 +1,5 @@
 -- ==============================================================================
--- DATOS SEED PARA PRUEBAS: BOUTIQUE & CALZADO STYLO URBANO (SALDOPOS)
+-- DATOS SEED PARA PRUEBAS: BOUTIQUE & CALZADO STYLO URBANO (SALDOS)
 -- ==============================================================================
 
 -- 1. Asegurar que owner_user_id permita NULL (para operar sin requerir login email/password en el datáfono)
