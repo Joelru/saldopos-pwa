@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { Negocio, RolUsuario } from '../../types/database';
-import { hashPin, DEMO_HASH_PIN_DUENO, DEMO_HASH_PIN_CAJERO } from '../../lib/crypto';
+import { hashPin, deriveStoreUuid, DEMO_HASH_PIN_DUENO, DEMO_HASH_PIN_CAJERO } from '../../lib/crypto';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { SEED_CUENTAS, SEED_MOVIMIENTOS } from '../../services/accountService';
 
@@ -84,15 +84,19 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setNegocio(prev => {
       const updated = { ...prev, ...data };
       localStorage.setItem(KEY_NEGOCIO, JSON.stringify(updated));
+      localStorage.setItem(`saldos_negocio_cache_${updated.id}`, JSON.stringify(updated));
 
       if (isSupabaseConfigured && prev?.id) {
-        supabase
-          .from('negocios')
-          .update(data)
-          .eq('id', prev.id)
-          .then(({ error }) => {
-            if (error) console.warn('Aviso: no se sincronizó cambio en Supabase (puede faltar columna):', error.message);
-          });
+        const { permite_separe: _ps, permite_fiado: _pf, ...dbColumns } = data;
+        if (Object.keys(dbColumns).length > 0) {
+          supabase
+            .from('negocios')
+            .update(dbColumns)
+            .eq('id', prev.id)
+            .then(({ error }) => {
+              if (error) console.warn('Aviso: no se sincronizó cambio en Supabase:', error.message);
+            });
+        }
       }
 
       return updated;
@@ -132,7 +136,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   }, [isLocked, isAuthenticated, needsPinSetup, resetInactivityTimer]);
 
-  // Registrar nueva tienda
+  // Registrar nueva tienda directamente sin requerir verificación de Gmail
   const registerShop = async (data: {
     nombre_local: string;
     email: string;
@@ -140,34 +144,38 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     password: string;
   }): Promise<{ success: boolean; error?: string }> => {
     try {
-      let userId: string | null = null;
+      const normalizedEmail = data.email.trim().toLowerCase();
+      const nuevoNegocioId = await deriveStoreUuid(normalizedEmail, data.password);
 
+      // Si ya existe en Supabase con ese mismo correo y contraseña, recuperarla de inmediato
       if (isSupabaseConfigured) {
-        // 1. Crear usuario en Supabase Auth
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-          options: {
-            emailRedirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
-            data: {
-              nombre_local: data.nombre_local,
-              celular: data.celular,
-            },
-          },
-        });
+        const { data: existingStore } = await supabase
+          .from('negocios')
+          .select('*')
+          .eq('id', nuevoNegocioId)
+          .maybeSingle();
 
-        if (authError) {
-          return { success: false, error: authError.message };
+        if (existingStore) {
+          const restoredNegocio: Negocio = {
+            ...existingStore,
+            permite_separe: existingStore.permite_separe ?? true,
+            permite_fiado: existingStore.permite_fiado ?? true,
+          };
+          setNegocio(restoredNegocio);
+          localStorage.setItem(KEY_NEGOCIO, JSON.stringify(restoredNegocio));
+          localStorage.setItem(`saldos_negocio_cache_${restoredNegocio.id}`, JSON.stringify(restoredNegocio));
+          localStorage.setItem(KEY_AUTH, 'true');
+          setIsAuthenticated(true);
+          const hasPin = Boolean(restoredNegocio.pin_dueno_hash && restoredNegocio.pin_dueno_hash !== 'SETUP_PENDING');
+          setNeedsPinSetup(!hasPin);
+          return { success: true };
         }
-
-        userId = authData.user?.id || null;
       }
 
-      // 2. Crear la entidad Negocio
-      const nuevoNegocioId = crypto.randomUUID ? crypto.randomUUID() : `neg-${Date.now()}`;
+      // Crear la entidad Negocio sin depender de verificación por correo
       const nuevoNegocio: Negocio = {
         id: nuevoNegocioId,
-        owner_user_id: userId || 'local-owner',
+        owner_user_id: nuevoNegocioId,
         nombre_local: data.nombre_local,
         telefono: `+57${data.celular}`,
         direccion: 'Mostrador Principal',
@@ -183,7 +191,20 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       };
 
       if (isSupabaseConfigured) {
-        const { error: dbError } = await supabase.from('negocios').insert(nuevoNegocio);
+        const { error: dbError } = await supabase.from('negocios').insert({
+          id: nuevoNegocio.id,
+          owner_user_id: null,
+          nombre_local: nuevoNegocio.nombre_local,
+          telefono: nuevoNegocio.telefono,
+          direccion: nuevoNegocio.direccion,
+          logo_url: nuevoNegocio.logo_url,
+          pin_dueno_hash: nuevoNegocio.pin_dueno_hash,
+          pin_cajero_hash: nuevoNegocio.pin_cajero_hash,
+          mensaje_pie_tirilla: nuevoNegocio.mensaje_pie_tirilla,
+          activo: nuevoNegocio.activo,
+          fecha_vencimiento: nuevoNegocio.fecha_vencimiento,
+          created_at: nuevoNegocio.created_at,
+        });
         if (dbError) {
           console.warn('Error insertando negocio en Supabase, guardando local:', dbError);
         }
@@ -192,6 +213,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       // Guardar sesión persistente en dispositivo
       setNegocio(nuevoNegocio);
       localStorage.setItem(KEY_NEGOCIO, JSON.stringify(nuevoNegocio));
+      localStorage.setItem(`saldos_negocio_cache_${nuevoNegocio.id}`, JSON.stringify(nuevoNegocio));
       localStorage.setItem(KEY_AUTH, 'true');
       setIsAuthenticated(true);
       setNeedsPinSetup(true);
@@ -210,40 +232,53 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  // Iniciar sesión con correo y contraseña
+  // Iniciar sesión con correo y contraseña sin bloqueo por verificación de Gmail
   const loginShop = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
+      const normalizedEmail = email.trim().toLowerCase();
+      const expectedStoreId = await deriveStoreUuid(normalizedEmail, password);
+
       if (isSupabaseConfigured) {
-        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+        // 1. Búsqueda directa por UUID determinístico (sin depender de confirmación de correo)
+        const { data: directNegocio, error: directError } = await supabase
+          .from('negocios')
+          .select('*')
+          .eq('id', expectedStoreId)
+          .maybeSingle();
 
-        if (authError) {
-          return { success: false, error: authError.message };
-        }
-
-        const userId = authData.user?.id;
-        if (userId) {
-          const { data: negocioData, error: negocioError } = await supabase
-            .from('negocios')
-            .select('*')
-            .eq('owner_user_id', userId)
-            .limit(1)
-            .maybeSingle();
-
-          if (!negocioError && negocioData) {
-            setNegocio(negocioData);
-            localStorage.setItem(KEY_NEGOCIO, JSON.stringify(negocioData));
-            const hasPin = Boolean(negocioData.pin_dueno_hash && negocioData.pin_dueno_hash !== 'SETUP_PENDING');
-            setNeedsPinSetup(!hasPin);
-          }
+        if (!directError && directNegocio) {
+          const cachedLocal = localStorage.getItem(`saldos_negocio_cache_${directNegocio.id}`);
+          const parsedLocal = cachedLocal ? JSON.parse(cachedLocal) : {};
+          const restoredNegocio: Negocio = {
+            ...directNegocio,
+            permite_separe: parsedLocal.permite_separe ?? true,
+            permite_fiado: parsedLocal.permite_fiado ?? true,
+          };
+          setNegocio(restoredNegocio);
+          localStorage.setItem(KEY_NEGOCIO, JSON.stringify(restoredNegocio));
+          localStorage.setItem(`saldos_negocio_cache_${restoredNegocio.id}`, JSON.stringify(restoredNegocio));
+          const hasPin = Boolean(restoredNegocio.pin_dueno_hash && restoredNegocio.pin_dueno_hash !== 'SETUP_PENDING');
+          setNeedsPinSetup(!hasPin);
+          localStorage.setItem(KEY_AUTH, 'true');
+          setIsAuthenticated(true);
+          return { success: true };
         }
       }
 
-      localStorage.setItem(KEY_AUTH, 'true');
-      setIsAuthenticated(true);
-      return { success: true };
+      // 2. Fallback en caché local del navegador si no hay conexión
+      const cachedStore = localStorage.getItem(`saldos_negocio_cache_${expectedStoreId}`);
+      if (cachedStore) {
+        const parsed: Negocio = JSON.parse(cachedStore);
+        setNegocio(parsed);
+        localStorage.setItem(KEY_NEGOCIO, JSON.stringify(parsed));
+        const hasPin = Boolean(parsed.pin_dueno_hash && parsed.pin_dueno_hash !== 'SETUP_PENDING');
+        setNeedsPinSetup(!hasPin);
+        localStorage.setItem(KEY_AUTH, 'true');
+        setIsAuthenticated(true);
+        return { success: true };
+      }
+
+      return { success: false, error: 'Correo o contraseña incorrectos, o tienda no registrada.' };
     } catch (err: unknown) {
       return { success: false, error: err instanceof Error ? err.message : 'Error al iniciar sesión.' };
     }
@@ -263,6 +298,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       setNegocio(updatedNegocio);
       localStorage.setItem(KEY_NEGOCIO, JSON.stringify(updatedNegocio));
+      localStorage.setItem(`saldos_negocio_cache_${updatedNegocio.id}`, JSON.stringify(updatedNegocio));
       localStorage.setItem(KEY_ROLE, 'DUENO');
 
       if (isSupabaseConfigured) {
