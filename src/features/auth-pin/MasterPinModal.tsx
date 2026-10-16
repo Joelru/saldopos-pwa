@@ -17,12 +17,14 @@ export const MasterPinModal: React.FC<MasterPinModalProps> = ({
   onSuccess,
   onCancel,
 }) => {
-  const { verifyMasterPin } = usePinAuth();
+  const { negocio, verifyMasterPin } = usePinAuth();
   const [pin, setPin] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
   if (!isOpen) return null;
+
+  const isDemo = negocio.id === '00000000-0000-0000-0000-000000000001';
 
   const handleDigit = async (d: string) => {
     if (pin.length >= 4 || isVerifying) return;
@@ -123,17 +125,19 @@ export const MasterPinModal: React.FC<MasterPinModalProps> = ({
           </button>
         </div>
 
-        {/* Atajo rápido demo */}
-        <button
-          onClick={() => {
-            setPin('1234');
-            setTimeout(() => onSuccess(), 200);
-          }}
-          className="w-full py-1.5 bg-blue-50 text-blue-700 rounded-lg text-[11px] font-semibold border border-blue-200 flex items-center justify-center gap-1"
-        >
-          <Check className="w-3.5 h-3.5" />
-          <span>Demo: Autorizar con PIN 1234</span>
-        </button>
+        {/* Atajo rápido exclusivo para Negocio Demo */}
+        {isDemo && (
+          <button
+            onClick={() => {
+              setPin('1234');
+              setTimeout(() => onSuccess(), 200);
+            }}
+            className="w-full py-1.5 bg-blue-50 text-blue-700 rounded-lg text-[11px] font-semibold border border-blue-200 flex items-center justify-center gap-1"
+          >
+            <Check className="w-3.5 h-3.5" />
+            <span>Demo: Autorizar con PIN 1234</span>
+          </button>
+        )}
       </div>
     </div>
   );

@@ -65,9 +65,13 @@ export const CashierDashboard: React.FC<CashierDashboardProps> = ({ onSelectRece
     loadData(true);
   }, [loadData]);
 
+  useEffect(() => {
+    setShowSensitiveData(currentRole === 'DUENO');
+  }, [currentRole]);
+
   // Manejo de visibilidad de cartera total con PIN Maestro
   const handleToggleSensitiveData = () => {
-    if (currentRole === 'DUENO') {
+    if (currentRole === 'DUENO' || showSensitiveData) {
       setShowSensitiveData(prev => !prev);
     } else {
       setIsMasterModalOpen(true);

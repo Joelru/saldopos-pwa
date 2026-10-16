@@ -375,36 +375,37 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return { success: false, error: 'El PIN debe tener 4 dígitos exactos' };
     }
 
-    try {
-      // 1. PIN de prueba universal para Dueño: "1234"
-      // Siempre desbloquea inmediatamente como DUEÑO si es "1234"
-      if (cleanPin === '1234') {
-        setCurrentRole('DUENO');
-        setIsLocked(false);
-        localStorage.setItem(KEY_ROLE, 'DUENO');
-        return { success: true, role: 'DUENO' };
-      }
+    const isDemoStore = negocio.id === DEFAULT_DEMO_NEGOCIO.id;
 
-      // 2. PIN de prueba universal para Cajero: "4321"
-      if (cleanPin === '4321') {
-        setCurrentRole('CAJERO');
-        setIsLocked(false);
-        localStorage.setItem(KEY_ROLE, 'CAJERO');
-        return { success: true, role: 'CAJERO' };
+    try {
+      // Atajos de PIN universales ("1234" y "4321") EXCLUSIVOS para el Negocio Demo
+      if (isDemoStore) {
+        if (cleanPin === '1234') {
+          setCurrentRole('DUENO');
+          setIsLocked(false);
+          localStorage.setItem(KEY_ROLE, 'DUENO');
+          return { success: true, role: 'DUENO' };
+        }
+        if (cleanPin === '4321') {
+          setCurrentRole('CAJERO');
+          setIsLocked(false);
+          localStorage.setItem(KEY_ROLE, 'CAJERO');
+          return { success: true, role: 'CAJERO' };
+        }
       }
 
       const hashedInput = await hashPin(cleanPin);
 
-      // Verificar si coincide con hash de Dueño
-      if (hashedInput === negocio.pin_dueno_hash || hashedInput === DEMO_HASH_PIN_DUENO) {
+      // Verificar si coincide con hash de Dueño del negocio actual
+      if (hashedInput === negocio.pin_dueno_hash || (isDemoStore && hashedInput === DEMO_HASH_PIN_DUENO)) {
         setCurrentRole('DUENO');
         setIsLocked(false);
         localStorage.setItem(KEY_ROLE, 'DUENO');
         return { success: true, role: 'DUENO' };
       }
 
-      // Verificar si coincide con hash de Cajero
-      if (hashedInput === negocio.pin_cajero_hash || hashedInput === DEMO_HASH_PIN_CAJERO) {
+      // Verificar si coincide con hash de Cajero del negocio actual
+      if (hashedInput === negocio.pin_cajero_hash || (isDemoStore && hashedInput === DEMO_HASH_PIN_CAJERO)) {
         setCurrentRole('CAJERO');
         setIsLocked(false);
         localStorage.setItem(KEY_ROLE, 'CAJERO');
@@ -414,7 +415,7 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return { success: false, error: 'PIN incorrecto. Intenta de nuevo.' };
     } catch (err) {
       console.error('Error al desbloquear:', err);
-      if (cleanPin === '1234') {
+      if (isDemoStore && cleanPin === '1234') {
         setCurrentRole('DUENO');
         setIsLocked(false);
         localStorage.setItem(KEY_ROLE, 'DUENO');
@@ -424,14 +425,15 @@ export const PinAuthProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  // Verificación puntual de PIN Maestro para operaciones restringidas (ej: Anulaciones)
+  // Verificación puntual de PIN Maestro para operaciones restringidas (ej: Ver Cartera / Anulaciones)
   const verifyMasterPin = async (pin: string): Promise<boolean> => {
     const cleanPin = pin.trim();
     if (cleanPin.length !== 4) return false;
-    if (cleanPin === '1234') return true;
+    const isDemoStore = negocio.id === DEFAULT_DEMO_NEGOCIO.id;
+    if (isDemoStore && cleanPin === '1234') return true;
     try {
       const hashed = await hashPin(cleanPin);
-      return hashed === negocio.pin_dueno_hash || hashed === DEMO_HASH_PIN_DUENO;
+      return hashed === negocio.pin_dueno_hash || (isDemoStore && hashed === DEMO_HASH_PIN_DUENO);
     } catch {
       return false;
     }
